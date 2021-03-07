@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "webpack --mode development ./travelapp/frontend/src/index.js --output ./travelapp/frontend/static/frontend/main.js",
+    "build": "webpack --mode production ./travelapp/frontend/src/index.js --output ./travelapp/frontend/static/frontend/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
