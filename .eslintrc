@@ -11,5 +11,8 @@
   "env": {
     "browser": true,
     "jest": true
+  },
+  "rules": {
+    "no-plusplus": 0
   }
 }
