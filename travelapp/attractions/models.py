@@ -8,5 +8,8 @@ class Attraction(models.Model):
     # TODO: add support for images
     # photo = models.ImageField()
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         ordering = ['name']
