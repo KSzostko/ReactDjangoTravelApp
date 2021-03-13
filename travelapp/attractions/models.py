@@ -3,6 +3,7 @@ from django.db import models
 
 class Attraction(models.Model):
     name = models.CharField(max_length=50)
+    location = models.CharField(max_length=50, default='Not specified')
     description = models.TextField()
     # maybe list of images later on
     photo = models.ImageField(upload_to='attractions/', default='no-photo-available.png')

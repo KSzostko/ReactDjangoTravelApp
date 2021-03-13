@@ -1,6 +1,6 @@
 from django.db import models
-from travelapp.attractions.models import Attraction
-from travelapp.hotels.models import Hotel
+from attractions.models import Attraction
+from hotels.models import Hotel
 
 
 TRANSPORT_CHOICES = (

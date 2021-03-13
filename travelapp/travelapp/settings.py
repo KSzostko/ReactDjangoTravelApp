@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'frontend',
     'attractions',
+    'hotels',
+    'travels',
 ]
 
 MIDDLEWARE = [
