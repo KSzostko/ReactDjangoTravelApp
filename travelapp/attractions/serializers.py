@@ -5,4 +5,4 @@ from .models import Attraction
 class AttractionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attraction
-        fields = ('name', 'description', 'photo')
+        fields = '__all__'
