@@ -7,7 +7,7 @@ TRANSPORT_CHOICES = (
     ('PLANE', 'Plane'),
     ('CAR', 'Car'),
     ('BUS', 'Bus'),
-    ('BOAT', 'BOAT'),
+    ('BOAT', 'Boat'),
     ('PLANE&BUS', 'Plane and Bus'),
     ('PLANE&CAR', 'Plane and Car'),
 )
