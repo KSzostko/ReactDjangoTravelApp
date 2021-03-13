@@ -1,5 +1,6 @@
 from django.db import models
 from travelapp.attractions.models import Attraction
+from travelapp.hotels.models import Hotel
 
 
 TRANSPORT_CHOICES = (
@@ -12,10 +13,6 @@ TRANSPORT_CHOICES = (
 )
 
 
-class TravelImage(models.Model):
-    image = models.ImageField(upload_to='travels/', default='no-photo-available.png')
-
-
 class Travel(models.Model):
     name = models.CharField(max_length=50)
     short_description = models.CharField(max_length=100)
@@ -23,10 +20,13 @@ class Travel(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     transport = models.CharField(max_length=30, choices=TRANSPORT_CHOICES, default='PLANE')
-    # foreign key for hotel model
-    # hotel = models.CharField(max_length=100)
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
     attractions = models.ManyToManyField(Attraction, related_name='attractions')
-    images = models.ManyToManyField(TravelImage)
 
     class Meta:
         ordering = ['name']
+
+
+class TravelImage(models.Model):
+    image = models.ImageField(upload_to='travels/', default='no-photo-available.png')
+    travel = models.ForeignKey(Travel, on_delete=models.CASCADE)
