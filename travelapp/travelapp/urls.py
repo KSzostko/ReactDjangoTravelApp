@@ -22,6 +22,7 @@ urlpatterns = [
     path('', include('frontend.urls')),
     path('', include('attractions.urls')),
     path('', include('hotels.urls')),
+    path('', include('travels.urls')),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -32,7 +32,7 @@ class Travel(models.Model):
 
 class TravelImage(models.Model):
     image = models.ImageField(upload_to='travels/', default='no-photo-available.png')
-    travel = models.ForeignKey(Travel, on_delete=models.CASCADE)
+    travel = models.ForeignKey(Travel, related_name='images', on_delete=models.CASCADE)
 
     def __str__(self):
         return f'An image showing {self.travel.name} travel'
