@@ -7,3 +7,9 @@ class Hotel(models.Model):
     description = models.TextField()
     stars = models.IntegerField()
     photo = models.ImageField(upload_to='hotels/', default='no-photo-available.png')
+
+    def __str__(self):
+        return f'Hotel {self.name} with {self.stars} stars'
+
+    class Meta:
+        ordering = ['name']
