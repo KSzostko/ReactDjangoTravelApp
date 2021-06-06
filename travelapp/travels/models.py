@@ -1,16 +1,7 @@
 from django.db import models
-from attractions.models import Attraction
+from django.contrib.auth.models import User
 from hotels.models import Hotel
-
-
-TRANSPORT_CHOICES = (
-    ('PLANE', 'Plane'),
-    ('CAR', 'Car'),
-    ('BUS', 'Bus'),
-    ('BOAT', 'Boat'),
-    ('PLANE&BUS', 'Plane and Bus'),
-    ('PLANE&CAR', 'Plane and Car'),
-)
+from attractions.models import Attraction
 
 
 class Travel(models.Model):
@@ -19,9 +10,8 @@ class Travel(models.Model):
     description = models.TextField()
     start_date = models.DateField()
     end_date = models.DateField()
-    transport = models.CharField(max_length=30, choices=TRANSPORT_CHOICES, default='PLANE')
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
-    attractions = models.ManyToManyField(Attraction, related_name='attractions')
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -30,9 +20,34 @@ class Travel(models.Model):
         ordering = ['name']
 
 
-class TravelImage(models.Model):
+class TravelPhoto(models.Model):
+    title = models.CharField(max_length=50)
     image = models.ImageField(upload_to='travels/', default='no-photo-available.png')
     travel = models.ForeignKey(Travel, related_name='images', on_delete=models.CASCADE)
+    taken_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField()
 
     def __str__(self):
         return f'An image showing {self.travel.name} travel'
+
+
+class TravelStop(models.Model):
+    attraction = models.ForeignKey(Attraction, on_delete=models.CASCADE)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+
+    def __str__(self):
+        return f'Travel stop in the {self.attraction.name}'
+
+
+class TravelRoute(models.Model):
+    travel = models.ForeignKey(Travel, on_delete=models.CASCADE)
+    start = models.ForeignKey(TravelStop, on_delete=models.CASCADE, related_name='route_start')
+    destination = models.ForeignKey(TravelStop, on_delete=models.CASCADE, related_name='route_destination')
+    transport = models.CharField(max_length=100)
+    distance = models.IntegerField()
+    travel_time = models.IntegerField()
+    polyline = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f'Route from {self.start.attraction.name} to the {self.destination.attraction.name}'
