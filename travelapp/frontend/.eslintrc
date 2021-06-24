@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "wesbos"
+  ],
+  "rules": {
+    "react/jsx-filename-extension": 0,
+    "linebreak-style": "off",
+    "import/no-cycle": "off",
+    "no-use-before-define": "off",
+    "no-undef": "off",
+    "max-len": "off",
+    "no-restricted-syntax": "off",
+    "no-await-in-loop": "off",
+    "no-nested-ternary": "off"
+  }
+}

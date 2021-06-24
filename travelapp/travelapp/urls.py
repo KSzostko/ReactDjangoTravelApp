@@ -19,7 +19,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', include('frontend.urls')),
     path('', include('attractions.urls')),
     path('', include('hotels.urls')),
     path('', include('travels.urls')),
