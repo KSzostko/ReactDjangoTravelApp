@@ -5,6 +5,7 @@ from attractions.models import Attraction
 
 
 class Travel(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     short_description = models.CharField(max_length=100)
     description = models.TextField()
@@ -21,6 +22,7 @@ class Travel(models.Model):
 
 
 class TravelPhoto(models.Model):
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50)
     image = models.ImageField(upload_to='travels/', default='no-photo-available.png')
     travel = models.ForeignKey(Travel, related_name='images', on_delete=models.CASCADE)
@@ -32,6 +34,7 @@ class TravelPhoto(models.Model):
 
 
 class TravelStop(models.Model):
+    id = models.AutoField(primary_key=True)
     attraction = models.ForeignKey(Attraction, on_delete=models.CASCADE)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
@@ -41,6 +44,7 @@ class TravelStop(models.Model):
 
 
 class TravelRoute(models.Model):
+    id = models.AutoField(primary_key=True)
     travel = models.ForeignKey(Travel, on_delete=models.CASCADE)
     start = models.ForeignKey(TravelStop, on_delete=models.CASCADE, related_name='route_start')
     destination = models.ForeignKey(TravelStop, on_delete=models.CASCADE, related_name='route_destination')
