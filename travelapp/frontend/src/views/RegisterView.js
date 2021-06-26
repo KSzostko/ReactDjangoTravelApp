@@ -9,7 +9,7 @@ function RegisterView() {
     <PageLayout>
       <StyledContent>Tutaj formularz</StyledContent>
 
-      <StyledFooter>Jakub Szóstko &copy; 2021</StyledFooter>
+      <StyledFooter>Jakub Szóstko &copy;2021</StyledFooter>
     </PageLayout>
   );
 }
