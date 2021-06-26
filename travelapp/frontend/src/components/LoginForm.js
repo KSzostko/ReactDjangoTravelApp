@@ -17,6 +17,7 @@ function LoginForm() {
       name="login-form"
       layout="vertical"
       size="large"
+      style={{ minWidth: '350px' }}
       onFinish={handleLogin}
     >
       <Form.Item
