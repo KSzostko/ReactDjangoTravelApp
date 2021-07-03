@@ -1,6 +1,6 @@
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import LoginView from './views/LoginView';
-import RegisterView from './views/RegisterView';
+import LoginView from '../views/LoginView';
+import RegisterView from '../views/RegisterView';
 
 function UnauthenticatedApp() {
   return (

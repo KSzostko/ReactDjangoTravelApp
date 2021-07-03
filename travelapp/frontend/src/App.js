@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Spin } from 'antd';
 import { getUser } from './redux/user/actions/getUser/thunk';
-import UnauthenticatedApp from './UnauthenticatedApp';
-import AuthenticatedApp from './AuthenticatedApp';
+import UnauthenticatedApp from './routers/UnauthenticatedApp';
+import AuthenticatedApp from './routers/AuthenticatedApp';
 
 const StyledSpinner = styled(Spin)`
   position: absolute;
@@ -16,7 +16,6 @@ const StyledSpinner = styled(Spin)`
 function App() {
   const dispatch = useDispatch();
   const { isAuthenticated, isLoading } = useSelector((state) => state.user);
-  // TODO: username does not apper in store
 
   useEffect(() => {
     const token = localStorage.getItem('token');
