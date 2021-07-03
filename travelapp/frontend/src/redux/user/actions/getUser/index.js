@@ -9,7 +9,7 @@ export const getUserReducer = (builder) => {
   builder.addCase(getUser.fulfilled, (state, action) => {
     state.isLoading = false;
     state.isAuthenticated = true;
-    state.data = action.payload.user;
+    state.data = action.payload;
   });
 
   builder.addCase(getUser.rejected, (state, action) => {
