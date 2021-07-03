@@ -16,4 +16,14 @@ const register = (userData) =>
     })
     .catch(({ message }) => message);
 
-export default { register };
+const getUserByToken = (token) =>
+  axios
+    .get(`${BASE_URL}/user`, {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    })
+    .then(({ data }) => data)
+    .catch(({ message }) => message);
+
+export default { register, getUserByToken };

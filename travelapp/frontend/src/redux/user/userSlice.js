@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { registerUserReducer } from './actions/registerUser';
+import { getUserReducer } from './actions/getUser';
 
 const initialState = {
   data: null,
@@ -15,6 +16,7 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     registerUserReducer(builder);
+    getUserReducer(builder);
   },
 });
 
