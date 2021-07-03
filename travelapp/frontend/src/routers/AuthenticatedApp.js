@@ -1,5 +1,11 @@
+import AuthLayout from '../components/AuthLayout';
+
 function AuthenticatedApp() {
-  return <p>Authenticated app</p>;
+  return (
+    <AuthLayout>
+      <div>siema</div>
+    </AuthLayout>
+  );
 }
 
 export default AuthenticatedApp;
