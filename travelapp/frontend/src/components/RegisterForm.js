@@ -1,5 +1,8 @@
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Form, Input, Button } from 'antd';
+import { notification, Form, Input, Button } from 'antd';
+import { registerUser } from '../redux/user/actions/registerUser/thunk';
 
 const StyledButton = styled(Button)`
   margin-top: 16px;
@@ -7,10 +10,18 @@ const StyledButton = styled(Button)`
 `;
 
 function RegisterForm() {
-  console.log(Form.useForm());
+  const history = useHistory();
+  const dispatch = useDispatch();
 
-  function handleRegister(values) {
-    console.log(values);
+  function handleRegister({ repeatPassword, ...rest }) {
+    dispatch(registerUser({ ...rest }));
+
+    notification.success({
+      message: 'Rejestracja przebiegła pomyślnie',
+      description: 'Witaj na naszej stronie!',
+    });
+
+    history.push('/');
   }
 
   return (
@@ -56,7 +67,7 @@ function RegisterForm() {
 
       <Form.Item
         label={<span style={{ color: '#fff' }}>Powtórzone hasło</span>}
-        name="repeat-password"
+        name="repeatPassword"
         dependencies={['password']}
         rules={[
           {
