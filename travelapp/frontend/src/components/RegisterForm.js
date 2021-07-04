@@ -1,8 +1,9 @@
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { notification, Form, Input, Button } from 'antd';
 import { registerUser } from '../redux/user/actions/registerUser/thunk';
+import { useErrorNotification } from '../utils/useErrorNotification';
 
 const StyledButton = styled(Button)`
   margin-top: 16px;
@@ -12,16 +13,21 @@ const StyledButton = styled(Button)`
 function RegisterForm() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { error } = useSelector((state) => state.user);
 
-  function handleRegister({ repeatPassword, ...rest }) {
-    dispatch(registerUser({ ...rest }));
+  useErrorNotification(error, 'Rejestracja nie powiodła się');
 
-    notification.success({
-      message: 'Rejestracja przebiegła pomyślnie',
-      description: 'Witaj na naszej stronie!',
-    });
+  async function handleRegister({ repeatPassword, ...rest }) {
+    const resp = await dispatch(registerUser({ ...rest }));
 
-    history.push('/');
+    if (resp.error === undefined) {
+      notification.success({
+        message: 'Rejestracja przebiegła pomyślnie',
+        description: 'Witaj na naszej stronie!',
+      });
+
+      history.push('/');
+    }
   }
 
   return (

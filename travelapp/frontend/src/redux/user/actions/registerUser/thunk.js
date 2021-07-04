@@ -3,5 +3,11 @@ import { UserAPI } from '../../../../services';
 
 export const registerUser = createAsyncThunk(
   'user/register',
-  async (userData) => UserAPI.register(userData)
+  async (userData, thunkApi) => {
+    try {
+      return await UserAPI.register(userData);
+    } catch (error) {
+      return thunkApi.rejectWithValue(error);
+    }
+  }
 );

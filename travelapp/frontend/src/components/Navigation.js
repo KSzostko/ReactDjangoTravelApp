@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { notification, Layout, Menu } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { logoutUser } from '../redux/user/actions/logoutUser/thunk';
+import { useErrorNotification } from '../utils/useErrorNotification';
 
 const { Header } = Layout;
 const { SubMenu } = Menu;
@@ -15,15 +16,19 @@ const StyledNav = styled(Menu)`
 
 function Navigation() {
   const dispatch = useDispatch();
-  const { data, token } = useSelector((state) => state.user);
+  const { data, token, error } = useSelector((state) => state.user);
 
-  function handleLogout() {
-    dispatch(logoutUser(token));
+  useErrorNotification(error, 'Nieudane wylogowanie');
 
-    notification.success({
-      message: 'Poprawnie wylogowano',
-      description: 'Do zobaczenia!',
-    });
+  async function handleLogout() {
+    const resp = await dispatch(logoutUser(token));
+
+    if (resp.error === undefined) {
+      notification.success({
+        message: 'Poprawnie wylogowano',
+        description: 'Do zobaczenia!',
+      });
+    }
   }
 
   return (
