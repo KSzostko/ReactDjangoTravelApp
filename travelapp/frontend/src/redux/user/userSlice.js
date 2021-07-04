@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { registerUserReducer } from './actions/registerUser';
 import { getUserReducer } from './actions/getUser';
+import { loginUserReducer } from './actions/loginUser';
 
 const initialState = {
   data: null,
@@ -17,6 +18,7 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     registerUserReducer(builder);
     getUserReducer(builder);
+    loginUserReducer(builder);
   },
 });
 

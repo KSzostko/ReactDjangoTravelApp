@@ -16,6 +16,20 @@ const register = (userData) =>
     })
     .catch(({ message }) => message);
 
+const login = (userData) =>
+  axios
+    .post(`${BASE_URL}/login`, userData, {
+      headers: { 'Content-Type': 'application/json' },
+    })
+    .then(({ data }) => {
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+      }
+
+      return data;
+    })
+    .catch(({ message }) => message);
+
 const getUserByToken = (token) =>
   axios
     .get(`${BASE_URL}/user`, {
@@ -26,4 +40,4 @@ const getUserByToken = (token) =>
     .then(({ data }) => data)
     .catch(({ message }) => message);
 
-export default { register, getUserByToken };
+export default { register, login, getUserByToken };

@@ -1,6 +1,8 @@
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Form, Input, Button } from 'antd';
+import { notification, Form, Input, Button } from 'antd';
+import { loginUser } from '../redux/user/actions/loginUser/thunk';
 
 const StyledButton = styled(Button)`
   margin-top: 16px;
@@ -8,8 +10,15 @@ const StyledButton = styled(Button)`
 `;
 
 function LoginForm() {
+  const dispatch = useDispatch();
+
   function handleLogin(values) {
-    console.log(values);
+    dispatch(loginUser(values));
+
+    notification.success({
+      message: 'Pomyślne logowanie',
+      description: 'Witamy ponownie!',
+    });
   }
 
   return (

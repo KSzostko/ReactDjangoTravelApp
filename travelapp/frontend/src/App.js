@@ -14,6 +14,7 @@ const StyledSpinner = styled(Spin)`
 `;
 
 function App() {
+  // TODO: Fix error handling, e. g. do not log user with invalid token
   const dispatch = useDispatch();
   const { isAuthenticated, isLoading } = useSelector((state) => state.user);
 
