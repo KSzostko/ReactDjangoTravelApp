@@ -30,6 +30,24 @@ const login = (userData) =>
     })
     .catch(({ message }) => message);
 
+const logout = (token) =>
+  axios
+    .post(
+      `${BASE_URL}/logout`,
+      {},
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      }
+    )
+    .then(({ data }) => {
+      localStorage.removeItem('token');
+
+      return data;
+    })
+    .catch(({ message }) => message);
+
 const getUserByToken = (token) =>
   axios
     .get(`${BASE_URL}/user`, {
@@ -40,4 +58,4 @@ const getUserByToken = (token) =>
     .then(({ data }) => data)
     .catch(({ message }) => message);
 
-export default { register, login, getUserByToken };
+export default { register, login, logout, getUserByToken };

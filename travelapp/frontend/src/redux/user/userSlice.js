@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { registerUserReducer } from './actions/registerUser';
 import { getUserReducer } from './actions/getUser';
 import { loginUserReducer } from './actions/loginUser';
+import { logoutUserReducer } from './actions/logoutUser';
 
 const initialState = {
   data: null,
@@ -19,6 +20,7 @@ const userSlice = createSlice({
     registerUserReducer(builder);
     getUserReducer(builder);
     loginUserReducer(builder);
+    logoutUserReducer(builder);
   },
 });
 
