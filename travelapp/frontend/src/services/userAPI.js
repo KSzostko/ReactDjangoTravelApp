@@ -14,7 +14,7 @@ const register = (userData) =>
 
       return data;
     })
-    .catch(({ message }) => message);
+    .catch(({ response }) => Promise.reject(response.data.non_field_errors));
 
 const login = (userData) =>
   axios
@@ -28,7 +28,7 @@ const login = (userData) =>
 
       return data;
     })
-    .catch(({ message }) => message);
+    .catch(({ response }) => Promise.reject(response.data.non_field_errors));
 
 const logout = (token) =>
   axios
@@ -46,7 +46,7 @@ const logout = (token) =>
 
       return data;
     })
-    .catch(({ message }) => message);
+    .catch(({ response }) => Promise.reject(response.data.non_field_errors));
 
 const getUserByToken = (token) =>
   axios
@@ -56,6 +56,6 @@ const getUserByToken = (token) =>
       },
     })
     .then(({ data }) => data)
-    .catch(({ message }) => message);
+    .catch(({ response }) => Promise.reject(response.data.non_field_errors));
 
 export default { register, login, logout, getUserByToken };

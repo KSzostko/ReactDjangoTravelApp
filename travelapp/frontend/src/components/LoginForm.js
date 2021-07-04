@@ -1,8 +1,9 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { notification, Form, Input, Button } from 'antd';
 import { loginUser } from '../redux/user/actions/loginUser/thunk';
+import { useErrorNotification } from '../utils/useErrorNotification';
 
 const StyledButton = styled(Button)`
   margin-top: 16px;
@@ -11,14 +12,19 @@ const StyledButton = styled(Button)`
 
 function LoginForm() {
   const dispatch = useDispatch();
+  const { error } = useSelector((state) => state.user);
 
-  function handleLogin(values) {
-    dispatch(loginUser(values));
+  useErrorNotification(error, 'Nieudana próba logowania');
 
-    notification.success({
-      message: 'Pomyślne logowanie',
-      description: 'Witamy ponownie!',
-    });
+  async function handleLogin(values) {
+    const resp = await dispatch(loginUser(values));
+
+    if (resp.error === undefined) {
+      notification.success({
+        message: 'Pomyślne logowanie',
+        description: 'Witamy ponownie!',
+      });
+    }
   }
 
   return (
