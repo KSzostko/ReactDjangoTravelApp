@@ -3,12 +3,13 @@ import AuthLayout from '../components/AuthLayout';
 
 function PlanTravelView() {
   return (
-    <AuthLayout>
+    <AuthLayout mapView>
       <MapContainer
-        style={{ height: '85vh' }}
+        style={{ height: '100%' }}
         center={[51.505, -0.09]}
         zoom={13}
-        scrollWheelZoom={false}
+        scrollWheelZoom
+        preferCanvas
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
