@@ -1,5 +1,5 @@
 import AuthLayout from '../components/AuthLayout';
-import Map from '../components/Map';
+import Map from '../components/Map/Map';
 
 function PlanTravelView() {
   return (

@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
-import mapConstants from '../setup/mapConstants';
+import mapConstants from '../../setup/mapConstants';
+import MapEvents from './MapEvents';
 
 function Map() {
   const {
@@ -13,13 +14,13 @@ function Map() {
     spiderifyOnMaxZoom,
     defaultCenter,
   } = mapConstants;
-
-  const [mapCenter, setMapCenter] = useState(defaultCenter);
+  // TODO: handle errors and loading state
+  const { locations } = useSelector((state) => state.map);
 
   return (
     <MapContainer
       style={{ height: '100%' }}
-      center={mapCenter}
+      center={defaultCenter}
       zoom={zoom}
       maxZoom={maxZoom}
       minZoom={minZoom}
@@ -31,6 +32,7 @@ function Map() {
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      <MapEvents />
 
       <MarkerClusterGroup
         spiderfyOnMaxZoom={spiderifyOnMaxZoom}
@@ -40,9 +42,9 @@ function Map() {
         removeOutsideVisibleBounds
         chunkedLoading
       >
-        <Marker position={[49.8397, 24.0297]} />
-        <Marker position={[52.2297, 21.0122]} />
-        <Marker position={[51.5074, -0.0901]} />
+        {locations.map(({ xid, point }) => (
+          <Marker key={xid} position={point} />
+        ))}
       </MarkerClusterGroup>
     </MapContainer>
   );
