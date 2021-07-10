@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { notification, Layout, Menu } from 'antd';
@@ -34,8 +35,12 @@ function Navigation() {
   return (
     <Header>
       <StyledNav theme="dark" mode="horizontal">
-        <Menu.Item key="allPlans">Dostępne podróże</Menu.Item>
-        <Menu.Item key="createPlan">Zaplanuj podróż</Menu.Item>
+        <Menu.Item key="allPlans">
+          <Link to="/">Dostępne podróże</Link>
+        </Menu.Item>
+        <Menu.Item key="createPlan">
+          <Link to="/travel/plan">Zaplanuj podróż</Link>
+        </Menu.Item>
         <Menu.Item key="createdPlans" style={{ marginRight: 'auto' }}>
           Moje podróże
         </Menu.Item>
