@@ -17,7 +17,8 @@ const findPlacesInRadius = ({
       &kinds=${categoriesList.toString()}&format=json
       &apikey=${process.env.REACT_APP_OPEN_TRIP_MAP_API_KEY}`
     )
-    .then(({ data }) => data);
+    .then(({ data }) => data)
+    .catch(({ response }) => Promise.reject(response.data.error));
 
 const findPlacesInBox = ({
   latRange,
