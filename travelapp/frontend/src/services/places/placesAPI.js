@@ -37,12 +37,10 @@ const findPlacesInBox = ({
     .catch(({ response }) => Promise.reject(response.data.error));
 
 // Service based on GeoNames database. Places like region, city village, etc.
-const findPlaceByName = ({ place }) =>
+const findPlaceByName = (place) =>
   axios
     .get(
-      `${BASE_URL}/geoname?
-      &name=${place}
-      &apikey=${process.env.REACT_APP_OPEN_TRIP_MAP_API_KEY}`
+      `${BASE_URL}/geoname?name=${place}&apikey=${process.env.REACT_APP_OPEN_TRIP_MAP_API_KEY}`
     )
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.data.error));

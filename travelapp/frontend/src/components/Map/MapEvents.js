@@ -20,22 +20,35 @@ function getRanges(map) {
   return { latRange, lonRange };
 }
 
+function getRangesWithCenter(center) {
+  const latRange = {
+    min: center.lat,
+    max: center.lat + 1,
+  };
+  const lonRange = {
+    min: center.lng,
+    max: center.lng + 1,
+  };
+
+  return { latRange, lonRange };
+}
+
 function MapEvents() {
   const dispatch = useDispatch();
-  const { center, zoom } = useSelector((state) => state.map);
+  const { center, zoom, searchData } = useSelector((state) => state.map);
   const [prevBounds, setPrevBounds] = useState(null);
 
   useEffect(() => {
-    const latRange = {
-      min: center.lat,
-      max: center.lat + 1,
-    };
-    const lonRange = {
-      min: center.lng,
-      max: center.lng + 1,
-    };
+    const { latRange, lonRange } = getRangesWithCenter(center);
     dispatch(fetchLocations({ latRange, lonRange }));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (searchData.lat && searchData.lon) {
+      const { lat, lon } = searchData;
+      map.flyTo({ lat, lng: lon });
+    }
+  }, [searchData]);
 
   // fetching locations is better than it was,
   // althought there is still a room for an improvement
@@ -51,9 +64,11 @@ function MapEvents() {
 
       dispatch(setCenter({ lat, lng }));
     },
-    zoom: () => {
+    // it was necessary to change zoom event to zoomend
+    // because fly to was constantly calling it during the whole animation
+    zoomend: () => {
       const newZoom = map.getZoom();
-      if (newZoom > zoom) {
+      if (newZoom >= zoom) {
         const { latRange, lonRange } = getRanges(map);
         dispatch(fetchLocations({ latRange, lonRange }));
       }

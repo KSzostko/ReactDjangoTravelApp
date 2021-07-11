@@ -3,6 +3,7 @@ import mapConstants from '../../setup/mapConstants';
 import { fetchLocationsReducer } from './actions/fetchLocations';
 
 const initialState = {
+  searchData: {},
   center: mapConstants.defaultCenter,
   zoom: mapConstants.zoom,
   locations: [],
@@ -14,6 +15,9 @@ const mapSlice = createSlice({
   name: 'map',
   initialState,
   reducers: {
+    setSearchData(state, action) {
+      state.searchData = action.payload;
+    },
     setCenter(state, action) {
       state.center = action.payload;
     },
@@ -26,5 +30,5 @@ const mapSlice = createSlice({
   },
 });
 
-export const { setCenter, setZoom } = mapSlice.actions;
+export const { setSearchData, setCenter, setZoom } = mapSlice.actions;
 export default mapSlice.reducer;

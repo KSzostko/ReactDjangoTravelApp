@@ -5,6 +5,7 @@ import { Spin } from 'antd';
 import mapConstants from '../../setup/mapConstants';
 import { useErrorNotification } from '../../utils/useErrorNotification';
 import MapEvents from './MapEvents';
+import SearchPlace from './SearchPlace';
 
 function Map() {
   const {
@@ -22,7 +23,7 @@ function Map() {
 
   return (
     <MapContainer
-      style={{ height: '100%' }}
+      style={{ height: '100%', position: 'relative' }}
       center={defaultCenter}
       zoom={zoom}
       maxZoom={maxZoom}
@@ -37,6 +38,7 @@ function Map() {
       />
       <MapEvents />
 
+      <SearchPlace />
       {isLoading ? (
         <Spin />
       ) : (
