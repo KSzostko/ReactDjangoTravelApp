@@ -5,7 +5,7 @@ const defaultCenter = {
 
 const mapSettings = {
   zoom: 13,
-  minZoom: 2,
+  minZoom: 4,
   maxZoom: 18,
   maxClusterRadius: 100,
   maxBoundsViscosity: 0,
