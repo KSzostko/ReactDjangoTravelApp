@@ -36,18 +36,12 @@ const findPlacesInBox = ({
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.data.error));
 
-const findClosestSuggestions = ({
-  searchTerm,
-  lat,
-  lon,
-  radius,
-  categoriesList = getAllCategories(),
-}) =>
+// Service based on GeoNames database. Places like region, city village, etc.
+const findPlaceByName = ({ place }) =>
   axios
     .get(
-      `${BASE_URL}/autosuggest?
-      &name=${searchTerm}&lat=${lat}&lon=${lon}&radius=${radius}
-      &kinds=${categoriesList.toString()}&format=json
+      `${BASE_URL}/geoname?
+      &name=${place}
       &apikey=${process.env.REACT_APP_OPEN_TRIP_MAP_API_KEY}`
     )
     .then(({ data }) => data)
@@ -65,6 +59,6 @@ const getPlaceDetails = (xid) =>
 export default {
   findPlacesInRadius,
   findPlacesInBox,
-  findClosestSuggestions,
+  findPlaceByName,
   getPlaceDetails,
 };
