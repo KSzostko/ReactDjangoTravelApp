@@ -1,7 +1,9 @@
 import { useSelector } from 'react-redux';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
+import { Spin } from 'antd';
 import mapConstants from '../../setup/mapConstants';
+import { useErrorNotification } from '../../utils/useErrorNotification';
 import MapEvents from './MapEvents';
 
 function Map() {
@@ -14,8 +16,9 @@ function Map() {
     spiderifyOnMaxZoom,
     defaultCenter,
   } = mapConstants;
-  // TODO: handle errors and loading state
-  const { locations } = useSelector((state) => state.map);
+  const { locations, isLoading, error } = useSelector((state) => state.map);
+
+  useErrorNotification(error, 'Błąd podczas ładowania danych do mapy');
 
   return (
     <MapContainer
@@ -34,18 +37,24 @@ function Map() {
       />
       <MapEvents />
 
-      <MarkerClusterGroup
-        spiderfyOnMaxZoom={spiderifyOnMaxZoom}
-        maxClusterRadius={maxClusterRadius}
-        showCoverageOnHover={false}
-        animateAddingMarkers
-        removeOutsideVisibleBounds
-        chunkedLoading
-      >
-        {locations.map(({ xid, point }) => (
-          <Marker key={xid} position={point} />
-        ))}
-      </MarkerClusterGroup>
+      {isLoading ? (
+        <Spin />
+      ) : (
+        <MarkerClusterGroup
+          spiderfyOnMaxZoom={spiderifyOnMaxZoom}
+          maxClusterRadius={maxClusterRadius}
+          showCoverageOnHover={false}
+          animateAddingMarkers
+          removeOutsideVisibleBounds
+          chunkedLoading
+        >
+          {locations.map(({ xid, point, name }) => (
+            <Marker key={xid} position={point}>
+              <Tooltip>{name}</Tooltip>
+            </Marker>
+          ))}
+        </MarkerClusterGroup>
+      )}
     </MapContainer>
   );
 }

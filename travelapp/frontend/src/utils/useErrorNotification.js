@@ -7,7 +7,8 @@ export function useErrorNotification(error, message) {
     if (error !== null) {
       notification.error({
         message,
-        description: createErrorMessage(error),
+        description:
+          typeof error === 'string' ? error : createErrorMessage(error),
       });
     }
   }, [error]);
