@@ -7,6 +7,7 @@ import { useErrorNotification } from '../../utils/useErrorNotification';
 import MapEvents from './MapEvents';
 import SearchPlace from './SearchPlace';
 import MapMarker from './MapMarker';
+import MapModal from './MapModal';
 
 function Map() {
   const {
@@ -38,6 +39,7 @@ function Map() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <MapEvents />
+      <MapModal />
 
       <SearchPlace />
       {isLoading ? (
