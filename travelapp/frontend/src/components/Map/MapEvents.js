@@ -41,6 +41,7 @@ function MapEvents() {
   useEffect(() => {
     const { latRange, lonRange } = getRangesWithCenter(center);
     dispatch(fetchLocations({ latRange, lonRange }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   useEffect(() => {
@@ -48,6 +49,7 @@ function MapEvents() {
       const { lat, lon } = searchData;
       map.flyTo({ lat, lng: lon });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchData]);
 
   // fetching locations is better than it was,

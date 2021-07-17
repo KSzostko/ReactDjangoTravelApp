@@ -11,5 +11,6 @@ export function useErrorNotification(error, message) {
           typeof error === 'string' ? error : createErrorMessage(error),
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 }
