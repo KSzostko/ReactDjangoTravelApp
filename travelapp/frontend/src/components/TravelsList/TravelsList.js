@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import TraveListItem from './TravelListItem';
+import TravelsSearch from './TravelsSearch';
 
 const Grid = styled.ul`
   padding-left: 0;
@@ -14,6 +15,7 @@ function TravelsList() {
 
   return (
     <div>
+      <TravelsSearch />
       <Grid>
         {testArr.map((item) => (
           <TraveListItem key={item} />
