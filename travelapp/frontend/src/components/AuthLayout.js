@@ -49,7 +49,7 @@ function AuthLayout({ children, mapView = false }) {
 
 AuthLayout.propTypes = {
   children: PropTypes.node.isRequired,
-  mapView: PropTypes.bool.isRequired,
+  mapView: PropTypes.bool,
 };
 
 export default AuthLayout;
