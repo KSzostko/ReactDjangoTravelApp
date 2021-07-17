@@ -1,6 +1,10 @@
 import styled from 'styled-components';
+import { Select } from 'antd';
+import SortSelect from '../SortSelect';
 import TraveListItem from './TravelListItem';
 import TravelsSearch from './TravelsSearch';
+
+const { Option } = Select;
 
 const Grid = styled.ul`
   padding-left: 0;
@@ -15,6 +19,11 @@ function TravelsList() {
 
   return (
     <div>
+      <SortSelect>
+        <Option value="name">Nazwa</Option>
+        <Option value="start">Data rozpoczęcia</Option>
+        <Option value="end">Data zakończenia</Option>
+      </SortSelect>
       <TravelsSearch />
       <Grid>
         {testArr.map((item) => (
