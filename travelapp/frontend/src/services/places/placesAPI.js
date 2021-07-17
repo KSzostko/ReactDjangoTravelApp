@@ -48,8 +48,7 @@ const findPlaceByName = (place) =>
 const getPlaceDetails = (xid) =>
   axios
     .get(
-      `${BASE_URL}/xid/${xid}
-        ?apikey=${process.env.REACT_APP_OPEN_TRIP_MAP_API_KEY}`
+      `${BASE_URL}/xid/${xid}?apikey=${process.env.REACT_APP_OPEN_TRIP_MAP_API_KEY}`
     )
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.data.error));

@@ -1,11 +1,12 @@
 import { useSelector } from 'react-redux';
-import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
+import { MapContainer, TileLayer } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import { Spin } from 'antd';
 import mapConstants from '../../setup/mapConstants';
 import { useErrorNotification } from '../../utils/useErrorNotification';
 import MapEvents from './MapEvents';
 import SearchPlace from './SearchPlace';
+import MapMarker from './MapMarker';
 
 function Map() {
   const {
@@ -51,9 +52,7 @@ function Map() {
           chunkedLoading
         >
           {locations.map(({ xid, point, name }) => (
-            <Marker key={xid} position={point}>
-              <Tooltip>{name}</Tooltip>
-            </Marker>
+            <MapMarker key={xid} xid={xid} point={point} name={name} />
           ))}
         </MarkerClusterGroup>
       )}
