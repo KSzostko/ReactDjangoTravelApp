@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Layout } from 'antd';
 import Navigation from './Navigation';
-import MapSidebar from './Map/MapSidebar';
+import MapSidebar from './Map/MapSidebar/MapSidebar';
 
 const { Content, Footer } = Layout;
 

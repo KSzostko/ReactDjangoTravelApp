@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { Layout } from 'antd';
+import { CalendarOutlined } from '@ant-design/icons';
+import SiderHeader from './SiderHeader';
 
 const { Sider } = Layout;
 
@@ -11,6 +13,13 @@ const StyledSider = styled(Sider)`
   }
 `;
 
+const Wrapper = styled.div`
+  margin: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const zeroWidthTriggerStyles = {
   top: '16px',
   zIndex: 999,
@@ -18,7 +27,12 @@ const zeroWidthTriggerStyles = {
 };
 
 function MapSidebar() {
-  const [isMobile, setIsMobile] = useState();
+  const [isMobile, setIsMobile] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  function handleCollapse(collapsed) {
+    setIsCollapsed(collapsed);
+  }
 
   function handleBreakpoint(broken) {
     setIsMobile(broken);
@@ -31,10 +45,22 @@ function MapSidebar() {
       breakpoint="md"
       collapsible
       collapsedWidth={isMobile ? 0 : 80}
+      collapsed={isCollapsed}
       zeroWidthTriggerStyle={zeroWidthTriggerStyles}
+      onCollapse={handleCollapse}
       onBreakpoint={handleBreakpoint}
     >
-      sidebar
+      <Wrapper>
+        {isCollapsed && !isMobile ? (
+          <CalendarOutlined />
+        ) : (
+          <>
+            <SiderHeader title="Plan wyjazdu" />
+            {/* propably plan should be shown as a menu */}
+            {/* this way we can hide concrete day plans if we need it */}
+          </>
+        )}
+      </Wrapper>
     </StyledSider>
   );
 }
