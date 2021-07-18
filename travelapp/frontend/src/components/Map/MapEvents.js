@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMapEvents } from 'react-leaflet';
 import { setCenter, setZoom } from '../../redux/map/mapSlice';
@@ -53,7 +53,7 @@ function MapEvents() {
   }, [searchData]);
 
   // fetching locations is better than it was,
-  // althought there is still a room for an improvement
+  // althougth there is still a room for an improvement
   const map = useMapEvents({
     mouseup: () => {
       const { lat, lng } = map.getCenter();
@@ -79,6 +79,22 @@ function MapEvents() {
       setPrevBounds(map.getBounds());
     },
   });
+
+  // without this sometimes map did not render correctly
+  const requestRef = useRef();
+
+  const animate = useCallback(() => {
+    map.invalidateSize();
+    map.getCenter();
+
+    requestRef.current = requestAnimationFrame(animate);
+  }, [map]);
+
+  useEffect(() => {
+    requestRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(requestRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return null;
 }

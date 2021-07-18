@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Layout } from 'antd';
 import Navigation from './Navigation';
+import MapSidebar from './Map/MapSidebar';
 
 const { Content, Footer } = Layout;
 
@@ -38,10 +39,12 @@ function AuthLayout({ children, mapView = false }) {
     <PageLayout>
       <Navigation />
 
-      <MainContent $mapView={mapView}>
-        <Wrapper $mapView={mapView}>{children}</Wrapper>
-      </MainContent>
-
+      <Layout>
+        {mapView ? <MapSidebar /> : null}
+        <MainContent $mapView={mapView}>
+          <Wrapper $mapView={mapView}>{children}</Wrapper>
+        </MainContent>
+      </Layout>
       <StyledFooter>Jakub Szóstko &copy;2021</StyledFooter>
     </PageLayout>
   );
