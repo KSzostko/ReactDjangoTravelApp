@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import { Layout } from 'antd';
 
@@ -10,10 +11,29 @@ const StyledSider = styled(Sider)`
   }
 `;
 
-// TODO: adjust sider for mobile screens
+const zeroWidthTriggerStyles = {
+  top: '16px',
+  zIndex: 999,
+  boxShadow: '2px 2px 2px rgba(0, 0, 0, 0.25)',
+};
+
 function MapSidebar() {
+  const [isMobile, setIsMobile] = useState();
+
+  function handleBreakpoint(broken) {
+    setIsMobile(broken);
+  }
+
   return (
-    <StyledSider theme="light" collapsible width="300">
+    <StyledSider
+      theme="light"
+      width="300"
+      breakpoint="md"
+      collapsible
+      collapsedWidth={isMobile ? 0 : 80}
+      zeroWidthTriggerStyle={zeroWidthTriggerStyles}
+      onBreakpoint={handleBreakpoint}
+    >
       sidebar
     </StyledSider>
   );

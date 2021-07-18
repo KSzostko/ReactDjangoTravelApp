@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import { Spin } from 'antd';
 import mapConstants from '../../setup/mapConstants';
@@ -27,6 +27,7 @@ function Map() {
     <MapContainer
       style={{ height: '100%', position: 'relative' }}
       center={defaultCenter}
+      zoomControl={false}
       zoom={zoom}
       maxZoom={maxZoom}
       minZoom={minZoom}
@@ -38,6 +39,7 @@ function Map() {
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      <ZoomControl position="bottomright" />
       <MapEvents />
       <MapModal />
 
