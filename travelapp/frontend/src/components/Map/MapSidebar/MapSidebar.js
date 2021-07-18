@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Layout } from 'antd';
+import { Layout, Divider } from 'antd';
 import { CalendarOutlined } from '@ant-design/icons';
 import SiderHeader from './SiderHeader';
+import TravelSchedule from './TravelSchedule/TravelSchedule';
 
 const { Sider } = Layout;
 
@@ -14,7 +15,7 @@ const StyledSider = styled(Sider)`
 `;
 
 const Wrapper = styled.div`
-  margin: 16px;
+  margin: 16px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -56,8 +57,8 @@ function MapSidebar() {
         ) : (
           <>
             <SiderHeader title="Plan wyjazdu" />
-            {/* propably plan should be shown as a menu */}
-            {/* this way we can hide concrete day plans if we need it */}
+            <Divider style={{ margin: 0 }} />
+            <TravelSchedule />
           </>
         )}
       </Wrapper>
