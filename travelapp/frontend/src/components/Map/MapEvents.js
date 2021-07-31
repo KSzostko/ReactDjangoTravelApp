@@ -35,7 +35,8 @@ function getRangesWithCenter(center) {
 
 function MapEvents() {
   const dispatch = useDispatch();
-  const { center, zoom, searchData } = useSelector((state) => state.map);
+  const { center, zoom } = useSelector((state) => state.map);
+  const { data: searchData } = useSelector((state) => state.map.getSearchData);
   const [prevBounds, setPrevBounds] = useState(null);
 
   useEffect(() => {
@@ -45,7 +46,7 @@ function MapEvents() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (searchData.lat && searchData.lon) {
+    if (searchData?.lat && searchData?.lon) {
       const { lat, lon } = searchData;
       map.flyTo({ lat, lng: lon });
     }

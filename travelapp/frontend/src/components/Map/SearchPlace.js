@@ -1,8 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { notification, Input } from 'antd';
-import { PlacesAPI } from '../../services';
-import { setSearchData } from '../../redux/map/mapSlice';
+import { getSearchData } from '../../redux/map/actions/getSearchData/thunk';
 
 const { Search } = Input;
 
@@ -16,25 +15,17 @@ const MapSearch = styled(Search)`
 
 function SearchPlace() {
   const dispatch = useDispatch();
-  const { isLoading } = useSelector((state) => state.map);
+  const { isLoading, error } = useSelector((state) => state.map.getSearchData);
 
   async function handleSearch(value) {
     if (value !== '') {
-      const resp = await PlacesAPI.findPlaceByName(value);
+      const resp = await dispatch(getSearchData(value)).unwrap();
 
       if (resp.error) {
         notification.info({
           message: 'Brak wyników wyszukiwania',
-          description: 'Podaj poprawną nazwę',
+          description: error || resp.error,
         });
-      } else {
-        dispatch(
-          setSearchData({
-            phrase: value,
-            lat: resp.lat,
-            lon: resp.lon,
-          })
-        );
       }
     }
   }

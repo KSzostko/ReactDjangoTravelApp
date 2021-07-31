@@ -1,9 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import mapConstants from '../../setup/mapConstants';
 import { fetchLocationsReducer } from './actions/fetchLocations';
+import { getSearchDataReducer } from './actions/getSearchData';
 
 const initialState = {
-  searchData: {},
+  getSearchData: {
+    data: null,
+    isLoading: false,
+    error: null,
+  },
   center: mapConstants.defaultCenter,
   zoom: mapConstants.zoom,
   locations: [],
@@ -15,9 +20,6 @@ const mapSlice = createSlice({
   name: 'map',
   initialState,
   reducers: {
-    setSearchData(state, action) {
-      state.searchData = action.payload;
-    },
     setCenter(state, action) {
       state.center = action.payload;
     },
@@ -27,8 +29,9 @@ const mapSlice = createSlice({
   },
   extraReducers: (builder) => {
     fetchLocationsReducer(builder);
+    getSearchDataReducer(builder);
   },
 });
 
-export const { setSearchData, setCenter, setZoom } = mapSlice.actions;
+export const { setCenter, setZoom } = mapSlice.actions;
 export default mapSlice.reducer;
