@@ -4,6 +4,7 @@ import { Layout, Divider } from 'antd';
 import { CalendarOutlined } from '@ant-design/icons';
 import SiderHeader from './SiderHeader';
 import TravelSchedule from './TravelSchedule/TravelSchedule';
+import TravelStopModal from './TravelSchedule/TravelStopModal';
 
 const { Sider } = Layout;
 
@@ -40,29 +41,32 @@ function MapSidebar() {
   }
 
   return (
-    <StyledSider
-      theme="light"
-      width="300"
-      breakpoint="md"
-      collapsible
-      collapsedWidth={isMobile ? 0 : 80}
-      collapsed={isCollapsed}
-      zeroWidthTriggerStyle={zeroWidthTriggerStyles}
-      onCollapse={handleCollapse}
-      onBreakpoint={handleBreakpoint}
-    >
-      <Wrapper>
-        {isCollapsed && !isMobile ? (
-          <CalendarOutlined />
-        ) : (
-          <>
-            <SiderHeader title="Plan wyjazdu" />
-            <Divider style={{ margin: 0 }} />
-            <TravelSchedule />
-          </>
-        )}
-      </Wrapper>
-    </StyledSider>
+    <>
+      <StyledSider
+        theme="light"
+        width="300"
+        breakpoint="md"
+        collapsible
+        collapsedWidth={isMobile ? 0 : 80}
+        collapsed={isCollapsed}
+        zeroWidthTriggerStyle={zeroWidthTriggerStyles}
+        onCollapse={handleCollapse}
+        onBreakpoint={handleBreakpoint}
+      >
+        <Wrapper>
+          {isCollapsed && !isMobile ? (
+            <CalendarOutlined />
+          ) : (
+            <>
+              <SiderHeader title="Plan wyjazdu" />
+              <Divider style={{ margin: 0 }} />
+              <TravelSchedule />
+            </>
+          )}
+        </Wrapper>
+      </StyledSider>
+      <TravelStopModal />
+    </>
   );
 }
 

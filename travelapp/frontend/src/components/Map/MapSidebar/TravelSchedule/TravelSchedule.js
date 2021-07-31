@@ -1,6 +1,8 @@
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Menu } from 'antd';
 import { cutText } from '../../../../utils/cutText';
+import { chooseTravelStop } from '../../../../redux/travelStopModal/travelStopModalSlice';
 
 const { SubMenu } = Menu;
 
@@ -18,8 +20,16 @@ const StyledMenuItem = styled(Menu.Item)`
 `;
 
 function TravelSchedule() {
+  const dispatch = useDispatch();
+
+  function showDetails(e) {
+    console.log(e);
+    dispatch(chooseTravelStop(null));
+  }
+
   return (
-    <Menu mode="inline" style={{ width: '100%' }}>
+    // TODO: give option to see fullscreen calendar wit everything marked on it
+    <Menu mode="inline" style={{ width: '100%' }} onClick={showDetails}>
       <SubMenu key="day-1" title="Dzień 1 - data">
         {/* TODO: replace this with ScheduleItem component  */}
         {/* menu item click should open a modal with details about hours and road */}
