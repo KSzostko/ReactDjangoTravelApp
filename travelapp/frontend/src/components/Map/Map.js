@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
+import styled from 'styled-components';
 import { Spin } from 'antd';
 import mapConstants from '../../setup/mapConstants';
 import { useErrorNotification } from '../../utils/useErrorNotification';
@@ -8,6 +9,13 @@ import MapEvents from './MapEvents';
 import SearchPlace from './SearchPlace';
 import MapMarker from './MapMarker';
 import MapModal from './MapModal';
+
+const StyledSpinner = styled(Spin)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
 
 function Map() {
   const {
@@ -45,7 +53,7 @@ function Map() {
 
       <SearchPlace />
       {isLoading ? (
-        <Spin />
+        <StyledSpinner />
       ) : (
         <MarkerClusterGroup
           spiderfyOnMaxZoom={spiderifyOnMaxZoom}
