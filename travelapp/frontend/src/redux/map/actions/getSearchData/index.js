@@ -12,7 +12,6 @@ export const getSearchDataReducer = (builder) => {
   });
 
   builder.addCase(getSearchData.rejected, (state, action) => {
-    console.log(action.payload);
     state.getSearchData.isLoading = false;
     state.getSearchData.data = [];
     state.getSearchData.error = action.payload;
