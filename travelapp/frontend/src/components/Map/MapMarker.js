@@ -1,9 +1,13 @@
+import L from 'leaflet';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { Marker, Tooltip } from 'react-leaflet';
 import styled from 'styled-components';
 import { notification, Divider } from 'antd';
+import mapSettings from '../../setup/mapConstants';
 import { getLocationsDetails } from '../../redux/selectedLocation/getLocationDetails/thunk';
+
+const { default: defaultMarker, selected: selectedMarker } = mapSettings.marker;
 
 const StyledTooltip = styled(Tooltip)`
   padding: 8px 16px;
@@ -15,11 +19,25 @@ const StyledDivider = styled(Divider)`
   padding: 0;
 `;
 
-function MapTooltip({ xid, point, name }) {
+function MapMarker({ xid, point, name, selected }) {
   const dispatch = useDispatch();
+
+  const markerIcon = L.icon({
+    iconUrl: selected ? selectedMarker.url : defaultMarker.url,
+    iconRetinaUrl: selected
+      ? selectedMarker.retinaUrl
+      : defaultMarker.retinaUrl,
+    shadowUrl: 'https://unpkg.com/leaflet@1.0.3/dist/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    tooltipAnchor: [16, -28],
+    shadowSize: [41, 41],
+  });
 
   return (
     <Marker
+      icon={markerIcon}
       position={point}
       eventHandlers={{
         click: async () => {
@@ -47,13 +65,14 @@ function MapTooltip({ xid, point, name }) {
   );
 }
 
-MapTooltip.propTypes = {
+MapMarker.propTypes = {
   xid: PropTypes.string.isRequired,
   point: PropTypes.shape({
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
   }).isRequired,
   name: PropTypes.string.isRequired,
+  selected: PropTypes.bool.isRequired,
 };
 
-export default MapTooltip;
+export default MapMarker;

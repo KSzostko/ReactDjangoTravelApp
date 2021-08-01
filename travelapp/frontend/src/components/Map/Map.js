@@ -154,7 +154,7 @@ function Map() {
             <Panel header="Wybrana trasa">
               <StyledList>
                 {routeWaypoints.map(({ xid, name }) => (
-                  <li key={xid}>{cutText(name, 16)}</li>
+                  <li key={xid}>{cutText(name, 15)}</li>
                 ))}
               </StyledList>
             </Panel>
@@ -181,7 +181,13 @@ function Map() {
           chunkedLoading
         >
           {locations.map(({ xid, point, name }) => (
-            <MapMarker key={xid} xid={xid} point={point} name={name} />
+            <MapMarker
+              key={xid}
+              xid={xid}
+              point={point}
+              name={name}
+              selected={hasWaypoint(point)}
+            />
           ))}
         </MarkerClusterGroup>
       )}
