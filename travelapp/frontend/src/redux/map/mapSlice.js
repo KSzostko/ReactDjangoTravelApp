@@ -11,7 +11,10 @@ const initialState = {
     error: null,
   },
   getRoute: {
-    data: null,
+    data: {
+      summary: null,
+      path: [],
+    },
     isLoading: false,
     error: null,
   },

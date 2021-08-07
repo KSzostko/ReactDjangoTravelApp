@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { decode as decodePolyline } from '../../utils/flexiblePolylineCipher';
 import { getWaypointString } from './routingHelpers';
 
 const BASE_URL = 'https://router.hereapi.com/v8/routes';
@@ -25,7 +26,17 @@ const calculateRoute = (waypoints, routeOptions = {}) => {
       ${intermediateWaypoints}&apiKey=${process.env.REACT_APP_HERE_API_KEY}
     `.replaceAll(' ', '')
     )
-    .then(({ data }) => data.routes[0].sections)
+    .then(({ data }) => {
+      const route = data.routes[0].sections;
+
+      return route.map(({ polyline, summary, transport: transportData }) => ({
+        polylineData: decodePolyline(polyline),
+        summary: {
+          ...summary,
+          ...transportData,
+        },
+      }));
+    })
     .catch(({ response }) => {
       if (response.title) return Promise.reject(response.title);
 
