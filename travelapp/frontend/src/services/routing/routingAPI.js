@@ -25,7 +25,7 @@ const calculateRoute = (waypoints, routeOptions = {}) => {
       ${intermediateWaypoints}&apiKey=${process.env.REACT_APP_HERE_API_KEY}
     `.replaceAll(' ', '')
     )
-    .then(({ data }) => data)
+    .then(({ data }) => data.routes[0].sections)
     .catch(({ response }) => {
       if (response.title) return Promise.reject(response.title);
 
