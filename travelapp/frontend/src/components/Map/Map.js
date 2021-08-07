@@ -1,16 +1,18 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { MapContainer, TileLayer, ZoomControl, Polyline } from 'react-leaflet';
+import { useSelector, useDispatch } from 'react-redux';
+import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import styled from 'styled-components';
 import { Button, notification, Spin, Collapse } from 'antd';
+import { useErrorNotification } from '../../utils/useErrorNotification';
 import { cutText } from '../../utils/cutText';
 import mapConstants from '../../setup/mapConstants';
-import { useErrorNotification } from '../../utils/useErrorNotification';
+import { getRoute } from '../../redux/map/actions/getRoute/thunk';
 import MapEvents from './MapEvents';
 import SearchPlace from './SearchPlace';
 import MapMarker from './MapMarker';
 import MapModal from './MapModal';
+import RoutePolyline from './RoutePolyline';
 
 const { Panel } = Collapse;
 
@@ -56,6 +58,7 @@ const StyledList = styled.ul`
 `;
 
 function Map() {
+  const dispatch = useDispatch();
   const {
     zoom,
     maxZoom,
@@ -66,8 +69,14 @@ function Map() {
     defaultCenter,
   } = mapConstants;
   const { locations, isLoading, error } = useSelector((state) => state.map);
+  const {
+    data: routeData,
+    isLoading: isRouteLoading,
+    error: routeError,
+  } = useSelector((state) => state.map.getRoute);
 
   useErrorNotification(error, 'Błąd podczas ładowania danych do mapy');
+  useErrorNotification(routeError, 'Błąd podczas wyznaczania trasy');
 
   const [showRoute, setShowRoute] = useState(false);
   const [routeWaypoints, setRouteWaypoints] = useState([]);
@@ -113,7 +122,8 @@ function Map() {
     setShowRoute(false);
   }
 
-  function handleShowRoute() {
+  async function handleShowRoute() {
+    await dispatch(getRoute({ waypoints: routeWaypoints }));
     setShowRoute(true);
   }
 
@@ -144,10 +154,19 @@ function Map() {
       <SearchPlace />
       {routeWaypoints.length > 1 && (
         <>
-          <StyledButton type="primary" onClick={handleShowRoute}>
-            Wyznacz trasę
+          <StyledButton
+            type="primary"
+            disabled={isRouteLoading}
+            onClick={handleShowRoute}
+          >
+            {isRouteLoading ? 'Wyznaczam...' : 'Wyznacz trasę'}
           </StyledButton>
-          <StyledButton danger type="primary" onClick={handleRemoveRoute}>
+          <StyledButton
+            danger
+            type="primary"
+            disabled={isRouteLoading}
+            onClick={handleRemoveRoute}
+          >
             Wyczyść trasę
           </StyledButton>
           <RouteCollapse accordion expandIconPosition="right">
@@ -161,13 +180,7 @@ function Map() {
           </RouteCollapse>
         </>
       )}
-      {/* TODO change this to the route calculated by the routing api */}
-      {showRoute && (
-        <Polyline
-          pathOptions={{ color: 'red', weight: 6, opacity: 0.6 }}
-          positions={routeWaypoints}
-        />
-      )}
+      {showRoute && <RoutePolyline routeData={routeData} />}
 
       {isLoading ? (
         <StyledSpinner />
