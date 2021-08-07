@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { decode as decodePolyline } from '../../utils/flexiblePolylineCipher';
+import { decodePolyline } from '../../utils';
 import { getWaypointString } from './routingHelpers';
 
 const BASE_URL = 'https://router.hereapi.com/v8/routes';

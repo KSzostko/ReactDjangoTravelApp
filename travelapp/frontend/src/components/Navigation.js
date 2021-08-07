@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { notification, Layout, Menu } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { logoutUser } from '../redux/user/actions/logoutUser/thunk';
-import { useErrorNotification } from '../utils/useErrorNotification';
+import { useErrorNotification } from '../utils';
 
 const { Header } = Layout;
 const { SubMenu } = Menu;

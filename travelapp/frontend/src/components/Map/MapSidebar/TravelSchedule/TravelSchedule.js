@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Menu } from 'antd';
-import { cutText } from '../../../../utils/cutText';
+import { cutText } from '../../../../utils';
 import { chooseTravelStop } from '../../../../redux/travelStopModal/travelStopModalSlice';
 
 const { SubMenu } = Menu;

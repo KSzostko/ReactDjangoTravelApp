@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Spin, Button } from 'antd';
 import { clearLocationData } from '../../redux/selectedLocation/selectedLocationSlice';
-import { getMobileWikiUrl } from '../../utils/getMobileWikiUrl';
+import { getMobileWikiUrl } from '../../utils';
 
 function MapModal({
   addRouteWaypointFn,

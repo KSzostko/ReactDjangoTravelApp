@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { notification, Form, Input, Button } from 'antd';
 import { registerUser } from '../redux/user/actions/registerUser/thunk';
-import { useErrorNotification } from '../utils/useErrorNotification';
+import { useErrorNotification } from '../utils';
 
 const StyledButton = styled(Button)`
   margin-top: 16px;
