@@ -6,7 +6,6 @@ class TravelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Travel
         fields = '__all__'
-        depth = 1
 
 
 class TravelPhotoSerializer(serializers.ModelSerializer):

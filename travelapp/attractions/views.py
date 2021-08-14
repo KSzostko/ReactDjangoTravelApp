@@ -7,5 +7,4 @@ from .serializers import AttractionSerializer
 class AttractionViewSet(viewsets.ModelViewSet):
     queryset = Attraction.objects.all()
     serializer_class = AttractionSerializer
-    # TODO: think about proper permissions
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]

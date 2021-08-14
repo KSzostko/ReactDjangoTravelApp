@@ -7,15 +7,13 @@ from .serializers import TravelSerializer, TravelPhotoSerializer, TravelStopSeri
 class TravelViewSet(viewsets.ModelViewSet):
     queryset = Travel.objects.all()
     serializer_class = TravelSerializer
-    # TODO: think about proper permissions
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class TravelPhotoViewSet(viewsets.ModelViewSet):
     queryset = TravelPhoto.objects.all()
     serializer_class = TravelPhotoSerializer
-    # TODO: think about proper permissions
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -33,15 +31,13 @@ class TravelPhotoViewSet(viewsets.ModelViewSet):
 class TravelStopViewSet(viewsets.ModelViewSet):
     queryset = TravelStop.objects.all()
     serializer_class = TravelStopSerializer
-    # TODO: think about proper permissions
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class TravelRouteViewSet(viewsets.ModelViewSet):
     queryset = TravelRoute.objects.all()
     serializer_class = TravelRouteSerializer
-    # TODO: think about proper permissions
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         qs = super().get_queryset()
