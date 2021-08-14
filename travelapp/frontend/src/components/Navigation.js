@@ -39,7 +39,7 @@ function Navigation() {
           <Link to="/">Dostępne podróże</Link>
         </Menu.Item>
         <Menu.Item key="createPlan">
-          <Link to="/travel/plan">Zaplanuj podróż</Link>
+          <Link to="/travel/start">Zaplanuj podróż</Link>
         </Menu.Item>
         <Menu.Item key="createdPlans" style={{ marginRight: 'auto' }}>
           Moje podróże
