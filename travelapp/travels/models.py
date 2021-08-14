@@ -12,7 +12,7 @@ class Travel(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
-    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name
