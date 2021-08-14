@@ -12,8 +12,8 @@ const initialState = {
   },
 };
 
-const currentTravelSlice = createSlice({
-  name: 'currentTravel',
+const travelsSlice = createSlice({
+  name: 'travels',
   initialState,
   reducers: {
     clearCurrentTravel(state) {
@@ -27,6 +27,6 @@ const currentTravelSlice = createSlice({
   },
 });
 
-export const { clearCurrentTravel } = currentTravelSlice.actions;
+export const { clearCurrentTravel } = travelsSlice.actions;
 
-export default currentTravelSlice.reducer;
+export default travelsSlice.reducer;

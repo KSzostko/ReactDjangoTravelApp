@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8000/api/travels';
+const BASE_URL = 'http://localhost:8000/api/travels/';
 
 const create = (travelData) =>
   axios
@@ -11,6 +11,6 @@ const create = (travelData) =>
       },
     })
     .then(({ data }) => data)
-    .catch(({ response }) => Promise.reject(response));
+    .catch(({ response }) => Promise.reject(response.statusText));
 
 export default { create };

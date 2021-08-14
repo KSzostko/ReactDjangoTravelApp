@@ -1,19 +1,34 @@
 import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { Form, Input, DatePicker, Button } from 'antd';
+import { useErrorNotification } from '../utils';
+import { createTravel } from '../redux/travels/actions/createTravel/thunk';
 
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
 
 function TravelForm() {
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  function handleFinish(values) {
-    // TODO add form values to the store
-    console.log(values);
-    // TODO add hotel picker before travel stops
-    // moze hotel moze byc null?
-    // wtedy do menu damy go opcjonalnie i można od razu teraz dodać podróż do bazy
-    history.push('/travel/plan');
+  const { error, isLoading } = useSelector((state) => state.travels.current);
+
+  useErrorNotification(error, 'Nie udało sie utworzyć wyjazdu');
+
+  function handleFinish({ schedule, ...rest }) {
+    // eslint-disable-next-line camelcase
+    const [start_date, end_date] = schedule.map((dateItem) =>
+      dateItem.toDate().toISOString().substring(0, 10)
+    );
+    const travelData = {
+      start_date,
+      end_date,
+      ...rest,
+    };
+
+    dispatch(createTravel(travelData)).then(() => {
+      history.push('/travel/plan');
+    });
   }
 
   return (
@@ -58,7 +73,7 @@ function TravelForm() {
         <RangePicker placeholder={['Początek', 'Koniec']} />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit" block>
+        <Button type="primary" htmlType="submit" block loading={isLoading}>
           Wybierz
         </Button>
       </Form.Item>
