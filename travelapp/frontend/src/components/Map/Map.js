@@ -187,6 +187,7 @@ function Map() {
         <MarkerClusterGroup
           spiderfyOnMaxZoom={spiderifyOnMaxZoom}
           maxClusterRadius={maxClusterRadius}
+          disableClusteringAtZoom={maxZoom}
           showCoverageOnHover={false}
           animateAddingMarkers
           removeOutsideVisibleBounds
