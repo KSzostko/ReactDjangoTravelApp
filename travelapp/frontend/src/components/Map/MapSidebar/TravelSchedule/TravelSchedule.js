@@ -1,4 +1,5 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addDays } from 'date-fns';
 import styled from 'styled-components';
 import { Menu } from 'antd';
 import { cutText } from '../../../../utils';
@@ -21,6 +22,7 @@ const StyledMenuItem = styled(Menu.Item)`
 
 function TravelSchedule() {
   const dispatch = useDispatch();
+  const { data } = useSelector((state) => state.travels.current);
 
   function showDetails(e) {
     console.log(e);
