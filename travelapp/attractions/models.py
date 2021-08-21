@@ -3,13 +3,12 @@ from django.db import models
 
 class Attraction(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50)
+    xid = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50, unique=True)
     type = models.CharField(max_length=100)
     lat = models.FloatField()
     lng = models.FloatField()
     description = models.TextField()
-    # maybe list of images later on
-    photo = models.ImageField(upload_to='attractions/', default='no-photo-available.png')
 
     def __str__(self):
         return self.name
