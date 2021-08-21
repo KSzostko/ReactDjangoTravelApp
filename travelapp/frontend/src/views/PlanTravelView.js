@@ -1,10 +1,18 @@
 import { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import styled from 'styled-components';
 import { Spin } from 'antd';
 import { getTravelById } from '../redux/travels/actions/getTravelById/thunk';
 import AuthLayout from '../components/AuthLayout';
 import Map from '../components/Map/Map';
+
+const StyledSpinner = styled(Spin)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
 
 function PlanTravelView() {
   const history = useHistory();
@@ -24,7 +32,9 @@ function PlanTravelView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
-  return <AuthLayout mapView>{isLoading ? <Spin /> : <Map />}</AuthLayout>;
+  return (
+    <AuthLayout mapView>{isLoading ? <StyledSpinner /> : <Map />}</AuthLayout>
+  );
 }
 
 export default PlanTravelView;
