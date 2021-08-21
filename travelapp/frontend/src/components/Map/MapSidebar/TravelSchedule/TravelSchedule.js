@@ -1,8 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { addDays } from 'date-fns';
 import styled from 'styled-components';
 import { Menu } from 'antd';
-import { cutText } from '../../../../utils';
+import { cutText, getTravelDays } from '../../../../utils';
 import { chooseTravelStop } from '../../../../redux/travelStopModal/travelStopModalSlice';
 
 const { SubMenu } = Menu;
@@ -29,36 +28,24 @@ function TravelSchedule() {
     dispatch(chooseTravelStop(null));
   }
 
+  if (data === null) return null;
+
   return (
     // TODO: give option to see fullscreen calendar wit everything marked on it
     <Menu mode="inline" style={{ width: '100%' }} onClick={showDetails}>
-      <SubMenu key="day-1" title="Dzień 1 - data">
-        {/* TODO: replace this with ScheduleItem component  */}
-        {/* menu item click should open a modal with details about hours and road */}
-        {/* there shuld also be an edit form for this trip stop */}
-        <StyledMenuItem key="stop-1">
-          <span>{cutText('Nazwa miejsca1aaaaaaaaaaaaaaaaaaaaaaaaaa', 20)}</span>
-          <span className="hour">10:00 - 12:00</span>
-        </StyledMenuItem>
-        <StyledMenuItem key="stop-2">
-          <span>Nazwa miejsca2</span>
-          <span className="hour">10:00 - 12:00</span>
-        </StyledMenuItem>
-      </SubMenu>
-      <SubMenu key="day-2" title="Dzień 2 - data">
-        <StyledMenuItem key="stop-1">
-          <span>Nazwa miejsca1</span>
-          <span className="hour">10:00 - 12:00</span>
-        </StyledMenuItem>
-        <StyledMenuItem key="stop-2">
-          <span>Nazwa miejsca2</span>
-          <span className="hour">10:00 - 12:00</span>
-        </StyledMenuItem>
-        <StyledMenuItem key="stop-3">
-          <span>Nazwa miejsca3</span>
-          <span className="hour">10:00 - 12:00</span>
-        </StyledMenuItem>
-      </SubMenu>
+      {/* TODO: replace this with ScheduleItem component  */}
+      {/* menu item click should open a modal with details about hours and road */}
+      {/* there shuld also be an edit form for this trip stop */}
+      {getTravelDays(data.start_date, data.end_date).map((day, i) => (
+        <SubMenu key={`day-${i + 1}`} title={`Dzień ${i + 1} - ${day}`}>
+          <StyledMenuItem key={`day-${i + 1}-stop-1`}>
+            <span>
+              {cutText('Nazwa miejsca1aaaaaaaaaaaaaaaaaaaaaaaaaa', 20)}
+            </span>
+            <span className="hour">10:00 - 12:00</span>
+          </StyledMenuItem>
+        </SubMenu>
+      ))}
     </Menu>
   );
 }
