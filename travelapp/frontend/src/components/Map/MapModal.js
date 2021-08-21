@@ -36,11 +36,20 @@ function MapModal({
     dispatch(clearLocationData());
   }
 
+  function handleAddToTravel() {
+    // try to get attraction from the db
+    // if it suceeds you have foreign key to add to the travel stop already
+    // if not add the attraction to the db and then create travel stop with it
+    // if this is first stop in a specific day the route for now cannot be added
+    // if in the choosen they here is already a travel stop
+    // add travel route with these two travel stops to the db
+  }
+
   const footer = [
     <Button key="close" onClick={handleCloseModal}>
       Zamknij
     </Button>,
-    <Button key="add" type="primary">
+    <Button key="add" type="primary" onClick={handleAddToTravel}>
       Dodaj do podróży
     </Button>,
   ];
