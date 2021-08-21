@@ -9,7 +9,7 @@ function AuthenticatedApp() {
       <Switch>
         <Route exact path="/" component={TravelsView} />
         <Route path="/travel/start" component={StartTravleView} />
-        <Route path="/travel/plan" component={PlanTravelView} />
+        <Route path="/travel/:travelId/plan" component={PlanTravelView} />
       </Switch>
     </BrowserRouter>
   );

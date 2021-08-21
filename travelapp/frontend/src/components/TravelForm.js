@@ -26,9 +26,11 @@ function TravelForm() {
       ...rest,
     };
 
-    dispatch(createTravel(travelData)).then(() => {
-      history.push('/travel/plan');
-    });
+    dispatch(createTravel(travelData))
+      .unwrap()
+      .then((result) => {
+        history.push(`/travel/${result.id}/plan`);
+      });
   }
 
   return (
