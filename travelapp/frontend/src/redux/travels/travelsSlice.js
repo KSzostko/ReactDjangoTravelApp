@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createTravelReducer } from './actions/createTravel';
+import { getTravelByIdReducer } from './actions/getTravelById';
 
 const initialState = {
   list: [],
@@ -24,6 +25,7 @@ const travelsSlice = createSlice({
   },
   extraReducers: (builder) => {
     createTravelReducer(builder);
+    getTravelByIdReducer(builder);
   },
 });
 
