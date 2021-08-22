@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Modal, Button, Steps } from 'antd';
 import { closeModal } from '../../../redux/travelPeriodModal/travelPeriodModalSlice';
 import DateStep from './DateStep';
+import TimeStep from './TimeStep';
 
 const { Step } = Steps;
 
@@ -58,7 +59,7 @@ function TravelPeriodModal() {
 
       <Wrapper>
         {currentStep === 0 && <DateStep nextStepFn={nextStep} />}
-        {currentStep === 1 && <div>Choose time form</div>}
+        {currentStep === 1 && <TimeStep nextStepFn={nextStep} />}
         {currentStep === 2 && <div>Choice summary</div>}
       </Wrapper>
     </Modal>
