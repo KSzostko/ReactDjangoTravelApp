@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Spin, Button } from 'antd';
+import { AttractionAPI } from '../../services';
 import { clearLocationData } from '../../redux/selectedLocation/selectedLocationSlice';
 import { getMobileWikiUrl } from '../../utils';
 
@@ -36,12 +37,23 @@ function MapModal({
     dispatch(clearLocationData());
   }
 
-  function handleAddToTravel() {
-    // try to get attraction from the db
-    // if it suceeds you have foreign key to add to the travel stop already
-    // if not add the attraction to the db and then create travel stop with it
+  async function handleAddToTravel() {
+    let dbAttraction = await AttractionAPI.getByXid(data.xid);
+    if (dbAttraction === undefined) {
+      const { xid, name, kinds, description, point } = data;
+      dbAttraction = await AttractionAPI.create({
+        xid,
+        name,
+        type: kinds,
+        description: description || 'no description',
+        lat: point.lat,
+        lng: point.lon,
+      });
+    }
+    // create travel stop with created attraction
+    // show modal with the calendar where only days from travel days range can be selected
     // if this is first stop in a specific day the route for now cannot be added
-    // if in the choosen they here is already a travel stop
+    // if not adding route is possible
     // add travel route with these two travel stops to the db
   }
 
