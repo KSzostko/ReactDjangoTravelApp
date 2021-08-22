@@ -4,6 +4,7 @@ import mapReducer from './map/mapSlice';
 import selectedLocationReducer from './selectedLocation/selectedLocationSlice';
 import travelStopModalReducer from './travelStopModal/travelStopModalSlice';
 import travelsReducer from './travels/travelsSlice';
+import travelPeriodModalReducer from './travelPeriodModal/travelPeriodModalSlice';
 
 const rootReducer = combineReducers({
   user: userReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   selectedLocation: selectedLocationReducer,
   travelStopModal: travelStopModalReducer,
   travels: travelsReducer,
+  travelPeriodModal: travelPeriodModalReducer,
 });
 
 export const store = configureStore({

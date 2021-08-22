@@ -1,6 +1,6 @@
 const defaultCenter = {
-  lat: 49.505,
-  lng: 24,
+  lat: 42.0262,
+  lng: 12.5848,
 };
 
 const mapSettings = {

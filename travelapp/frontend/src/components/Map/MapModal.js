@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Spin, Button } from 'antd';
 import { AttractionAPI } from '../../services';
 import { clearLocationData } from '../../redux/selectedLocation/selectedLocationSlice';
+import { openModal } from '../../redux/travelPeriodModal/travelPeriodModalSlice';
 import { getMobileWikiUrl } from '../../utils';
 
 function MapModal({
@@ -55,6 +56,8 @@ function MapModal({
     // if this is first stop in a specific day the route for now cannot be added
     // if not adding route is possible
     // add travel route with these two travel stops to the db
+    dispatch(clearLocationData());
+    dispatch(openModal(dbAttraction.id));
   }
 
   const footer = [
