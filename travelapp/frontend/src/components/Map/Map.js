@@ -11,6 +11,7 @@ import MapEvents from './MapEvents';
 import SearchPlace from './SearchPlace';
 import MapMarker from './MapMarker';
 import MapModal from './MapModal';
+import TravelPeriodModal from './TravelPeriodModal';
 import RoutePolyline from './RoutePolyline';
 
 const { Panel } = Collapse;
@@ -149,6 +150,7 @@ function Map() {
         removeRouteWaypointFn={removeRouteWaypoint}
         hasWaypointFn={hasWaypoint}
       />
+      <TravelPeriodModal />
 
       <SearchPlace />
       {routeWaypoints.length > 1 && (
