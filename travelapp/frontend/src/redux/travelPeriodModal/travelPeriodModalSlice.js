@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  attractionId: null,
   date: null,
   time: null,
   isOpen: false,
@@ -11,11 +12,13 @@ const travelPeriodModalSlice = createSlice({
   initialState,
   reducers: {
     closeModal(state) {
+      state.attractionId = null;
       state.date = null;
       state.time = null;
       state.isOpen = false;
     },
-    openModal(state) {
+    openModal(state, action) {
+      state.attractionId = action.payload;
       state.isOpen = true;
     },
     chooseDate(state, action) {
