@@ -1,9 +1,19 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import styled from 'styled-components';
 import { Modal, Button, Steps } from 'antd';
-import { closeModal } from '../../redux/travelPeriodModal/travelPeriodModalSlice';
+import { closeModal } from '../../../redux/travelPeriodModal/travelPeriodModalSlice';
+import DateStep from './DateStep';
 
 const { Step } = Steps;
+
+const Wrapper = styled.div`
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 function TravelPeriodModal() {
   const dispatch = useDispatch();
@@ -24,6 +34,9 @@ function TravelPeriodModal() {
   }
 
   const footer = [
+    <Button key="back" onClick={prevStep} disabled={currentStep === 0}>
+      Wróć
+    </Button>,
     <Button key="close" onClick={handleCloseModal}>
       Zamknij
     </Button>,
@@ -36,8 +49,6 @@ function TravelPeriodModal() {
       visible={isOpen}
       onCancel={handleCloseModal}
       footer={footer}
-      width="80vw"
-      bodyStyle={{ height: '75vh' }}
     >
       <Steps current={currentStep} size="small" responsive>
         <Step key="choose-date" title="Data" />
@@ -45,9 +56,11 @@ function TravelPeriodModal() {
         <Step key="summary" title="Podsumowanie" />
       </Steps>
 
-      {currentStep === 0 && <div>Choose date form</div>}
-      {currentStep === 1 && <div>Choose time form</div>}
-      {currentStep === 2 && <div>Choice summary</div>}
+      <Wrapper>
+        {currentStep === 0 && <DateStep nextStepFn={nextStep} />}
+        {currentStep === 1 && <div>Choose time form</div>}
+        {currentStep === 2 && <div>Choice summary</div>}
+      </Wrapper>
     </Modal>
   );
 }
