@@ -1,6 +1,9 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { parse } from 'date-fns';
+import { pl } from 'date-fns/locale';
 import styled from 'styled-components';
-import { Descriptions, Button } from 'antd';
+import { notification, Descriptions, Button } from 'antd';
+import { TravelStopAPI } from '../../../services';
 import { closeModal } from '../../../redux/travelPeriodModal/travelPeriodModalSlice';
 
 const formatTime = (timeString) => {
@@ -11,6 +14,11 @@ const formatTime = (timeString) => {
   ${hours < 9 ? '0' : ''}${hours}:${minutes < 9 ? '0' : ''}${minutes}:${seconds < 9 ? '0' : ''}${seconds}`;
   /* eslint-enable */
 };
+
+const parseDate = (date) =>
+  parse(date, 'dd.MM.yyyy KK:mm:ss', new Date(), {
+    locale: pl,
+  });
 
 const Wrapper = styled.div`
   display: flex;
@@ -33,10 +41,30 @@ function SummaryStep() {
     (state) => state.travelPeriodModal
   );
 
-  function addTravelStop() {
-    // create TravelStopAPI and dispatch action which creates a travel stop
-    // add notification with the success/error info
-    dispatch(closeModal());
+  async function addTravelStop() {
+    const startDate = parseDate(`${date} ${time.start}`);
+    const endDate = parseDate(`${date} ${time.end}`);
+
+    // TODO try to separte this logic from the component and put it in redux
+    try {
+      await TravelStopAPI.create({
+        start_date: startDate,
+        end_date: endDate,
+        attraction: attractionId,
+      });
+
+      notification.success({
+        message: 'Operacja przebiegła pomyślnie',
+        description: 'Dodałeś nowy punkt podróży',
+      });
+    } catch (error) {
+      notification.error({
+        message: 'Wystąpił błąd',
+        description: error,
+      });
+    } finally {
+      dispatch(closeModal());
+    }
   }
 
   return (
@@ -44,10 +72,10 @@ function SummaryStep() {
       <StyledDescriptions layout="vertical" bordered title="Wybrany termin">
         <Descriptions.Item label="Data">{date}</Descriptions.Item>
         <Descriptions.Item label="Początek">
-          {formatTime(time.start)}
+          {time?.start ? formatTime(time.start) : 'Brak'}
         </Descriptions.Item>
         <Descriptions.Item label="Koniec">
-          {formatTime(time.end)}
+          {time?.end ? formatTime(time.end) : 'Brak'}
         </Descriptions.Item>
       </StyledDescriptions>
 
