@@ -36,12 +36,6 @@ class TravelStopViewSet(viewsets.ModelViewSet):
     serializer_class = TravelStopSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-
-class TravelRouteViewSet(viewsets.ModelViewSet):
-    queryset = TravelRoute.objects.all()
-    serializer_class = TravelRouteSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
     def get_queryset(self):
         qs = super().get_queryset()
 
@@ -53,3 +47,9 @@ class TravelRouteViewSet(viewsets.ModelViewSet):
             return qs
         except ValueError:
             return qs
+
+
+class TravelRouteViewSet(viewsets.ModelViewSet):
+    queryset = TravelRoute.objects.all()
+    serializer_class = TravelRouteSerializer
+    permission_classes = [permissions.IsAuthenticated]

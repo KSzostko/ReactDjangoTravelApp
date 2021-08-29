@@ -40,6 +40,7 @@ function SummaryStep() {
   const { attractionId, date, time } = useSelector(
     (state) => state.travelPeriodModal
   );
+  const { data: currentTravel } = useSelector((state) => state.travels.current);
 
   async function addTravelStop() {
     const startDate = parseDate(`${date} ${time.start}`);
@@ -48,6 +49,7 @@ function SummaryStep() {
     // TODO try to separte this logic from the component and put it in redux
     try {
       await TravelStopAPI.create({
+        travel: currentTravel.id,
         start_date: startDate,
         end_date: endDate,
         attraction: attractionId,
