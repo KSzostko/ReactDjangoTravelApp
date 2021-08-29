@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux';
 import { Marker, Tooltip } from 'react-leaflet';
 import styled from 'styled-components';
 import { notification, Divider } from 'antd';
-import mapSettings from '../../setup/mapConstants';
-import { getLocationsDetails } from '../../redux/selectedLocation/getLocationDetails/thunk';
+import mapSettings from 'setup/mapConstants';
+import { getLocationsDetails } from 'redux/selectedLocation/getLocationDetails/thunk';
 
 const { default: defaultMarker, selected: selectedMarker } = mapSettings.marker;
 

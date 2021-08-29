@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Modal, Button, Steps } from 'antd';
-import { closeModal } from '../../../redux/travelPeriodModal/travelPeriodModalSlice';
+import { closeModal } from 'redux/travelPeriodModal/travelPeriodModalSlice';
 import DateStep from './DateStep';
 import TimeStep from './TimeStep';
 import SummaryStep from './SummaryStep';

@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Menu } from 'antd';
-import { cutText, getTravelDays } from '../../../../utils';
-import { chooseTravelStop } from '../../../../redux/travelStopModal/travelStopModalSlice';
+import { cutText, getTravelDays } from 'utils';
+import { chooseTravelStop } from 'redux/travelStopModal/travelStopModalSlice';
 
 const { SubMenu } = Menu;
 

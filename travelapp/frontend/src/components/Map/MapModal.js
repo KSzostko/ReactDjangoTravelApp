@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Spin, Button } from 'antd';
-import { AttractionAPI } from '../../services';
-import { clearLocationData } from '../../redux/selectedLocation/selectedLocationSlice';
-import { openModal } from '../../redux/travelPeriodModal/travelPeriodModalSlice';
-import { getMobileWikiUrl } from '../../utils';
+import { AttractionAPI } from 'services';
+import { clearLocationData } from 'redux/selectedLocation/selectedLocationSlice';
+import { openModal } from 'redux/travelPeriodModal/travelPeriodModalSlice';
+import { getMobileWikiUrl } from 'utils';
 
 function MapModal({
   addRouteWaypointFn,

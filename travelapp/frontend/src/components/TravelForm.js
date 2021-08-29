@@ -1,8 +1,8 @@
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Input, DatePicker, Button } from 'antd';
-import { useErrorNotification } from '../utils';
-import { createTravel } from '../redux/travels/actions/createTravel/thunk';
+import { useErrorNotification } from 'utils';
+import { createTravel } from 'redux/travels/actions/createTravel/thunk';
 
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;

@@ -3,8 +3,8 @@ import { parse } from 'date-fns';
 import { pl } from 'date-fns/locale';
 import styled from 'styled-components';
 import { notification, Descriptions, Button } from 'antd';
-import { addTravelStop } from '../../../redux/travels/actions/addTravelStop/thunk';
-import { closeModal } from '../../../redux/travelPeriodModal/travelPeriodModalSlice';
+import { addTravelStop } from 'redux/travels/actions/addTravelStop/thunk';
+import { closeModal } from 'redux/travelPeriodModal/travelPeriodModalSlice';
 
 const formatTime = (timeString) => {
   const [hours, minutes, seconds] = timeString.split(':');

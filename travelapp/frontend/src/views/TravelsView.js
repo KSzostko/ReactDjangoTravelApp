@@ -1,6 +1,6 @@
 import { Divider, Typography } from 'antd';
-import AuthLayout from '../components/AuthLayout';
-import TravelsList from '../components/TravelsList/TravelsList';
+import AuthLayout from 'components/AuthLayout';
+import TravelsList from 'components/TravelsList/TravelsList';
 
 const { Title } = Typography;
 

@@ -1,10 +1,10 @@
 import { Typography } from 'antd';
-import RegisterForm from '../components/RegisterForm';
+import RegisterForm from 'components/RegisterForm';
 import {
   PageLayout,
   StyledContent,
   StyledFooter,
-} from '../styles/UnauthenticatedAppStyles';
+} from 'styles/UnauthenticatedAppStyles';
 
 const { Title } = Typography;
 

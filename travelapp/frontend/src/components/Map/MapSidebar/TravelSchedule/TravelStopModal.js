@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Modal, Form, TimePicker, Button, Popconfirm } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { closeModal } from '../../../../redux/travelStopModal/travelStopModalSlice';
+import { closeModal } from 'redux/travelStopModal/travelStopModalSlice';
 
 const { RangePicker } = TimePicker;
 
@@ -22,7 +22,7 @@ const StyledButton = styled(Button)`
 
 function TravelStopModal() {
   const dispatch = useDispatch();
-  const { isOpen, data } = useSelector((state) => state.travelStopModal);
+  const { isOpen } = useSelector((state) => state.travelStopModal);
 
   function handleCancel() {
     dispatch(closeModal());

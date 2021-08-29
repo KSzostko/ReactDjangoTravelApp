@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { notification, Input } from 'antd';
-import { getSearchData } from '../../redux/map/actions/getSearchData/thunk';
+import { getSearchData } from 'redux/map/actions/getSearchData/thunk';
 
 const { Search } = Input;
 

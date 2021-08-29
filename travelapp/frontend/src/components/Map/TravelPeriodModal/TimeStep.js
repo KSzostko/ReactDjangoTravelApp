@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Form, TimePicker, Button } from 'antd';
-import { chooseTime } from '../../../redux/travelPeriodModal/travelPeriodModalSlice';
+import { chooseTime } from 'redux/travelPeriodModal/travelPeriodModalSlice';
 
 const { RangePicker } = TimePicker;
 

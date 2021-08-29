@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Form, Select, Button } from 'antd';
-import { chooseDate } from '../../../redux/travelPeriodModal/travelPeriodModalSlice';
-import { getTravelDays } from '../../../utils';
+import { chooseDate } from 'redux/travelPeriodModal/travelPeriodModalSlice';
+import { getTravelDays } from 'utils';
 
 const { Option } = Select;
 

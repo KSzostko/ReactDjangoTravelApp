@@ -3,11 +3,7 @@ import { Polyline, Tooltip } from 'react-leaflet';
 import styled from 'styled-components';
 import { Typography } from 'antd';
 import { CarOutlined } from '@ant-design/icons';
-import {
-  createTimeString,
-  concatPolylines,
-  calculateTravelData,
-} from '../../utils';
+import { createTimeString, concatPolylines, calculateTravelData } from 'utils';
 
 const { Text } = Typography;
 

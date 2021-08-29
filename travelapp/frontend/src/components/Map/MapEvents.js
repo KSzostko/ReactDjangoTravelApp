@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMapEvents } from 'react-leaflet';
-import { setCenter, setZoom } from '../../redux/map/mapSlice';
-import { fetchLocations } from '../../redux/map/actions/fetchLocations/thunk';
+import { setCenter, setZoom } from 'redux/map/mapSlice';
+import { fetchLocations } from 'redux/map/actions/fetchLocations/thunk';
 
 function getRanges(map) {
   const { lat: neLat, lng: neLng } = map.getBounds().getNorthEast();

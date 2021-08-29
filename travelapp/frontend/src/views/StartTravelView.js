@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Typography } from 'antd';
-import AuthLayout from '../components/AuthLayout';
-import TravelForm from '../components/TravelForm';
+import AuthLayout from 'components/AuthLayout';
+import TravelForm from 'components/TravelForm';
 
 const { Title } = Typography;
 

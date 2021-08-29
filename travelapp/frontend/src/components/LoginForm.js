@@ -2,8 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { notification, Form, Input, Button } from 'antd';
-import { loginUser } from '../redux/user/actions/loginUser/thunk';
-import { useErrorNotification } from '../utils';
+import { loginUser } from 'redux/user/actions/loginUser/thunk';
+import { useErrorNotification } from 'utils';
 
 const StyledButton = styled(Button)`
   margin-top: 16px;

@@ -3,9 +3,9 @@ import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Spin } from 'antd';
-import { getTravelById } from '../redux/travels/actions/getTravelById/thunk';
-import AuthLayout from '../components/AuthLayout';
-import Map from '../components/Map/Map';
+import { getTravelById } from 'redux/travels/actions/getTravelById/thunk';
+import AuthLayout from 'components/AuthLayout';
+import Map from 'components/Map/Map';
 
 const StyledSpinner = styled(Spin)`
   position: absolute;
