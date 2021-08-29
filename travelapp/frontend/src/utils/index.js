@@ -6,3 +6,5 @@ export { getTravelDays } from './getTravelDays';
 export { calculateTravelData, concatPolylines } from './routeHelpers';
 export { createTimeString } from './timeFormat';
 export { useErrorNotification } from './useErrorNotification';
+export { filterByDate } from './filterByDate';
+export { parseDate } from './parseDate';

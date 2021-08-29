@@ -1,8 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { parse } from 'date-fns';
-import { pl } from 'date-fns/locale';
 import styled from 'styled-components';
 import { notification, Descriptions, Button } from 'antd';
+import { parseDate } from 'utils';
 import { addTravelStop } from 'redux/travels/actions/addTravelStop/thunk';
 import { closeModal } from 'redux/travelPeriodModal/travelPeriodModalSlice';
 
@@ -14,11 +13,6 @@ const formatTime = (timeString) => {
   ${hours < 9 ? '0' : ''}${hours}:${minutes < 9 ? '0' : ''}${minutes}:${seconds < 9 ? '0' : ''}${seconds}`;
   /* eslint-enable */
 };
-
-const parseDate = (date) =>
-  parse(date, 'dd.MM.yyyy KK:mm:ss', new Date(), {
-    locale: pl,
-  });
 
 const Wrapper = styled.div`
   display: flex;
@@ -43,8 +37,8 @@ function SummaryStep() {
   const { data: currentTravel } = useSelector((state) => state.travels.current);
 
   async function handleAdd() {
-    const startDate = parseDate(`${date} ${time.start}`);
-    const endDate = parseDate(`${date} ${time.end}`);
+    const startDate = parseDate(`${date} ${time.start}`, 'dd.MM.yyyy KK:mm:ss');
+    const endDate = parseDate(`${date} ${time.end}`, 'dd.MM.yyyy KK:mm:ss');
 
     await dispatch(
       addTravelStop({
