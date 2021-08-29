@@ -45,7 +45,7 @@ function MapModal({
       const { xid, name, kinds, description, point } = data;
       dbAttraction = await AttractionAPI.create({
         xid,
-        name,
+        name: name || 'None',
         type: kinds,
         description: description || 'no description',
         lat: point.lat,
