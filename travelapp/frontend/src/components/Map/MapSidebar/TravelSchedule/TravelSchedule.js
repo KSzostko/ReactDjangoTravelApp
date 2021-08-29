@@ -45,12 +45,14 @@ function TravelSchedule() {
     // TODO give option to see fullscreen calendar wit everything marked on it
     <Menu mode="inline" style={{ width: '100%' }} onClick={showDetails}>
       {/* TODO menu item click should open a modal with details about hours and road */}
-      {/* there shuld also be an edit form for this trip stop */}
+      {/* there should also be an edit form for this trip stop */}
       {getTravelDays(travelData.start_date, travelData.end_date).map(
         (day, i) => (
           <SubMenu key={`day-${i + 1}`} title={`Dzień ${i + 1} - ${day}`}>
             {filterByDate(stopsList, day).map((travelStop) => (
-              <ScheduleItem key={travelStop.id} travelStop={travelStop} />
+              <Menu.Item key={travelStop.id}>
+                <ScheduleItem travelStop={travelStop} />
+              </Menu.Item>
             ))}
           </SubMenu>
         )

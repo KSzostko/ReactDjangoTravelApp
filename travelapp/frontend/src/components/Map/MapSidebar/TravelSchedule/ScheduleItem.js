@@ -1,29 +1,37 @@
 import PropTypes from 'prop-types';
-import { Menu } from 'antd';
+import { getHours, getMinutes } from 'date-fns';
 import styled from 'styled-components';
 import { cutText } from 'utils';
 
-const StyledMenuItem = styled(Menu.Item)`
-  .ant-menu-title-content {
-    display: flex;
-    justify-content: space-between;
+const formatHour = (date) => {
+  const parsedDate = new Date(date);
+  const hours = getHours(parsedDate);
+  const minutes = getMinutes(parsedDate);
 
-    .hour {
-      font-size: 12px;
-      font-weight: 700;
-      color: rgba(0, 0, 0, 0.55);
-    }
+  return `${hours < 9 ? '0' : ''}${hours}:${minutes < 9 ? '0' : ''}${minutes}`;
+};
+
+const StyledContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  .hour {
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.55);
   }
 `;
 
 function ScheduleItem({ travelStop }) {
-  // TODO: adjust travelStop data correctly
-  // TODO: retrieve attraction data by attraction foreign key
+  const { name } = travelStop.attraction;
+
   return (
-    <StyledMenuItem key={travelStop.id}>
-      <span>{cutText('Nazwa miejsca1aaaaaaaaaaaaaaaaaaaaaaaaaa', 20)}</span>
-      <span className="hour">10:00 - 12:00</span>
-    </StyledMenuItem>
+    <StyledContent>
+      <span>{cutText(name || '', 20)}</span>
+      <span className="hour">
+        {formatHour(travelStop.start_date)} - {formatHour(travelStop.end_date)}
+      </span>
+    </StyledContent>
   );
 }
 
@@ -32,8 +40,11 @@ ScheduleItem.propTypes = {
     id: PropTypes.number.isRequired,
     start_date: PropTypes.string.isRequired,
     end_date: PropTypes.string.isRequired,
-    travel: PropTypes.number.isRequired,
-    attraction: PropTypes.number.isRequired,
+    travel: PropTypes.object.isRequired,
+    attraction: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
 };
 
