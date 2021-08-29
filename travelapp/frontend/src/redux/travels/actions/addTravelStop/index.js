@@ -2,18 +2,18 @@ import { addTravelStop } from './thunk';
 
 export const addTravelStopReducer = (builder) => {
   builder.addCase(addTravelStop.pending, (state) => {
-    state.addTravelStop.isLoading = true;
-    state.addTravelStop.error = null;
+    state.getTravelStops.isLoading = true;
+    state.getTravelStops.error = null;
   });
 
   builder.addCase(addTravelStop.fulfilled, (state, action) => {
-    state.addTravelStop.isLoading = false;
-    state.addTravelStop.data.push(action.payload);
+    state.getTravelStops.isLoading = false;
+    state.getTravelStops.data.push(action.payload);
   });
 
   builder.addCase(addTravelStop.rejected, (state, action) => {
-    state.addTravelStop.isLoading = false;
-    state.addTravelStop.data = null;
-    state.addTravelStop.error = action.payload;
+    state.getTravelStops.isLoading = false;
+    state.getTravelStops.data = null;
+    state.getTravelStops.error = action.payload;
   });
 };
