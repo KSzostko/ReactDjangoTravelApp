@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createTravelReducer } from './actions/createTravel';
 import { getTravelByIdReducer } from './actions/getTravelById';
 import { getTravelStopsReducer } from './actions/getTravelStops';
+import { addTravelStopReducer } from './actions/addTravelStop';
 
 const initialState = {
   list: [],
@@ -12,6 +13,7 @@ const initialState = {
     isLoading: false,
     error: null,
   },
+  // travel stops for current travel
   getTravelStops: {
     data: [],
     isLoading: false,
@@ -33,6 +35,7 @@ const travelsSlice = createSlice({
     createTravelReducer(builder);
     getTravelByIdReducer(builder);
     getTravelStopsReducer(builder);
+    addTravelStopReducer(builder);
   },
 });
 
