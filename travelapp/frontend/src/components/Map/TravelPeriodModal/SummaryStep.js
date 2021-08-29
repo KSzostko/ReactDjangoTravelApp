@@ -3,7 +3,7 @@ import { parse } from 'date-fns';
 import { pl } from 'date-fns/locale';
 import styled from 'styled-components';
 import { notification, Descriptions, Button } from 'antd';
-import { TravelStopAPI } from '../../../services';
+import { addTravelStop } from '../../../redux/travels/actions/addTravelStop/thunk';
 import { closeModal } from '../../../redux/travelPeriodModal/travelPeriodModalSlice';
 
 const formatTime = (timeString) => {
@@ -42,31 +42,33 @@ function SummaryStep() {
   );
   const { data: currentTravel } = useSelector((state) => state.travels.current);
 
-  async function addTravelStop() {
+  async function handleAdd() {
     const startDate = parseDate(`${date} ${time.start}`);
     const endDate = parseDate(`${date} ${time.end}`);
 
-    // TODO try to separte this logic from the component and put it in redux
-    try {
-      await TravelStopAPI.create({
+    await dispatch(
+      addTravelStop({
         travel: currentTravel.id,
         start_date: startDate,
         end_date: endDate,
         attraction: attractionId,
+      })
+    )
+      .unwrap()
+      .then(() => {
+        notification.success({
+          message: 'Operacja przebiegła pomyślnie',
+          description: 'Dodałeś nowy punkt podróży',
+        });
+      })
+      .catch(({ message }) => {
+        notification.error({
+          message: 'Wystąpił błąd',
+          description: message,
+        });
       });
 
-      notification.success({
-        message: 'Operacja przebiegła pomyślnie',
-        description: 'Dodałeś nowy punkt podróży',
-      });
-    } catch (error) {
-      notification.error({
-        message: 'Wystąpił błąd',
-        description: error,
-      });
-    } finally {
-      dispatch(closeModal());
-    }
+    dispatch(closeModal());
   }
 
   return (
@@ -81,7 +83,7 @@ function SummaryStep() {
         </Descriptions.Item>
       </StyledDescriptions>
 
-      <StyledButton type="primary" onClick={addTravelStop}>
+      <StyledButton type="primary" onClick={handleAdd}>
         Zatwierdź
       </StyledButton>
     </Wrapper>
