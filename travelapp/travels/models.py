@@ -41,7 +41,7 @@ class TravelStop(models.Model):
     end_date = models.DateTimeField()
 
     def __str__(self):
-        return f'Travel stop in the {self.attraction.name}'
+        return f'Travel stop in the {self.attraction.name} from the travel {self.travel.name}'
 
 
 class TravelRoute(models.Model):

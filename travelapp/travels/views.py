@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import viewsets, permissions
 from .models import Travel, TravelPhoto, TravelStop, TravelRoute
 from .serializers import TravelSerializer, TravelPhotoSerializer, TravelStopSerializer, TravelRouteSerializer
@@ -53,3 +52,15 @@ class TravelRouteViewSet(viewsets.ModelViewSet):
     queryset = TravelRoute.objects.all()
     serializer_class = TravelRouteSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+
+        try:
+            travel_id = int(self.request.query_params.get('travel-id'))
+
+            return qs.filter(start__travel_id=travel_id)
+        except TypeError:
+            return qs
+        except ValueError:
+            return qs
