@@ -25,6 +25,8 @@ const StyledContent = styled.div`
 function ScheduleItem({ travelStop }) {
   const { name } = travelStop.attraction;
 
+  if (name === undefined) return null;
+
   return (
     <StyledContent>
       <span>{cutText(name || '', 20)}</span>
@@ -40,11 +42,15 @@ ScheduleItem.propTypes = {
     id: PropTypes.number.isRequired,
     start_date: PropTypes.string.isRequired,
     end_date: PropTypes.string.isRequired,
-    travel: PropTypes.object.isRequired,
-    attraction: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-    }).isRequired,
+    travel: PropTypes.oneOfType([PropTypes.number, PropTypes.object])
+      .isRequired,
+    attraction: PropTypes.oneOfType([
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+      }).isRequired,
+      PropTypes.number,
+    ]).isRequired,
   }).isRequired,
 };
 

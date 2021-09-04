@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Form, TimePicker, Button } from 'antd';
+import { getEarlisetFreeTime, range } from 'utils';
 import { chooseTime } from 'redux/travelPeriodModal/travelPeriodModalSlice';
 
 const { RangePicker } = TimePicker;
@@ -19,6 +20,13 @@ const StyledItem = styled(Form.Item)`
 
 function TimeStep({ nextStepFn }) {
   const dispatch = useDispatch();
+
+  const { data: travelStops } = useSelector(
+    (state) => state.travels.getTravelStops
+  );
+  const { date } = useSelector((state) => state.travelPeriodModal);
+  /* TODO to earliest possible hour add time needed for an arrival */
+  const earliestTime = getEarlisetFreeTime(travelStops, date);
 
   function handleFinish({ timeRange }) {
     const [start, end] = timeRange.map(
@@ -40,8 +48,15 @@ function TimeStep({ nextStepFn }) {
         name="timeRange"
         rules={[{ required: true, message: 'Wybierz czas zwiedzania' }]}
       >
-        {/* TODO check which hour can be earliest depending on the choosen day */}
-        <RangePicker placeholder={['Start', 'Koniec']} />
+        <RangePicker
+          placeholder={['Start', 'Koniec']}
+          disabledHours={() => range(0, earliestTime.hours)}
+          disabledMinutes={(selectedHour) => {
+            if (selectedHour > earliestTime.hours) return [];
+
+            return range(0, earliestTime.minutes);
+          }}
+        />
       </Form.Item>
       <StyledItem>
         <Button type="primary" htmlType="submit">

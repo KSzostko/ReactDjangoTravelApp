@@ -14,7 +14,7 @@ const findPlacesInRadius = ({
     .get(
       `${BASE_URL}/radius?
       &radius=${radius}&lat=${lat}&lon=${lon}
-      &kinds=${categoriesList.toString()}&format=json
+      &kinds=${categoriesList.toString()}&format=json&rate=2
       &apikey=${process.env.REACT_APP_OPEN_TRIP_MAP_API_KEY}`
     )
     .then(({ data }) => data)
@@ -30,7 +30,7 @@ const findPlacesInBox = ({
       `${BASE_URL}/bbox?
         &lat_min=${latRange.min}&lat_max=${latRange.max}
         &lon_min=${lonRange.min}&lon_max=${lonRange.max}
-        &kinds=${categoriesList.toString()}&format=json
+        &kinds=${categoriesList.toString()}&format=json&rate=2
         &apikey=${process.env.REACT_APP_OPEN_TRIP_MAP_API_KEY}`
     )
     .then(({ data }) => data)

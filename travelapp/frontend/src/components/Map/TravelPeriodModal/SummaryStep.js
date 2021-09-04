@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { notification, Descriptions, Button } from 'antd';
@@ -29,7 +30,7 @@ const StyledButton = styled(Button)`
   margin-top: 16px;
 `;
 
-function SummaryStep() {
+function SummaryStep({ setCurrentStepFn }) {
   const dispatch = useDispatch();
   const { attractionId, date, time } = useSelector(
     (state) => state.travelPeriodModal
@@ -62,6 +63,7 @@ function SummaryStep() {
         });
       });
 
+    setCurrentStepFn(0);
     dispatch(closeModal());
   }
 
@@ -83,5 +85,9 @@ function SummaryStep() {
     </Wrapper>
   );
 }
+
+SummaryStep.propTypes = {
+  setCurrentStepFn: PropTypes.func.isRequired,
+};
 
 export default SummaryStep;

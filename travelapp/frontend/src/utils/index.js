@@ -9,3 +9,4 @@ export { useErrorNotification } from './useErrorNotification';
 export { filterByDate } from './filterByDate';
 export { parseDate } from './parseDate';
 export { getEarlisetFreeTime } from './getEarliestFreeTime';
+export { range } from './range';
