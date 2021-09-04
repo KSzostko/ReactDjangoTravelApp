@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { TravelStopAPI } from '../../../../services';
+import { TravelStopAPI } from 'services';
 
 export const addTravelStop = createAsyncThunk(
   'travels/addTravelStop',

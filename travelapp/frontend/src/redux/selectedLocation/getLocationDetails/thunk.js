@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { PlacesAPI } from '../../../services';
+import { PlacesAPI } from 'services';
 
 export const getLocationsDetails = createAsyncThunk(
   'selected/getLocationsDetails',

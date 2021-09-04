@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { RoutingAPI } from '../../../../services';
+import { RoutingAPI } from 'services';
 
 export const getRoute = createAsyncThunk(
   'map/getRoute',

@@ -1,6 +1,6 @@
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import LoginView from '../views/LoginView';
-import RegisterView from '../views/RegisterView';
+import LoginView from 'views/LoginView';
+import RegisterView from 'views/RegisterView';
 
 function UnauthenticatedApp() {
   const shouldRedirect = localStorage.getItem('token') === null;

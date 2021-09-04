@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import mapConstants from '../../setup/mapConstants';
+import mapConstants from 'setup/mapConstants';
 import { fetchLocationsReducer } from './actions/fetchLocations';
 import { getSearchDataReducer } from './actions/getSearchData';
 import { getRouteReducer } from './actions/getRoute';

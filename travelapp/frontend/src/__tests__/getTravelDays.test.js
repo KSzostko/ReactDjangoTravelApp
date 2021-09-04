@@ -1,4 +1,4 @@
-import { getTravelDays } from '../utils';
+import { getTravelDays } from 'utils';
 
 it('returns an array with one date when the staring and the eding date are the same', () => {
   // 27th May 2020

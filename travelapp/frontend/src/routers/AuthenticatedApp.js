@@ -1,7 +1,7 @@
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import PlanTravelView from '../views/PlanTravelView';
-import StartTravleView from '../views/StartTravelView';
-import TravelsView from '../views/TravelsView';
+import PlanTravelView from 'views/PlanTravelView';
+import StartTravleView from 'views/StartTravelView';
+import TravelsView from 'views/TravelsView';
 
 function AuthenticatedApp() {
   return (
