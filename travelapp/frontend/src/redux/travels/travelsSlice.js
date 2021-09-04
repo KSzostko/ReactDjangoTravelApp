@@ -3,6 +3,7 @@ import { createTravelReducer } from './actions/createTravel';
 import { getTravelByIdReducer } from './actions/getTravelById';
 import { getTravelStopsReducer } from './actions/getTravelStops';
 import { addTravelStopReducer } from './actions/addTravelStop';
+import { getTravelRoutesReducer } from './actions/getTravelRoutes';
 
 const initialState = {
   list: [],
@@ -15,6 +16,12 @@ const initialState = {
   },
   // travel stops for current travel
   getTravelStops: {
+    data: [],
+    isLoading: false,
+    error: null,
+  },
+  // travel routes for current travel
+  getTravelRoutes: {
     data: [],
     isLoading: false,
     error: null,
@@ -36,6 +43,7 @@ const travelsSlice = createSlice({
     getTravelByIdReducer(builder);
     getTravelStopsReducer(builder);
     addTravelStopReducer(builder);
+    getTravelRoutesReducer(builder);
   },
 });
 
