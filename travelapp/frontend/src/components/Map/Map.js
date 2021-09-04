@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import styled from 'styled-components';
-import { Button, notification, Spin, Collapse } from 'antd';
-import { cutText, useErrorNotification } from 'utils';
+import { notification, Spin } from 'antd';
+import { useErrorNotification } from 'utils';
 import mapConstants from 'setup/mapConstants';
 import { getRoute } from 'redux/map/actions/getRoute/thunk';
 import MapEvents from './MapEvents';
@@ -13,48 +13,13 @@ import MapMarker from './MapMarker';
 import MapModal from './MapModal';
 import TravelPeriodModal from './TravelPeriodModal/TravelPeriodModal';
 import RoutePolyline from './RoutePolyline';
-
-const { Panel } = Collapse;
+import RouteOptions from './RouteOptions';
 
 const StyledSpinner = styled(Spin)`
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-`;
-
-const StyledButton = styled(Button)`
-  position: absolute;
-  top: ${(props) => (props.danger ? '90px' : '55px')};
-  left: 64px;
-  width: 150px;
-  z-index: 999;
-
-  @media (min-width: 500px) {
-    top: ${(props) => (props.danger ? '55px' : '16px')};
-    left: auto;
-    right: 16px;
-  }
-`;
-
-const RouteCollapse = styled(Collapse)`
-  position: absolute;
-  top: 125px;
-  left: 64px;
-  width: 150px;
-  z-index: 999;
-
-  @media (min-width: 500px) {
-    top: 95px;
-    left: auto;
-    right: 16px;
-  }
-`;
-
-const StyledList = styled.ul`
-  margin: 0;
-  padding-left: 0;
-  list-style: none;
 `;
 
 function Map() {
@@ -69,11 +34,9 @@ function Map() {
     defaultCenter,
   } = mapConstants;
   const { locations, isLoading, error } = useSelector((state) => state.map);
-  const {
-    data: routeData,
-    isLoading: isRouteLoading,
-    error: routeError,
-  } = useSelector((state) => state.map.getRoute);
+  const { data: routeData, error: routeError } = useSelector(
+    (state) => state.map.getRoute
+  );
 
   useErrorNotification(error, 'Błąd podczas ładowania danych do mapy');
   useErrorNotification(routeError, 'Błąd podczas wyznaczania trasy');
@@ -154,32 +117,11 @@ function Map() {
 
       <SearchPlace />
       {routeWaypoints.length > 1 && (
-        <>
-          <StyledButton
-            type="primary"
-            disabled={isRouteLoading}
-            onClick={handleShowRoute}
-          >
-            {isRouteLoading ? 'Wyznaczam...' : 'Wyznacz trasę'}
-          </StyledButton>
-          <StyledButton
-            danger
-            type="primary"
-            disabled={isRouteLoading}
-            onClick={handleRemoveRoute}
-          >
-            Wyczyść trasę
-          </StyledButton>
-          <RouteCollapse accordion expandIconPosition="right">
-            <Panel header="Wybrana trasa">
-              <StyledList>
-                {routeWaypoints.map(({ xid, name }) => (
-                  <li key={xid}>{cutText(name, 15)}</li>
-                ))}
-              </StyledList>
-            </Panel>
-          </RouteCollapse>
-        </>
+        <RouteOptions
+          routeWaypoints={routeWaypoints}
+          handleShowRouteFn={handleShowRoute}
+          handleRemoveRouteFn={handleRemoveRoute}
+        />
       )}
       {showRoute && <RoutePolyline routeData={routeData} />}
 
