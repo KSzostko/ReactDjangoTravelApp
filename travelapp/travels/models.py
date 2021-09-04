@@ -44,6 +44,12 @@ class TravelStop(models.Model):
         return f'Travel stop in the {self.attraction.name} from the travel {self.travel.name}'
 
 
+# TODO think about this model structure
+# maybe a better idea is just to have here travel foreign key and just one big polyline for each travel
+# or different polyline for each day
+# calculation between two stops can be made only to receive earliest time for on of the stops
+# and this doesn't have to go to the db
+# on the other hand wit this approach there cannot be different types of transport involved
 class TravelRoute(models.Model):
     id = models.AutoField(primary_key=True)
     start = models.ForeignKey(TravelStop, on_delete=models.CASCADE, related_name='route_start')
