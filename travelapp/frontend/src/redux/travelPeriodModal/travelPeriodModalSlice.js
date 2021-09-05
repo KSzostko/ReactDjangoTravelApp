@@ -21,6 +21,11 @@ const travelPeriodModalSlice = createSlice({
       state.attraction = null;
       state.date = null;
       state.time = null;
+      state.getRoute = {
+        data: null,
+        isLoading: false,
+        error: null,
+      };
       state.isOpen = false;
     },
     openModal(state, action) {

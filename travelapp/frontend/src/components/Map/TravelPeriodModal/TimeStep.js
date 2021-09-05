@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Form, TimePicker, Button } from 'antd';
-import { getEarlisetFreeTime, range } from 'utils';
+import { getEarlisetFreeTime, range, calculateTravelData } from 'utils';
 import { chooseTime } from 'redux/travelPeriodModal/travelPeriodModalSlice';
 
 const { RangePicker } = TimePicker;
@@ -25,8 +25,12 @@ function TimeStep({ nextStepFn }) {
     (state) => state.travels.getTravelStops
   );
   const { date } = useSelector((state) => state.travelPeriodModal);
-  /* TODO to earliest possible hour add time needed for an arrival */
-  const earliestTime = getEarlisetFreeTime(travelStops, date);
+  const { data: routeData } = useSelector(
+    (state) => state.travelPeriodModal.getRoute
+  );
+
+  const { totalTime } = calculateTravelData(routeData);
+  const earliestTime = getEarlisetFreeTime(travelStops, date, totalTime);
 
   function handleFinish({ timeRange }) {
     const [start, end] = timeRange.map(
