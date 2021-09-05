@@ -1,15 +1,7 @@
 import PropTypes from 'prop-types';
-import { getHours, getMinutes } from 'date-fns';
 import styled from 'styled-components';
 import { cutText } from 'utils';
-
-const formatHour = (date) => {
-  const parsedDate = new Date(date);
-  const hours = getHours(parsedDate);
-  const minutes = getMinutes(parsedDate);
-
-  return `${hours < 9 ? '0' : ''}${hours}:${minutes < 9 ? '0' : ''}${minutes}`;
-};
+import { formatHour } from './helpers';
 
 const StyledContent = styled.div`
   display: flex;

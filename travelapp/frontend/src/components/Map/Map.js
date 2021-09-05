@@ -9,7 +9,7 @@ import { useErrorNotification } from 'utils';
 import mapConstants from 'setup/mapConstants';
 import { getRoute } from 'redux/map/actions/getRoute/thunk';
 import { getTravelRoutes } from 'redux/travels/actions/getTravelRoutes/thunk';
-import MapEvents from './MapEvents';
+import MapEvents from './MapEvents/MapEvents';
 import SearchPlace from './SearchPlace';
 import MapMarker from './MapMarker';
 import MapModal from './MapModal';
@@ -144,6 +144,7 @@ function Map() {
         />
       )}
       {showRoute && <RoutePolyline routeData={routeData} />}
+      {/* TODO maybe separate each route to a different polyline */}
       <RoutePolyline
         isTravelRoute
         routeData={adjustRouteData(currentTravelRoutes, true)}

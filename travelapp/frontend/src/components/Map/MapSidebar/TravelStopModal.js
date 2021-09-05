@@ -37,7 +37,7 @@ function TravelStopModal() {
     console.log('remove travel stop');
   }
 
-  // TODO: this should be visible only on edit mode
+  // TODO: this should be visible only on edit mode and it should be a separate component
   const footer = (
     <Popconfirm
       placement="topRight"

@@ -6,7 +6,7 @@ import { closeModal } from 'redux/travelPeriodModal/travelPeriodModalSlice';
 import DateStep from './DateStep';
 import RouteStep from './RouteStep';
 import TimeStep from './TimeStep';
-import SummaryStep from './SummaryStep';
+import SummaryStep from './SummaryStep/SummaryStep';
 
 const { Step } = Steps;
 

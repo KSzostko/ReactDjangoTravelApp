@@ -3,35 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useMapEvents } from 'react-leaflet';
 import { setCenter, setZoom } from 'redux/map/mapSlice';
 import { fetchLocations } from 'redux/map/actions/fetchLocations/thunk';
-
-function getRanges(map) {
-  const { lat: neLat, lng: neLng } = map.getBounds().getNorthEast();
-  const { lat: swLat, lng: swLng } = map.getBounds().getSouthWest();
-
-  const latRange = {
-    min: Math.min(neLat, swLat),
-    max: Math.max(neLat, swLat),
-  };
-  const lonRange = {
-    min: Math.min(neLng, swLng),
-    max: Math.max(neLng, swLng),
-  };
-
-  return { latRange, lonRange };
-}
-
-function getRangesWithCenter(center) {
-  const latRange = {
-    min: center.lat,
-    max: center.lat + 1,
-  };
-  const lonRange = {
-    min: center.lng,
-    max: center.lng + 1,
-  };
-
-  return { latRange, lonRange };
-}
+import { getRanges, getRangesWithCenter } from './helpers';
 
 function MapEvents() {
   const dispatch = useDispatch();

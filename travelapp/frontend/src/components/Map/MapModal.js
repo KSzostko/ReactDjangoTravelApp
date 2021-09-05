@@ -52,11 +52,7 @@ function MapModal({
         lng: point.lon,
       });
     }
-    // create travel stop with created attraction
-    // show modal with the calendar where only days from travel days range can be selected
-    // if this is first stop in a specific day the route for now cannot be added
-    // if not adding route is possible
-    // add travel route with these two travel stops to the db
+
     dispatch(clearLocationData());
     dispatch(openModal(dbAttraction));
   }

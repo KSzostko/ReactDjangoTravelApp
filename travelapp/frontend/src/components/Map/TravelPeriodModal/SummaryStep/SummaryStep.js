@@ -1,34 +1,12 @@
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { notification, Descriptions, Button } from 'antd';
+import { Descriptions, Button } from 'antd';
 import { parseDate, encodePolyline, filterByDate } from 'utils';
 import { addTravelStop } from 'redux/travels/actions/addTravelStop/thunk';
 import { addTravelRoute } from 'redux/travels/actions/addTravelRoute/thunk';
 import { closeModal } from 'redux/travelPeriodModal/travelPeriodModalSlice';
-
-const formatTime = (timeString) => {
-  const [hours, minutes, seconds] = timeString.split(':');
-
-  /* eslint-disable */
-  return `
-  ${hours < 9 ? '0' : ''}${hours}:${minutes < 9 ? '0' : ''}${minutes}:${seconds < 9 ? '0' : ''}${seconds}`;
-  /* eslint-enable */
-};
-
-function displayError(error) {
-  notification.error({
-    message: 'Wystąpił błąd',
-    description: error,
-  });
-}
-
-function displaySuccess(message) {
-  notification.success({
-    message: 'Operacja przebiegła pomyślnie',
-    description: message,
-  });
-}
+import { formatTime, displayError, displaySuccess } from './helpers';
 
 const Wrapper = styled.div`
   display: flex;
