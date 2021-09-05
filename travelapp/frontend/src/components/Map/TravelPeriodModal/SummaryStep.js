@@ -32,7 +32,7 @@ const StyledButton = styled(Button)`
 
 function SummaryStep({ setCurrentStepFn }) {
   const dispatch = useDispatch();
-  const { attractionId, date, time } = useSelector(
+  const { attraction, date, time } = useSelector(
     (state) => state.travelPeriodModal
   );
   const { data: currentTravel } = useSelector((state) => state.travels.current);
@@ -46,7 +46,7 @@ function SummaryStep({ setCurrentStepFn }) {
         travel: currentTravel.id,
         start_date: startDate,
         end_date: endDate,
-        attraction: attractionId,
+        attraction,
       })
     )
       .unwrap()

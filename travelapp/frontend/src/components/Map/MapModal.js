@@ -58,7 +58,7 @@ function MapModal({
     // if not adding route is possible
     // add travel route with these two travel stops to the db
     dispatch(clearLocationData());
-    dispatch(openModal(dbAttraction.id));
+    dispatch(openModal(dbAttraction));
   }
 
   const footer = [

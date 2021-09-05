@@ -1,9 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { chooseRouteReducer } from './chooseRoute';
 
 const initialState = {
-  attractionId: null,
+  attraction: null,
   date: null,
   time: null,
+  getRoute: {
+    data: null,
+    isLoading: false,
+    error: null,
+  },
   isOpen: false,
 };
 
@@ -12,13 +18,13 @@ const travelPeriodModalSlice = createSlice({
   initialState,
   reducers: {
     closeModal(state) {
-      state.attractionId = null;
+      state.attraction = null;
       state.date = null;
       state.time = null;
       state.isOpen = false;
     },
     openModal(state, action) {
-      state.attractionId = action.payload;
+      state.attraction = action.payload;
       state.isOpen = true;
     },
     chooseDate(state, action) {
@@ -27,6 +33,9 @@ const travelPeriodModalSlice = createSlice({
     chooseTime(state, action) {
       state.time = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    chooseRouteReducer(builder);
   },
 });
 

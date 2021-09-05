@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Modal, Button, Steps } from 'antd';
 import { closeModal } from 'redux/travelPeriodModal/travelPeriodModalSlice';
 import DateStep from './DateStep';
+import RouteStep from './RouteStep';
 import TimeStep from './TimeStep';
 import SummaryStep from './SummaryStep';
 
@@ -55,14 +56,16 @@ function TravelPeriodModal() {
     >
       <Steps current={currentStep} size="small" responsive>
         <Step key="choose-date" title="Data" />
+        <Step key="route-details" title="Trasa" />
         <Step key="choose-time" title="Godzina" />
         <Step key="summary" title="Podsumowanie" />
       </Steps>
 
       <Wrapper>
         {currentStep === 0 && <DateStep nextStepFn={nextStep} />}
-        {currentStep === 1 && <TimeStep nextStepFn={nextStep} />}
-        {currentStep === 2 && <SummaryStep setCurrentStepFn={setCurrentStep} />}
+        {currentStep === 1 && <RouteStep nextStepFn={nextStep} />}
+        {currentStep === 2 && <TimeStep nextStepFn={nextStep} />}
+        {currentStep === 3 && <SummaryStep setCurrentStepFn={setCurrentStep} />}
       </Wrapper>
     </Modal>
   );

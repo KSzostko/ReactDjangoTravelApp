@@ -5,7 +5,11 @@ export const addTravelStop = createAsyncThunk(
   'travels/addTravelStop',
   async (travelStopData, thunkApi) => {
     try {
-      return await TravelStopAPI.create(travelStopData);
+      const { attraction, ...rest } = travelStopData;
+      return await TravelStopAPI.create({
+        attraction: attraction.id,
+        ...rest,
+      });
     } catch (error) {
       return thunkApi.rejectWithValue(error);
     }
