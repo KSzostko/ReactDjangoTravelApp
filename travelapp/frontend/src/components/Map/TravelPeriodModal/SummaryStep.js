@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { notification, Descriptions, Button } from 'antd';
-import { parseDate } from 'utils';
+import { parseDate, encodePolyline, filterByDate } from 'utils';
 import { addTravelStop } from 'redux/travels/actions/addTravelStop/thunk';
+import { addTravelRoute } from 'redux/travels/actions/addTravelRoute/thunk';
 import { closeModal } from 'redux/travelPeriodModal/travelPeriodModalSlice';
 
 const formatTime = (timeString) => {
@@ -14,6 +15,20 @@ const formatTime = (timeString) => {
   ${hours < 9 ? '0' : ''}${hours}:${minutes < 9 ? '0' : ''}${minutes}:${seconds < 9 ? '0' : ''}${seconds}`;
   /* eslint-enable */
 };
+
+function displayError(error) {
+  notification.error({
+    message: 'Wystąpił błąd',
+    description: error,
+  });
+}
+
+function displaySuccess(message) {
+  notification.success({
+    message: 'Operacja przebiegła pomyślnie',
+    description: message,
+  });
+}
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,7 +50,14 @@ function SummaryStep({ setCurrentStepFn }) {
   const { attraction, date, time } = useSelector(
     (state) => state.travelPeriodModal
   );
+  const { data: routeData } = useSelector(
+    (state) => state.travelPeriodModal.getRoute
+  );
   const { data: currentTravel } = useSelector((state) => state.travels.current);
+  const { data: stopsList } = useSelector(
+    (state) => state.travels.getTravelStops
+  );
+  const [startStop] = filterByDate(stopsList, date).reverse();
 
   async function handleAdd() {
     const startDate = parseDate(`${date} ${time.start}`, 'dd.MM.yyyy KK:mm:ss');
@@ -50,17 +72,33 @@ function SummaryStep({ setCurrentStepFn }) {
       })
     )
       .unwrap()
-      .then(() => {
-        notification.success({
-          message: 'Operacja przebiegła pomyślnie',
-          description: 'Dodałeś nowy punkt podróży',
-        });
+      .then((result) => {
+        if (routeData === null) {
+          displaySuccess('Dodałeś nowy punkt podróży');
+          return;
+        }
+
+        const { length, baseDuration, mode } = routeData[0].summary;
+        dispatch(
+          addTravelRoute({
+            start: startStop.id,
+            destination: result.id,
+            transport: mode,
+            distance: length,
+            travel_time: baseDuration,
+            polyline: encodePolyline(routeData[0].polylineData),
+          })
+        )
+          .unwrap()
+          .then(() => {
+            displaySuccess('Dodałeś nowy punkt podróży wraz z trasą');
+          })
+          .catch(({ message }) => {
+            displayError(message);
+          });
       })
       .catch(({ message }) => {
-        notification.error({
-          message: 'Wystąpił błąd',
-          description: message,
-        });
+        displayError(message);
       });
 
     setCurrentStepFn(0);

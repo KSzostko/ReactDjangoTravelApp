@@ -1,6 +1,9 @@
 export { createErrorMessage } from './createErrorMessage';
 export { cutText } from './cutText';
-export { decode as decodePolyline } from './flexiblePolylineCipher';
+export {
+  decode as decodePolyline,
+  encode as encodePolyline,
+} from './flexiblePolylineCipher';
 export { getMobileWikiUrl } from './getMobileWikiUrl';
 export { getTravelDays } from './getTravelDays';
 export { calculateTravelData, concatPolylines } from './routeHelpers';

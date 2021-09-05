@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
@@ -7,6 +8,7 @@ import { notification, Spin } from 'antd';
 import { useErrorNotification } from 'utils';
 import mapConstants from 'setup/mapConstants';
 import { getRoute } from 'redux/map/actions/getRoute/thunk';
+import { getTravelRoutes } from 'redux/travels/actions/getTravelRoutes/thunk';
 import MapEvents from './MapEvents';
 import SearchPlace from './SearchPlace';
 import MapMarker from './MapMarker';
@@ -33,13 +35,30 @@ function Map() {
     spiderifyOnMaxZoom,
     defaultCenter,
   } = mapConstants;
+  const { travelId } = useParams();
   const { locations, isLoading, error } = useSelector((state) => state.map);
   const { data: routeData, error: routeError } = useSelector(
     (state) => state.map.getRoute
   );
+  const { isOpen: isTravelPeriodModalOpen } = useSelector(
+    (state) => state.travelPeriodModal
+  );
+  const { error: travelRouteError } = useSelector(
+    (state) => state.travels.getTravelStops
+  );
 
   useErrorNotification(error, 'Błąd podczas ładowania danych do mapy');
   useErrorNotification(routeError, 'Błąd podczas wyznaczania trasy');
+  useErrorNotification(
+    travelRouteError,
+    'Błąd podczas ładowania trasy podróży'
+  );
+
+  useEffect(() => {
+    if (!isTravelPeriodModalOpen) {
+      dispatch(getTravelRoutes(travelId));
+    }
+  }, [dispatch, travelId, isTravelPeriodModalOpen]);
 
   const [showRoute, setShowRoute] = useState(false);
   const [routeWaypoints, setRouteWaypoints] = useState([]);
@@ -123,6 +142,7 @@ function Map() {
           handleRemoveRouteFn={handleRemoveRoute}
         />
       )}
+      {/* TODO show travel routes */}
       {showRoute && <RoutePolyline routeData={routeData} />}
 
       {isLoading ? (

@@ -59,7 +59,7 @@ class TravelRoute(models.Model):
     transport = models.CharField(max_length=100, choices=TRANSPORT_CHOICES)
     distance = models.IntegerField()
     travel_time = models.IntegerField()
-    polyline = models.CharField(max_length=100)
+    polyline = models.TextField()
 
     def __str__(self):
         return f'Route from {self.start.attraction.name} to the {self.destination.attraction.name}'
