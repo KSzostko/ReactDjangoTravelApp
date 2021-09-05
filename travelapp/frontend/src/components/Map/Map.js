@@ -16,6 +16,7 @@ import MapModal from './MapModal';
 import TravelPeriodModal from './TravelPeriodModal/TravelPeriodModal';
 import RoutePolyline from './RoutePolyline';
 import RouteOptions from './RouteOptions';
+import { adjustRouteData } from './helpers';
 
 const StyledSpinner = styled(Spin)`
   position: absolute;
@@ -43,8 +44,8 @@ function Map() {
   const { isOpen: isTravelPeriodModalOpen } = useSelector(
     (state) => state.travelPeriodModal
   );
-  const { error: travelRouteError } = useSelector(
-    (state) => state.travels.getTravelStops
+  const { data: currentTravelRoutes, error: travelRouteError } = useSelector(
+    (state) => state.travels.getTravelRoutes
   );
 
   useErrorNotification(error, 'Błąd podczas ładowania danych do mapy');
@@ -142,8 +143,11 @@ function Map() {
           handleRemoveRouteFn={handleRemoveRoute}
         />
       )}
-      {/* TODO show travel routes */}
       {showRoute && <RoutePolyline routeData={routeData} />}
+      <RoutePolyline
+        isTravelRoute
+        routeData={adjustRouteData(currentTravelRoutes, true)}
+      />
 
       {isLoading ? (
         <StyledSpinner />
