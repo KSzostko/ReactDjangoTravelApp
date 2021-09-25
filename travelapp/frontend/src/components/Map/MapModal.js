@@ -57,6 +57,7 @@ function MapModal({
     dispatch(openModal(dbAttraction));
   }
 
+  // TODO check if attraction was already added to the travel
   const footer = [
     <Button key="close" onClick={handleCloseModal}>
       Zamknij

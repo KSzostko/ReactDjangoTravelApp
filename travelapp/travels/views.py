@@ -1,4 +1,8 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
+from rest_framework.decorators import action
+from rest_framework.generics import get_object_or_404
+from rest_framework.response import Response
+from rest_framework.exceptions import NotFound
 from .models import Travel, TravelPhoto, TravelStop, TravelRoute
 from .serializers import TravelSerializer, TravelPhotoSerializer, TravelStopSerializer, TravelRouteSerializer
 
@@ -64,3 +68,28 @@ class TravelRouteViewSet(viewsets.ModelViewSet):
             return qs
         except ValueError:
             return qs
+
+    @action(detail=True, methods=['GET'], url_path='route-with-stop')
+    def route_with_stop(self, request, pk=None):
+        travel_stop = get_object_or_404(TravelStop.objects.all(), pk=pk)
+
+        role = self.request.query_params.get('role')
+        if role != 'start' and role != 'destination':
+            raise NotFound(detail='Correct role is required', code=400)
+
+        if role == 'start':
+            try:
+                route = self.get_queryset().get(start=travel_stop)
+                serializer = self.get_serializer(route)
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except TravelRoute.DoesNotExist:
+                return Response(status=status.HTTP_204_NO_CONTENT)
+
+        try:
+            route = self.get_queryset().get(destination=travel_stop)
+            serializer = self.get_serializer(route)
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except TravelRoute.DoesNotExist:
+            return Response(status=status.HTTP_204_NO_CONTENT)
