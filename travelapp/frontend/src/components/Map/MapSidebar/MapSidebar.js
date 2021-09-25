@@ -11,7 +11,7 @@ const { Sider } = Layout;
 const StyledSider = styled(Sider)`
   /* without this trigger was under the sidebar and overflowed footer */
   .ant-layout-sider-trigger {
-    position: relative;
+    position: absolute;
   }
 `;
 
