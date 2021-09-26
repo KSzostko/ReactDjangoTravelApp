@@ -7,11 +7,12 @@ import { getTravelDays, useErrorNotification, filterByDate } from 'utils';
 import {
   chooseTravelStop,
   setEarliestTime,
+  setLatestTime,
 } from 'redux/travelStopModal/travelStopModalSlice';
 import { getRouteToStop } from 'redux/travelStopModal/getRouteToStop/thunk';
 import { getTravelStops } from 'redux/travels/actions/getTravelStops/thunk';
 import ScheduleItem from './ScheduleItem';
-import { calculateEarliestTime, showErroMessage } from './helpers';
+import { calculateTime, showErroMessage } from './helpers';
 
 const { SubMenu } = Menu;
 
@@ -48,11 +49,9 @@ function TravelSchedule() {
     }
 
     const selectedStop = stopsList[selectedStopIndex];
-    let earliestTime = {
-      hours: 0,
-      minutes: 0,
-    };
-    // TODO check the latest possible hour for the selected stop
+    let earliestTime = { hours: 0, minutes: 0 };
+    let latestTime = { hours: 23, minutes: 59 };
+
     if (selectedStopIndex > 0) {
       await dispatch(
         getRouteToStop({ travelStopId: selectedStop.id, role: 'destination' })
@@ -60,7 +59,21 @@ function TravelSchedule() {
         .unwrap()
         .then((routeData) => {
           const prevStop = stopsList[selectedStopIndex - 1];
-          earliestTime = calculateEarliestTime(prevStop, routeData);
+          earliestTime = calculateTime(prevStop, routeData);
+        })
+        .catch((err) => {
+          showErroMessage(err.message);
+        });
+    }
+
+    if (selectedStopIndex < stopsList.length - 1) {
+      await dispatch(
+        getRouteToStop({ travelStopId: selectedStop.id, role: 'start' })
+      )
+        .unwrap()
+        .then((routeData) => {
+          const nextStop = stopsList[selectedStopIndex + 1];
+          latestTime = calculateTime(nextStop, routeData, true);
         })
         .catch((err) => {
           showErroMessage(err.message);
@@ -68,6 +81,7 @@ function TravelSchedule() {
     }
 
     dispatch(setEarliestTime(earliestTime));
+    dispatch(setLatestTime(latestTime));
     dispatch(chooseTravelStop(selectedStop));
   }
 

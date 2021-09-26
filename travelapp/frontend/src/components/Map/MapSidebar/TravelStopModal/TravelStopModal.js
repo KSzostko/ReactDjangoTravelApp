@@ -25,7 +25,7 @@ function TravelStopModal() {
   const { isLoading: travelStopsLoading } = useSelector(
     (state) => state.travels.getTravelStops
   );
-  const { isOpen, data, earliestTime } = useSelector(
+  const { isOpen, data, earliestTime, latestTime } = useSelector(
     (state) => state.travelStopModal
   );
   const { isLoading, error } = useSelector(
@@ -98,11 +98,21 @@ function TravelStopModal() {
             <RangePicker
               placeholder={['Start', 'Koniec']}
               format={timeFormat}
-              disabledHours={() => range(0, earliestTime.hours)}
+              disabledHours={() => [
+                ...range(0, earliestTime.hours),
+                ...range(latestTime.hours + 1, 24),
+              ]}
               disabledMinutes={(selectedHour) => {
-                if (selectedHour > earliestTime.hours) return [];
+                if (
+                  selectedHour > earliestTime.hours &&
+                  selectedHour < latestTime.hours
+                )
+                  return [];
 
-                return range(0, earliestTime.minutes);
+                if (selectedHour === earliestTime.hours)
+                  return range(0, earliestTime.minutes);
+
+                return range(latestTime.minutes, 60);
               }}
             />
           </Form.Item>

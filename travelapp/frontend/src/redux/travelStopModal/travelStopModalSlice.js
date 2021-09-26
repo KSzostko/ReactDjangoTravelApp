@@ -9,6 +9,7 @@ const initialState = {
     error: null,
   },
   earliestTime: null,
+  latestTime: null,
   isOpen: false,
 };
 
@@ -21,6 +22,7 @@ const travelStopModalSlice = createSlice({
       state.getRouteToStop = initialState.getRouteToStop;
       state.data = null;
       state.earliestTime = null;
+      state.latestTime = null;
     },
     chooseTravelStop(state, action) {
       state.isOpen = true;
@@ -28,6 +30,9 @@ const travelStopModalSlice = createSlice({
     },
     setEarliestTime(state, action) {
       state.earliestTime = action.payload;
+    },
+    setLatestTime(state, action) {
+      state.latestTime = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -39,6 +44,7 @@ export const {
   closeModal,
   chooseTravelStop,
   setEarliestTime,
+  setLatestTime,
 } = travelStopModalSlice.actions;
 
 export default travelStopModalSlice.reducer;
