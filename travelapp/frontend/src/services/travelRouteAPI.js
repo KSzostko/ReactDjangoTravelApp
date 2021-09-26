@@ -23,4 +23,12 @@ const getByTravelId = (travelId) =>
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.statusText));
 
-export default { create, getByTravelId };
+const getRouteForStop = (travelStopId, role = 'destination') =>
+  axios
+    .get(`${BASE_URL}${travelStopId}/route-with-stop?role=${role}`, {
+      headers,
+    })
+    .then(({ data }) => data)
+    .catch(({ response }) => Promise.reject(response.detail));
+
+export default { create, getByTravelId, getRouteForStop };
