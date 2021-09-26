@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Form, TimePicker, Button } from 'antd';
 import { timeFormat } from 'setup/constans';
-import { getEarlisetFreeTime, range } from 'utils';
+import { getEarlisetFreeTime, range, formatHour } from 'utils';
 import { chooseTime } from 'redux/travelPeriodModal/travelPeriodModalSlice';
 
 const { RangePicker } = TimePicker;
@@ -34,9 +34,7 @@ function TimeStep({ nextStepFn }) {
   const earliestTime = getEarlisetFreeTime(travelStops, date, baseDuration);
 
   function handleFinish({ timeRange }) {
-    const [start, end] = timeRange.map(
-      (item) => `${item.hours()}:${item.minutes()}:${item.seconds()}`
-    );
+    const [start, end] = timeRange.map((item) => formatHour(item.toDate()));
 
     dispatch(chooseTime({ start, end }));
     nextStepFn();

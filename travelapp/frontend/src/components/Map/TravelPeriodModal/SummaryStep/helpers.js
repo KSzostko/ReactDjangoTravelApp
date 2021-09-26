@@ -1,11 +1,11 @@
 import { notification } from 'antd';
 
 export const formatTime = (timeString) => {
-  const [hours, minutes, seconds] = timeString.split(':');
+  const [hours, minutes] = timeString.split(':');
 
   /* eslint-disable */
   return `
-  ${hours < 9 ? '0' : ''}${hours}:${minutes < 9 ? '0' : ''}${minutes}:${seconds < 9 ? '0' : ''}${seconds}`;
+  ${hours <= 9 ? '0' : ''}${hours}:${minutes <= 9 ? '0' : ''}${minutes}`;
   /* eslint-enable */
 };
 

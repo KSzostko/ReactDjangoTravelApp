@@ -38,8 +38,8 @@ function SummaryStep({ setCurrentStepFn }) {
   const [startStop] = filterByDate(stopsList, date).reverse();
 
   async function handleAdd() {
-    const startDate = parseDate(`${date} ${time.start}`, 'dd.MM.yyyy KK:mm:ss');
-    const endDate = parseDate(`${date} ${time.end}`, 'dd.MM.yyyy KK:mm:ss');
+    const startDate = parseDate(`${date} ${time.start}`, 'dd.MM.yyyy HH:mm');
+    const endDate = parseDate(`${date} ${time.end}`, 'dd.MM.yyyy HH:mm');
 
     await dispatch(
       addTravelStop({
