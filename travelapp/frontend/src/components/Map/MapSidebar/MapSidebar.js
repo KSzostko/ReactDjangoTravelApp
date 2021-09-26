@@ -4,7 +4,7 @@ import { Layout, Divider } from 'antd';
 import { CalendarOutlined } from '@ant-design/icons';
 import SiderHeader from './SiderHeader';
 import TravelSchedule from './TravelSchedule/TravelSchedule';
-import TravelStopModal from './TravelStopModal';
+import TravelStopModal from './TravelStopModal/TravelStopModal';
 
 const { Sider } = Layout;
 

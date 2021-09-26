@@ -1,23 +1,17 @@
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Modal, Form, TimePicker, Button, Popconfirm, Spin } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { Modal, Form, TimePicker, Button, Spin } from 'antd';
 import moment from 'moment';
 import { timeFormat } from 'setup/constans';
 import { formatHour, useErrorNotification, range } from 'utils';
 import { closeModal } from 'redux/travelStopModal/travelStopModalSlice';
+import ModalFooter from './ModalFooter';
 
 const { RangePicker } = TimePicker;
 
 const ModalTitle = styled.h2`
   font-size: 18px;
   margin-right: 16px;
-`;
-
-const PopupContent = styled.div`
-  p {
-    margin: 0 8px;
-  }
 `;
 
 const StyledButton = styled(Button)`
@@ -44,37 +38,6 @@ function TravelStopModal() {
     dispatch(closeModal());
   }
 
-  function handleDelete() {
-    console.log('remove travel stop');
-  }
-
-  // TODO this should be a separate component
-  const footer = (
-    <Popconfirm
-      placement="topRight"
-      title={
-        <PopupContent>
-          <p>Czy na pewno chcesz usunąć ten etap podróży?</p>
-          <p>Nie będziesz mógł potem cofnąć swojej dezycji.</p>
-        </PopupContent>
-      }
-      icon={<ExclamationCircleOutlined style={{ color: '#ff4d4f' }} />}
-      okText="Tak"
-      okButtonProps={{
-        size: 'middle',
-      }}
-      cancelText="Nie"
-      cancelButtonProps={{
-        size: 'middle',
-      }}
-      onConfirm={handleDelete}
-    >
-      <Button type="primary" danger>
-        Usuń
-      </Button>
-    </Popconfirm>
-  );
-
   return (
     <Modal
       centered
@@ -85,7 +48,7 @@ function TravelStopModal() {
         </ModalTitle>
       }
       visible={isOpen}
-      footer={footer}
+      footer={<ModalFooter />}
       onCancel={handleCancel}
       width="350px"
       bodyStyle={{ height: '220px' }}

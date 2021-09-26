@@ -18,7 +18,9 @@ const travelStopModalSlice = createSlice({
   reducers: {
     closeModal(state) {
       state.isOpen = false;
+      state.getRouteToStop = initialState.getRouteToStop;
       state.data = null;
+      state.earliestTime = null;
     },
     chooseTravelStop(state, action) {
       state.isOpen = true;
