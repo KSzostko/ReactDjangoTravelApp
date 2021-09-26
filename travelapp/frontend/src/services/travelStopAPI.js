@@ -15,6 +15,14 @@ const create = (travelStopData) =>
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.statusText));
 
+const update = (updatedData) =>
+  axios
+    .put(`${BASE_URL}${updatedData.id}/`, updatedData, {
+      headers,
+    })
+    .then(({ data }) => data)
+    .catch(({ response }) => Promise.reject(response.statusText));
+
 const getByTravelId = (travelId) =>
   axios
     .get(`${BASE_URL}?travel-id=${travelId}`, {
@@ -23,4 +31,4 @@ const getByTravelId = (travelId) =>
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.statusText));
 
-export default { create, getByTravelId };
+export default { create, update, getByTravelId };
