@@ -14,3 +14,4 @@ export { parseDate } from './parseDate';
 export { getEarlisetFreeTime } from './getEarliestFreeTime';
 export { range } from './range';
 export { formatHour } from './formatHour';
+export { setTimeForDate } from './setTimeForDate';
