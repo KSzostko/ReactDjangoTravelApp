@@ -52,6 +52,7 @@ function TravelSchedule() {
       hours: 0,
       minutes: 0,
     };
+    // TODO check the latest possible hour for the selected stop
     if (selectedStopIndex > 0) {
       await dispatch(
         getRouteToStop({ travelStopId: selectedStop.id, role: 'destination' })

@@ -1,10 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { getHours, getMinutes } from 'date-fns';
 import styled from 'styled-components';
 import { Modal, Form, TimePicker, Button, Spin } from 'antd';
 import moment from 'moment';
 import { timeFormat } from 'setup/constans';
-import { formatHour, useErrorNotification, range } from 'utils';
+import { formatHour, useErrorNotification, range, setTimeForDate } from 'utils';
 import { closeModal } from 'redux/travelStopModal/travelStopModalSlice';
+import { updateTravelStop } from 'redux/travels/actions/updateTravelStop/thunk';
 import ModalFooter from './ModalFooter';
 
 const { RangePicker } = TimePicker;
@@ -20,6 +22,9 @@ const StyledButton = styled(Button)`
 
 function TravelStopModal() {
   const dispatch = useDispatch();
+  const { isLoading: travelStopsLoading } = useSelector(
+    (state) => state.travels.getTravelStops
+  );
   const { isOpen, data, earliestTime } = useSelector(
     (state) => state.travelStopModal
   );
@@ -33,8 +38,25 @@ function TravelStopModal() {
     dispatch(closeModal());
   }
 
-  function handleSubmit(values) {
-    console.log(values);
+  async function handleSubmit({ period }) {
+    const [startDate, endDate] = period.map((item) => item.toDate());
+    const updatedStart = setTimeForDate(
+      data.start_date,
+      getHours(startDate),
+      getMinutes(startDate)
+    );
+    const updatedEnd = setTimeForDate(
+      data.end_date,
+      getHours(endDate),
+      getMinutes(endDate)
+    );
+    const updatedStop = {
+      ...data,
+      start_date: updatedStart,
+      end_date: updatedEnd,
+    };
+
+    await dispatch(updateTravelStop(updatedStop));
     dispatch(closeModal());
   }
 
@@ -86,7 +108,12 @@ function TravelStopModal() {
           </Form.Item>
 
           <Form.Item style={{ color: '#fff' }}>
-            <StyledButton type="primary" htmlType="submit" block>
+            <StyledButton
+              type="primary"
+              htmlType="submit"
+              block
+              loading={travelStopsLoading}
+            >
               Zatwierdź
             </StyledButton>
           </Form.Item>
