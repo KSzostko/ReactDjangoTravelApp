@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Modal, Form, TimePicker, Button, Popconfirm } from 'antd';
+import { Modal, Form, TimePicker, Button, Popconfirm, Spin } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { timeFormat } from 'setup/constans';
-import { formatHour } from 'utils';
+import { formatHour, useErrorNotification, range } from 'utils';
 import { closeModal } from 'redux/travelStopModal/travelStopModalSlice';
 
 const { RangePicker } = TimePicker;
@@ -26,7 +26,14 @@ const StyledButton = styled(Button)`
 
 function TravelStopModal() {
   const dispatch = useDispatch();
-  const { isOpen, data } = useSelector((state) => state.travelStopModal);
+  const { isOpen, data, earliestTime } = useSelector(
+    (state) => state.travelStopModal
+  );
+  const { isLoading, error } = useSelector(
+    (state) => state.travelStopModal.getRouteToStop
+  );
+
+  useErrorNotification(error, 'Nie udało się uzyskać danych o drodze');
 
   function handleCancel() {
     dispatch(closeModal());
@@ -41,7 +48,7 @@ function TravelStopModal() {
     console.log('remove travel stop');
   }
 
-  // TODO this should be visible only on edit mode and it should be a separate component
+  // TODO this should be a separate component
   const footer = (
     <Popconfirm
       placement="topRight"
@@ -83,33 +90,45 @@ function TravelStopModal() {
       width="350px"
       bodyStyle={{ height: '220px' }}
     >
-      <Form
-        name="travel-stop-form"
-        layout="vertical"
-        size="large"
-        onFinish={handleSubmit}
-        initialValues={{
-          period: [
-            moment(formatHour(data?.start_date), timeFormat),
-            moment(formatHour(data?.end_date), timeFormat),
-          ],
-        }}
-      >
-        <Form.Item
-          name="period"
-          label="Czas zwiedzania"
-          rules={[{ required: true, message: 'Podaj czas zwiedzania' }]}
+      {isLoading ? (
+        <Spin />
+      ) : (
+        <Form
+          name="travel-stop-form"
+          layout="vertical"
+          size="large"
+          onFinish={handleSubmit}
+          initialValues={{
+            period: [
+              moment(formatHour(data?.start_date), timeFormat),
+              moment(formatHour(data?.end_date), timeFormat),
+            ],
+          }}
         >
-          {/* TODO check which time can be the earliset possible after previous travel stop */}
-          <RangePicker placeholder={['Start', 'Koniec']} format={timeFormat} />
-        </Form.Item>
+          <Form.Item
+            name="period"
+            label="Czas zwiedzania"
+            rules={[{ required: true, message: 'Podaj czas zwiedzania' }]}
+          >
+            <RangePicker
+              placeholder={['Start', 'Koniec']}
+              format={timeFormat}
+              disabledHours={() => range(0, earliestTime.hours)}
+              disabledMinutes={(selectedHour) => {
+                if (selectedHour > earliestTime.hours) return [];
 
-        <Form.Item style={{ color: '#fff' }}>
-          <StyledButton type="primary" htmlType="submit" block>
-            Zatwierdź
-          </StyledButton>
-        </Form.Item>
-      </Form>
+                return range(0, earliestTime.minutes);
+              }}
+            />
+          </Form.Item>
+
+          <Form.Item style={{ color: '#fff' }}>
+            <StyledButton type="primary" htmlType="submit" block>
+              Zatwierdź
+            </StyledButton>
+          </Form.Item>
+        </Form>
+      )}
     </Modal>
   );
 }
