@@ -1,11 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getRouteToStopReducer } from './getRouteToStop';
 
 const initialState = {
   data: null,
+  getRouteToStop: {
+    data: null,
+    isLoading: false,
+    error: null,
+  },
+  earliestTime: null,
   isOpen: false,
 };
 
-const selectedLocationSlice = createSlice({
+const travelStopModalSlice = createSlice({
   name: 'travelStopModal',
   initialState,
   reducers: {
@@ -17,9 +24,19 @@ const selectedLocationSlice = createSlice({
       state.isOpen = true;
       state.data = action.payload;
     },
+    setEarliestTime(state, action) {
+      state.earliestTime = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    getRouteToStopReducer(builder);
   },
 });
 
-export const { closeModal, chooseTravelStop } = selectedLocationSlice.actions;
+export const {
+  closeModal,
+  chooseTravelStop,
+  setEarliestTime,
+} = travelStopModalSlice.actions;
 
-export default selectedLocationSlice.reducer;
+export default travelStopModalSlice.reducer;

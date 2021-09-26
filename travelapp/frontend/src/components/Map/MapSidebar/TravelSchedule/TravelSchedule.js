@@ -4,9 +4,14 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Menu, Spin } from 'antd';
 import { getTravelDays, useErrorNotification, filterByDate } from 'utils';
-import { chooseTravelStop } from 'redux/travelStopModal/travelStopModalSlice';
+import {
+  chooseTravelStop,
+  setEarliestTime,
+} from 'redux/travelStopModal/travelStopModalSlice';
+import { getRouteToStop } from 'redux/travelStopModal/getRouteToStop/thunk';
 import { getTravelStops } from 'redux/travels/actions/getTravelStops/thunk';
 import ScheduleItem from './ScheduleItem';
+import { calculateEarliestTime, showErroMessage } from './helpers';
 
 const { SubMenu } = Menu;
 
@@ -33,8 +38,35 @@ function TravelSchedule() {
     }
   }, [dispatch, travelId, isTravelPeriodModalOpen]);
 
-  function showDetails(e) {
-    const selectedStop = stopsList.find((stop) => stop.id === parseInt(e.key));
+  async function showDetails(e) {
+    const selectedStopIndex = stopsList.findIndex(
+      (stop) => stop.id === parseInt(e.key)
+    );
+    if (selectedStopIndex === -1) {
+      showErroMessage('Nie ma takiego punktu podróży');
+      return;
+    }
+
+    const selectedStop = stopsList[selectedStopIndex];
+    let earliestTime = {
+      hours: 0,
+      minutes: 0,
+    };
+    if (selectedStopIndex > 0) {
+      await dispatch(
+        getRouteToStop({ travelStopId: selectedStop.id, role: 'destination' })
+      )
+        .unwrap()
+        .then((routeData) => {
+          const prevStop = stopsList[selectedStopIndex - 1];
+          earliestTime = calculateEarliestTime(prevStop, routeData);
+        })
+        .catch((err) => {
+          showErroMessage(err.message);
+        });
+    }
+
+    dispatch(setEarliestTime(earliestTime));
     dispatch(chooseTravelStop(selectedStop));
   }
 
