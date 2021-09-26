@@ -5,5 +5,7 @@ export const formatHour = (date) => {
   const hours = getHours(parsedDate);
   const minutes = getMinutes(parsedDate);
 
-  return `${hours < 9 ? '0' : ''}${hours}:${minutes < 9 ? '0' : ''}${minutes}`;
+  /* eslint-disable */
+  return `${hours <= 9 ? '0' : ''}${hours}:${minutes <= 9 ? '0' : ''}${minutes}`;
+  /* eslint-enable */
 };
