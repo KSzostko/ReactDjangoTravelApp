@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { cutText } from 'utils';
-import { formatHour } from './helpers';
+import { cutText, formatHour } from 'utils';
 
 const StyledContent = styled.div`
   display: flex;

@@ -6,7 +6,7 @@ import { Menu, Spin } from 'antd';
 import { getTravelDays, useErrorNotification, filterByDate } from 'utils';
 import { chooseTravelStop } from 'redux/travelStopModal/travelStopModalSlice';
 import { getTravelStops } from 'redux/travels/actions/getTravelStops/thunk';
-import ScheduleItem from './ScheduleItem/ScheduleItem';
+import ScheduleItem from './ScheduleItem';
 
 const { SubMenu } = Menu;
 
@@ -34,8 +34,8 @@ function TravelSchedule() {
   }, [dispatch, travelId, isTravelPeriodModalOpen]);
 
   function showDetails(e) {
-    console.log(e);
-    dispatch(chooseTravelStop(null));
+    const selectedStop = stopsList.find((stop) => stop.id === parseInt(e.key));
+    dispatch(chooseTravelStop(selectedStop));
   }
 
   if (isLoading) return <StyledSpinner />;

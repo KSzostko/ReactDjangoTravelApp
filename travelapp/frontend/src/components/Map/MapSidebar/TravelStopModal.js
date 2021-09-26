@@ -2,12 +2,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Modal, Form, TimePicker, Button, Popconfirm } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import moment from 'moment';
+import { timeFormat } from 'setup/constans';
+import { formatHour } from 'utils';
 import { closeModal } from 'redux/travelStopModal/travelStopModalSlice';
 
 const { RangePicker } = TimePicker;
 
 const ModalTitle = styled.h2`
-  font-size: 20px;
+  font-size: 18px;
+  margin-right: 16px;
 `;
 
 const PopupContent = styled.div`
@@ -22,7 +26,7 @@ const StyledButton = styled(Button)`
 
 function TravelStopModal() {
   const dispatch = useDispatch();
-  const { isOpen } = useSelector((state) => state.travelStopModal);
+  const { isOpen, data } = useSelector((state) => state.travelStopModal);
 
   function handleCancel() {
     dispatch(closeModal());
@@ -37,7 +41,7 @@ function TravelStopModal() {
     console.log('remove travel stop');
   }
 
-  // TODO: this should be visible only on edit mode and it should be a separate component
+  // TODO this should be visible only on edit mode and it should be a separate component
   const footer = (
     <Popconfirm
       placement="topRight"
@@ -68,7 +72,11 @@ function TravelStopModal() {
     <Modal
       centered
       destroyOnClose
-      title={<ModalTitle>Szczegóły punktu podróży: costam</ModalTitle>}
+      title={
+        <ModalTitle>
+          Szczegóły punktu podróży: {data?.attraction?.name || 'Brak nazwy'}
+        </ModalTitle>
+      }
       visible={isOpen}
       footer={footer}
       onCancel={handleCancel}
@@ -80,21 +88,25 @@ function TravelStopModal() {
         layout="vertical"
         size="large"
         onFinish={handleSubmit}
+        initialValues={{
+          period: [
+            moment(formatHour(data?.start_date), timeFormat),
+            moment(formatHour(data?.end_date), timeFormat),
+          ],
+        }}
       >
         <Form.Item
           name="period"
           label="Czas zwiedzania"
           rules={[{ required: true, message: 'Podaj czas zwiedzania' }]}
         >
-          {/* TODO: add starting value for edit mode */}
-          {/* TODO: check which time can be the earliset possible after previous travel stop */}
-          <RangePicker placeholder={['Start', 'Koniec']} />
+          {/* TODO check which time can be the earliset possible after previous travel stop */}
+          <RangePicker placeholder={['Start', 'Koniec']} format={timeFormat} />
         </Form.Item>
 
         <Form.Item style={{ color: '#fff' }}>
-          {/* TODO: adjust button text for create/edit */}
           <StyledButton type="primary" htmlType="submit" block>
-            Dodaj/Edytuj
+            Zatwierdź
           </StyledButton>
         </Form.Item>
       </Form>

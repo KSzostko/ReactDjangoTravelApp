@@ -11,6 +11,7 @@ const selectedLocationSlice = createSlice({
   reducers: {
     closeModal(state) {
       state.isOpen = false;
+      state.data = null;
     },
     chooseTravelStop(state, action) {
       state.isOpen = true;

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Form, TimePicker, Button } from 'antd';
+import { timeFormat } from 'setup/constans';
 import { getEarlisetFreeTime, range } from 'utils';
 import { chooseTime } from 'redux/travelPeriodModal/travelPeriodModalSlice';
 
@@ -54,6 +55,7 @@ function TimeStep({ nextStepFn }) {
       >
         <RangePicker
           placeholder={['Start', 'Koniec']}
+          format={timeFormat}
           disabledHours={() => range(0, earliestTime.hours)}
           disabledMinutes={(selectedHour) => {
             if (selectedHour > earliestTime.hours) return [];
