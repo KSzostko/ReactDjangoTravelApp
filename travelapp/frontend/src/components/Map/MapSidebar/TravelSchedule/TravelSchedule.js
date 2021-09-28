@@ -10,6 +10,7 @@ import {
   setLatestTime,
 } from 'redux/travelStopModal/travelStopModalSlice';
 import { getRouteToStop } from 'redux/travelStopModal/getRouteToStop/thunk';
+import { getRouteFromStop } from 'redux/travelStopModal/getRouteFromStop/thunk';
 import { getTravelStops } from 'redux/travels/actions/getTravelStops/thunk';
 import ScheduleItem from './ScheduleItem';
 import { calculateTime, showErroMessage } from './helpers';
@@ -53,9 +54,7 @@ function TravelSchedule() {
     let latestTime = { hours: 23, minutes: 59 };
 
     if (selectedStopIndex > 0) {
-      await dispatch(
-        getRouteToStop({ travelStopId: selectedStop.id, role: 'destination' })
-      )
+      await dispatch(getRouteToStop(selectedStop.id))
         .unwrap()
         .then((routeData) => {
           const prevStop = stopsList[selectedStopIndex - 1];
@@ -67,9 +66,7 @@ function TravelSchedule() {
     }
 
     if (selectedStopIndex < stopsList.length - 1) {
-      await dispatch(
-        getRouteToStop({ travelStopId: selectedStop.id, role: 'start' })
-      )
+      await dispatch(getRouteFromStop(selectedStop.id))
         .unwrap()
         .then((routeData) => {
           const nextStop = stopsList[selectedStopIndex + 1];

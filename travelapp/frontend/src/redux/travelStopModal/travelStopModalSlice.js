@@ -1,9 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getRouteToStopReducer } from './getRouteToStop';
+import { getRouteFromStopReducer } from './getRouteFromStop';
 
 const initialState = {
   data: null,
   getRouteToStop: {
+    data: null,
+    isLoading: false,
+    error: null,
+  },
+  getRouteFromStop: {
     data: null,
     isLoading: false,
     error: null,
@@ -20,6 +26,7 @@ const travelStopModalSlice = createSlice({
     closeModal(state) {
       state.isOpen = false;
       state.getRouteToStop = initialState.getRouteToStop;
+      state.getRouteFromStop = initialState.getRouteFromStop;
       state.data = null;
       state.earliestTime = null;
       state.latestTime = null;
@@ -37,6 +44,7 @@ const travelStopModalSlice = createSlice({
   },
   extraReducers: (builder) => {
     getRouteToStopReducer(builder);
+    getRouteFromStopReducer(builder);
   },
 });
 

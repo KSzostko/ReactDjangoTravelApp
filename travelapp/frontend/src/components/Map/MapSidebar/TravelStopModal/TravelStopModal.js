@@ -28,11 +28,16 @@ function TravelStopModal() {
   const { isOpen, data, earliestTime, latestTime } = useSelector(
     (state) => state.travelStopModal
   );
-  const { isLoading, error } = useSelector(
+  const { isLoading: isRouteToStopLoading, error: toStopError } = useSelector(
     (state) => state.travelStopModal.getRouteToStop
   );
+  const {
+    isLoading: isRouteFromStopLoading,
+    error: fromStopError,
+  } = useSelector((state) => state.travelStopModal.getRouteFromStop);
 
-  useErrorNotification(error, 'Nie udało się uzyskać danych o drodze');
+  useErrorNotification(toStopError, 'Nie udało się uzyskać danych o drodze');
+  useErrorNotification(fromStopError, 'Nie udało się uzyskać danych o drodze');
 
   function handleCancel() {
     dispatch(closeModal());
@@ -75,7 +80,7 @@ function TravelStopModal() {
       width="350px"
       bodyStyle={{ height: '220px' }}
     >
-      {isLoading ? (
+      {isRouteToStopLoading || isRouteFromStopLoading ? (
         <Spin />
       ) : (
         <Form
