@@ -17,10 +17,10 @@ const create = (attractionData) =>
 
 const getByXid = (xid) =>
   axios
-    .get(`${BASE_URL}?xid=${xid}`, {
+    .get(`${BASE_URL}${xid}/search-by-xid/`, {
       headers,
     })
-    .then(({ data }) => data[0])
+    .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.statusText));
 
 export default { create, getByXid };
