@@ -51,11 +51,11 @@ function TravelStopModal() {
       footer={<ModalFooter nextStepFn={nextStep} />}
       onCancel={handleCancel}
       width="350px"
-      bodyStyle={{ height: '220px', position: 'relative' }}
+      bodyStyle={{ height: '320px', position: 'relative' }}
     >
-      <Steps current={currentStep} size="small" responsive>
+      <Steps current={currentStep} size="small" responsive direction="vertical">
         <Step key="handle-stop" title="Edycja przystanku" />
-        <Step key="add-new-route" title="Nowa trasa(opcjonalnie)" />
+        <Step key="add-new-route" title="Nowa trasa (opcjonalnie)" />
       </Steps>
 
       <Wrapper>
