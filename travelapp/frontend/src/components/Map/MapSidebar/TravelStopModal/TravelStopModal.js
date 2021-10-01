@@ -51,7 +51,7 @@ function TravelStopModal() {
       footer={<ModalFooter nextStepFn={nextStep} />}
       onCancel={handleCancel}
       width="350px"
-      bodyStyle={{ height: '220px' }}
+      bodyStyle={{ height: '220px', position: 'relative' }}
     >
       <Steps current={currentStep} size="small" responsive>
         <Step key="handle-stop" title="Edycja przystanku" />

@@ -55,6 +55,7 @@ function TravelSchedule() {
     const selectedStop = stopsList[selectedStopIndex];
     let earliestTime = { hours: 0, minutes: 0 };
     let latestTime = { hours: 23, minutes: 59 };
+    dispatch(chooseTravelStop(selectedStop));
 
     if (selectedStopIndex > 0) {
       await dispatch(getRouteToStop(selectedStop.id))
@@ -82,7 +83,6 @@ function TravelSchedule() {
 
     dispatch(setEarliestTime(earliestTime));
     dispatch(setLatestTime(latestTime));
-    dispatch(chooseTravelStop(selectedStop));
   }
 
   if (isLoading) return <StyledSpinner />;

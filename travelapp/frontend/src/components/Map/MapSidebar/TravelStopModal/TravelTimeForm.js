@@ -14,6 +14,13 @@ const StyledButton = styled(Button)`
   margin-top: 16px;
 `;
 
+const StyledSpinner = styled(Spin)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
 function TravelTimeFrom() {
   const dispatch = useDispatch();
 
@@ -56,7 +63,7 @@ function TravelTimeFrom() {
     dispatch(closeModal());
   }
 
-  if (isRouteToStopLoading || isRouteFromStopLoading) return <Spin />;
+  if (isRouteToStopLoading || isRouteFromStopLoading) return <StyledSpinner />;
 
   return (
     <Form
