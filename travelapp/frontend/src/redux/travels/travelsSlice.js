@@ -4,6 +4,7 @@ import { getTravelByIdReducer } from './actions/getTravelById';
 import { getTravelStopsReducer } from './actions/getTravelStops';
 import { addTravelStopReducer } from './actions/addTravelStop';
 import { updateTravelStopReducer } from './actions/updateTravelStop';
+import { deleteTravelStopReducer } from './actions/deleteTravelStop';
 import { getTravelRoutesReducer } from './actions/getTravelRoutes';
 import { addTravelRouteReducer } from './actions/addTravelRoute';
 
@@ -46,6 +47,7 @@ const travelsSlice = createSlice({
     getTravelStopsReducer(builder);
     addTravelStopReducer(builder);
     updateTravelStopReducer(builder);
+    deleteTravelStopReducer(builder);
     getTravelRoutesReducer(builder);
     addTravelRouteReducer(builder);
   },

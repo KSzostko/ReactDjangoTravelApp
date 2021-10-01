@@ -44,6 +44,9 @@ function Map() {
   const { isOpen: isTravelPeriodModalOpen } = useSelector(
     (state) => state.travelPeriodModal
   );
+  const { isOpen: isTravelStopModalOpen } = useSelector(
+    (state) => state.travelStopModal
+  );
   const { data: currentTravelRoutes, error: travelRouteError } = useSelector(
     (state) => state.travels.getTravelRoutes
   );
@@ -56,10 +59,10 @@ function Map() {
   );
 
   useEffect(() => {
-    if (!isTravelPeriodModalOpen) {
+    if (!isTravelPeriodModalOpen && !isTravelStopModalOpen) {
       dispatch(getTravelRoutes(travelId));
     }
-  }, [dispatch, travelId, isTravelPeriodModalOpen]);
+  }, [dispatch, travelId, isTravelPeriodModalOpen, isTravelStopModalOpen]);
 
   const [showRoute, setShowRoute] = useState(false);
   const [routeWaypoints, setRouteWaypoints] = useState([]);

@@ -23,6 +23,14 @@ const update = (updatedData) =>
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.statusText));
 
+const deleteStop = (travelStopId) =>
+  axios
+    .delete(`${BASE_URL}${travelStopId}/`, {
+      headers,
+    })
+    .then(() => travelStopId)
+    .catch(({ response }) => Promise.reject(response.statusText));
+
 const getByTravelId = (travelId) =>
   axios
     .get(`${BASE_URL}?travel-id=${travelId}`, {
@@ -31,4 +39,4 @@ const getByTravelId = (travelId) =>
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.statusText));
 
-export default { create, update, getByTravelId };
+export default { create, update, getByTravelId, deleteStop };

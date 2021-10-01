@@ -27,6 +27,9 @@ function TravelSchedule() {
   const { isOpen: isTravelPeriodModalOpen } = useSelector(
     (state) => state.travelPeriodModal
   );
+  const { isOpen: isTravelStopModalOpen } = useSelector(
+    (state) => state.travelStopModal
+  );
   const { data: travelData } = useSelector((state) => state.travels.current);
   const { data: stopsList, isLoading, error } = useSelector(
     (state) => state.travels.getTravelStops
@@ -35,10 +38,10 @@ function TravelSchedule() {
   useErrorNotification(error, 'Nie udało się wczytać przystanków podróży');
 
   useEffect(() => {
-    if (!isTravelPeriodModalOpen) {
+    if (!isTravelPeriodModalOpen && !isTravelStopModalOpen) {
       dispatch(getTravelStops(parseInt(travelId)));
     }
-  }, [dispatch, travelId, isTravelPeriodModalOpen]);
+  }, [dispatch, travelId, isTravelPeriodModalOpen, isTravelStopModalOpen]);
 
   async function showDetails(e) {
     const selectedStopIndex = stopsList.findIndex(
