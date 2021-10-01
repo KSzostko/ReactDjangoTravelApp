@@ -148,10 +148,12 @@ function Map() {
       )}
       {showRoute && <RoutePolyline routeData={routeData} />}
       {/* TODO maybe separate each route to a different polyline */}
-      <RoutePolyline
-        isTravelRoute
-        routeData={adjustRouteData(currentTravelRoutes, true)}
-      />
+      {currentTravelRoutes.length > 0 && (
+        <RoutePolyline
+          isTravelRoute
+          routeData={adjustRouteData(currentTravelRoutes, true)}
+        />
+      )}
 
       {isLoading ? (
         <StyledSpinner />
