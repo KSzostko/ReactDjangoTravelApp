@@ -5,7 +5,6 @@ import { notification, Popconfirm, Button } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { closeModal } from 'redux/travelStopModal/travelStopModalSlice';
 import { deleteTravelStop } from 'redux/travels/actions/deleteTravelStop/thunk';
-import { addTravelRoute } from 'redux/travels/actions/addTravelRoute/thunk';
 
 const PopupContent = styled.div`
   p {
@@ -25,17 +24,8 @@ function ModalFooter({ nextStepFn }) {
   );
 
   function handleDelete() {
-    // TODO add a new route only if both data's are not null
     if (routeToStopData && routeFromStopData) {
       nextStepFn();
-      // TODO add modal to choose transport between the two remaining points
-      // or maybe divide current modal to steps, where the second one is optional?
-      // TODO then call routing api to get necessary route data
-      // TODO then it will be possible to create db object
-      // dispatch(addTravelRoute({
-      //   start: routeToStopData.start,
-      //   destination: routeFromStopData.destination,
-      // }))
       return;
     }
 
