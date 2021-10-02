@@ -31,4 +31,12 @@ const getById = (id) =>
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.statusText));
 
-export default { getList, create, getById };
+const deleteTravel = (travelId) =>
+  axios
+    .delete(`${BASE_URL}${travelId}`, {
+      headers,
+    })
+    .then(() => travelId)
+    .catch(({ response }) => Promise.reject(response.statusText));
+
+export default { getList, create, getById, deleteTravel };
