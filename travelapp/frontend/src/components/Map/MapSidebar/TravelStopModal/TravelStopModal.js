@@ -5,6 +5,7 @@ import { Modal, Steps } from 'antd';
 import { closeModal } from 'redux/travelStopModal/travelStopModalSlice';
 import ModalFooter from './ModalFooter';
 import TravelTimeFrom from './TravelTimeForm';
+import NewRouteStepTitle from './NewRouteStepTitle';
 import NewRouteStep from './NewRouteStep';
 
 const { Step } = Steps;
@@ -34,10 +35,6 @@ function TravelStopModal() {
     dispatch(closeModal());
   }
 
-  function nextStep() {
-    setCurrentStep((prev) => prev + 1);
-  }
-
   return (
     <Modal
       centered
@@ -48,14 +45,19 @@ function TravelStopModal() {
         </ModalTitle>
       }
       visible={isOpen}
-      footer={<ModalFooter nextStepFn={nextStep} />}
+      footer={
+        <ModalFooter
+          currentStep={currentStep}
+          setCurrentStepFn={setCurrentStep}
+        />
+      }
       onCancel={handleCancel}
       width="350px"
-      bodyStyle={{ height: '320px', position: 'relative' }}
+      bodyStyle={{ height: '300px', position: 'relative' }}
     >
       <Steps current={currentStep} size="small" responsive direction="vertical">
         <Step key="handle-stop" title="Edycja przystanku" />
-        <Step key="add-new-route" title="Nowa trasa (opcjonalnie)" />
+        <Step key="add-new-route" title={<NewRouteStepTitle />} />
       </Steps>
 
       <Wrapper>

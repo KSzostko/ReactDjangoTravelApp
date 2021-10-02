@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Form, Select, Button } from 'antd';
+import { deleteTravelStop } from 'redux/travels/actions/deleteTravelStop/thunk';
 import { addTravelRoute } from 'redux/travels/actions/addTravelRoute/thunk';
 
 const { Option } = Select;
@@ -20,6 +21,7 @@ function NewRouteStep() {
   const dispatch = useDispatch();
 
   function addNewRoute() {
+    console.log('add new route');
     // TODO call routing api to get necessary route data
     // TODO then it will be possible to create db object
     // dispatch(addTravelRoute({
@@ -28,7 +30,6 @@ function NewRouteStep() {
     // }))
   }
 
-  // TODO add info message about the route which will be created
   return (
     <StyledForm
       name="missing-route-form"

@@ -1,18 +1,10 @@
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import styled from 'styled-components';
-import { notification, Popconfirm, Button } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { notification, Button } from 'antd';
 import { closeModal } from 'redux/travelStopModal/travelStopModalSlice';
 import { deleteTravelStop } from 'redux/travels/actions/deleteTravelStop/thunk';
 
-const PopupContent = styled.div`
-  p {
-    margin: 0 8px;
-  }
-`;
-
-function ModalFooter({ nextStepFn }) {
+function ModalFooter({ currentStep, setCurrentStepFn }) {
   const dispatch = useDispatch();
 
   const { id } = useSelector((state) => state.travelStopModal.data);
@@ -23,9 +15,13 @@ function ModalFooter({ nextStepFn }) {
     (state) => state.travelStopModal.getRouteFromStop
   );
 
+  function handleBack() {
+    setCurrentStepFn((prev) => prev - 1);
+  }
+
   function handleDelete() {
     if (routeToStopData && routeFromStopData) {
-      nextStepFn();
+      setCurrentStepFn((prev) => prev + 1);
       return;
     }
 
@@ -46,35 +42,18 @@ function ModalFooter({ nextStepFn }) {
       });
   }
 
+  if (currentStep === 1) return <Button onClick={handleBack}>Wróc</Button>;
+
   return (
-    <Popconfirm
-      placement="topRight"
-      title={
-        <PopupContent>
-          <p>Czy na pewno chcesz usunąć ten etap podróży?</p>
-          <p>Nie będziesz mógł potem cofnąć swojej dezycji.</p>
-        </PopupContent>
-      }
-      icon={<ExclamationCircleOutlined style={{ color: '#ff4d4f' }} />}
-      okText="Tak"
-      okButtonProps={{
-        size: 'middle',
-      }}
-      cancelText="Nie"
-      cancelButtonProps={{
-        size: 'middle',
-      }}
-      onConfirm={handleDelete}
-    >
-      <Button type="primary" danger>
-        Usuń
-      </Button>
-    </Popconfirm>
+    <Button type="primary" danger onClick={handleDelete}>
+      Usuń
+    </Button>
   );
 }
 
 ModalFooter.propTypes = {
-  nextStepFn: PropTypes.func.isRequired,
+  currentStep: PropTypes.number.isRequired,
+  setCurrentStepFn: PropTypes.func.isRequired,
 };
 
 export default ModalFooter;
