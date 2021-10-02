@@ -1,7 +1,9 @@
 import { notification } from 'antd';
 
 export const formatTime = (timeString) => {
-  const [hours, minutes] = timeString.split(':');
+  const [hours, minutes] = timeString
+    .split(':')
+    .map((e) => (Number.isNaN(parseInt(e)) ? 0 : parseInt(e)));
 
   /* eslint-disable */
   return `
