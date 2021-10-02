@@ -1,10 +1,24 @@
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Select } from 'antd';
+import { Select, Spin } from 'antd';
+import { useErrorNotification } from 'utils';
+import { getTravels } from 'redux/travels/actions/getTravels/thunk';
 import SortSelect from '../SortSelect';
 import TraveListItem from './TravelListItem';
 import TravelsSearch from './TravelsSearch';
 
 const { Option } = Select;
+
+const Wrapper = styled.div`
+  position: relative;
+`;
+
+const StyledSpinner = styled(Spin)`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+`;
 
 const Grid = styled.ul`
   padding-left: 0;
@@ -15,22 +29,37 @@ const Grid = styled.ul`
 `;
 
 function TravelsList() {
-  const testArr = [1, 2, 3, 4];
+  const dispatch = useDispatch();
+
+  const { isLoading, list: travelsList, error } = useSelector(
+    (state) => state.travels
+  );
+
+  useErrorNotification(error, 'Nie udało się pobrać listy podróży');
+
+  useEffect(() => {
+    dispatch(getTravels());
+  }, [dispatch]);
 
   return (
-    <div>
+    <Wrapper>
       <SortSelect>
         <Option value="name">Nazwa</Option>
         <Option value="start">Data rozpoczęcia</Option>
         <Option value="end">Data zakończenia</Option>
       </SortSelect>
       <TravelsSearch />
-      <Grid>
-        {testArr.map((item) => (
-          <TraveListItem key={item} />
-        ))}
-      </Grid>
-    </div>
+
+      {isLoading ? (
+        <StyledSpinner />
+      ) : (
+        <Grid>
+          {travelsList.map((travel) => (
+            <TraveListItem key={travel.id} travel={travel} />
+          ))}
+        </Grid>
+      )}
+    </Wrapper>
   );
 }
 

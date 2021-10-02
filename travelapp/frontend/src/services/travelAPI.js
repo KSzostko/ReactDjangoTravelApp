@@ -7,6 +7,14 @@ const headers = {
   Authorization: `Token ${localStorage.getItem('token')}`,
 };
 
+const getList = () =>
+  axios
+    .get(`${BASE_URL}`, {
+      headers,
+    })
+    .then(({ data }) => data)
+    .catch(({ response }) => Promise.reject(response.statusText));
+
 const create = (travelData) =>
   axios
     .post(BASE_URL, travelData, {
@@ -23,4 +31,4 @@ const getById = (id) =>
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.statusText));
 
-export default { create, getById };
+export default { getList, create, getById };
