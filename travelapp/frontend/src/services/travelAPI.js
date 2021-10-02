@@ -1,16 +1,12 @@
 import axios from 'axios';
+import { getHeaders } from 'utils';
 
 const BASE_URL = 'http://localhost:8000/api/travels/';
-
-const headers = {
-  'Content-Type': 'application/json',
-  Authorization: `Token ${localStorage.getItem('token')}`,
-};
 
 const getList = () =>
   axios
     .get(`${BASE_URL}`, {
-      headers,
+      headers: getHeaders(),
     })
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.statusText));
@@ -18,7 +14,7 @@ const getList = () =>
 const create = (travelData) =>
   axios
     .post(BASE_URL, travelData, {
-      headers,
+      headers: getHeaders(),
     })
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.statusText));
@@ -26,7 +22,7 @@ const create = (travelData) =>
 const getById = (id) =>
   axios
     .get(`${BASE_URL}${id}`, {
-      headers,
+      headers: getHeaders(),
     })
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.statusText));
@@ -34,7 +30,7 @@ const getById = (id) =>
 const deleteTravel = (travelId) =>
   axios
     .delete(`${BASE_URL}${travelId}`, {
-      headers,
+      headers: getHeaders(),
     })
     .then(() => travelId)
     .catch(({ response }) => Promise.reject(response.statusText));
