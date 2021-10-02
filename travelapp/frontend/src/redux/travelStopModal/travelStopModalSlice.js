@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getRouteToStopReducer } from './getRouteToStop';
-import { getRouteFromStopReducer } from './getRouteFromStop';
+import { getRouteToStopReducer } from './actions/getRouteToStop';
+import { getRouteFromStopReducer } from './actions/getRouteFromStop';
+import { calculateNewRouteReducer } from './actions/calculateNewRoute';
 
 const initialState = {
   data: null,
@@ -10,6 +11,11 @@ const initialState = {
     error: null,
   },
   getRouteFromStop: {
+    data: null,
+    isLoading: false,
+    error: null,
+  },
+  getNewRoute: {
     data: null,
     isLoading: false,
     error: null,
@@ -40,6 +46,7 @@ const travelStopModalSlice = createSlice({
   extraReducers: (builder) => {
     getRouteToStopReducer(builder);
     getRouteFromStopReducer(builder);
+    calculateNewRouteReducer(builder);
   },
 });
 

@@ -6,7 +6,7 @@ import { closeModal } from 'redux/travelStopModal/travelStopModalSlice';
 import ModalFooter from './ModalFooter';
 import TravelTimeFrom from './TravelTimeForm';
 import NewRouteStepTitle from './NewRouteStepTitle';
-import NewRouteStep from './NewRouteStep';
+import NewRouteStep from './NewRouteStep/NewRouteStep';
 
 const { Step } = Steps;
 

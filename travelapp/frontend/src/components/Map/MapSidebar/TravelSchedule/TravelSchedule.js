@@ -9,8 +9,8 @@ import {
   setEarliestTime,
   setLatestTime,
 } from 'redux/travelStopModal/travelStopModalSlice';
-import { getRouteToStop } from 'redux/travelStopModal/getRouteToStop/thunk';
-import { getRouteFromStop } from 'redux/travelStopModal/getRouteFromStop/thunk';
+import { getRouteToStop } from 'redux/travelStopModal/actions/getRouteToStop/thunk';
+import { getRouteFromStop } from 'redux/travelStopModal/actions/getRouteFromStop/thunk';
 import { getTravelStops } from 'redux/travels/actions/getTravelStops/thunk';
 import ScheduleItem from './ScheduleItem';
 import { calculateTime, showErroMessage } from './helpers';
