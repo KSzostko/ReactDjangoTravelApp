@@ -8,7 +8,6 @@ export const deleteTravelStopReducer = (builder) => {
 
   builder.addCase(deleteTravelStop.fulfilled, (state, action) => {
     state.getTravelStops.isLoading = false;
-    state.getTravelStops.data.push(action.payload);
 
     const index = state.getTravelStops.data.findIndex(
       (item) => item.id === action.payload

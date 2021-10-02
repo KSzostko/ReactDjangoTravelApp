@@ -31,6 +31,7 @@ const Grid = styled.ul`
 function TravelsList() {
   const dispatch = useDispatch();
 
+  const { isAuthenticated } = useSelector((state) => state.user);
   const { isLoading, list: travelsList, error } = useSelector(
     (state) => state.travels
   );
@@ -38,8 +39,10 @@ function TravelsList() {
   useErrorNotification(error, 'Nie udało się pobrać listy podróży');
 
   useEffect(() => {
-    dispatch(getTravels());
-  }, [dispatch]);
+    if (isAuthenticated) {
+      dispatch(getTravels());
+    }
+  }, [dispatch, isAuthenticated]);
 
   return (
     <Wrapper>

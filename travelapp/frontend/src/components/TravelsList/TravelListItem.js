@@ -1,34 +1,82 @@
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Card } from 'antd';
+import { notification, Card, Modal } from 'antd';
+import {
+  EditOutlined,
+  DeleteOutlined,
+  EllipsisOutlined,
+  ExclamationCircleOutlined,
+} from '@ant-design/icons';
+import { deleteTravel } from 'redux/travels/actions/deleteTravel/thunk';
 
 const { Meta } = Card;
 
 function TraveListItem({ travel }) {
-  const history = useHistory();
+  const dispatch = useDispatch();
 
-  const { id, name, short_description: shortDescription } = travel;
+  const { id: userId } = useSelector((state) => state.user.data);
+  const { id, name, short_description: shortDescription, creator } = travel;
 
-  function showDetails() {
-    history.push(`/travel/${id}/plan`);
+  function handleDelete(e) {
+    e.preventDefault();
+
+    if (userId !== creator) {
+      notification.warning({
+        message: 'Ta akcja nie jest dozwolona',
+        description: 'Nie jesteś autorem podróży',
+      });
+      return;
+    }
+
+    Modal.confirm({
+      title: 'Czy na pewno chcesz usunąć tą podróż?',
+      icon: <ExclamationCircleOutlined style={{ color: '#ff4d4f' }} />,
+      content: 'Nie będziesz mógł cofnąc tej decyzji.',
+      okText: 'Tak',
+      cancelText: 'Anuluj',
+      onOk() {
+        dispatch(deleteTravel(id));
+      },
+    });
+  }
+
+  function handleEdit(e) {
+    e.preventDefault();
+
+    if (userId !== creator) {
+      notification.warning({
+        message: 'Ta akcja nie jest dozwolona',
+        description: 'Nie jesteś autorem podróży',
+      });
+      return;
+    }
+    console.log('edit');
+    // TODO redirect to the form
   }
 
   // TODO find proper images
   return (
     <li>
-      <Card
-        bordered
-        hoverable
-        onClick={showDetails}
-        cover={
-          <img
-            alt="example"
-            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-          />
-        }
-      >
-        <Meta title={name} description={shortDescription} />
-      </Card>
+      <Link to={`/travel/${id}/plan`}>
+        <Card
+          bordered
+          hoverable
+          cover={
+            <img
+              alt="example"
+              src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+            />
+          }
+          actions={[
+            <EditOutlined onClick={handleEdit} />,
+            <DeleteOutlined onClick={handleDelete} />,
+            <EllipsisOutlined />,
+          ]}
+        >
+          <Meta title={name} description={shortDescription} />
+        </Card>
+      </Link>
     </li>
   );
 }
