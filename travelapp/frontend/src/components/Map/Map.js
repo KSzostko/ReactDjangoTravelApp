@@ -14,7 +14,7 @@ import SearchPlace from './SearchPlace';
 import MapMarker from './MapMarker';
 import MapModal from './MapModal';
 import TravelPeriodModal from './TravelPeriodModal/TravelPeriodModal';
-import RoutePolyline from './RoutePolyline';
+import RoutePolyline from './RoutePolyline/RoutePolyline';
 import RouteOptions from './RouteOptions';
 import { adjustRouteData } from './helpers';
 

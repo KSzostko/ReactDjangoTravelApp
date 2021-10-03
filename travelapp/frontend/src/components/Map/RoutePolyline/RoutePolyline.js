@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Typography } from 'antd';
 import { CarOutlined } from '@ant-design/icons';
 import { createTimeString, concatPolylines, calculateTravelData } from 'utils';
+import TransportIcon from './TransportIcon';
 
 const { Text } = Typography;
 
@@ -30,8 +31,8 @@ function RoutePolyline({ routeData, isTravelRoute }) {
     >
       <Tooltip sticky>
         <TooltipContent>
-          {/* TODO adjust transport icon accordingly to existing types */}
-          <CarOutlined style={{ marginBottom: '8px', fontSize: '16px' }} />
+          {/* TODO separate route for a smaller ones to accurate show transport for every route */}
+          <TransportIcon name={routeData[0].summary.mode} />
           <Text strong>{routeString} km</Text>
           <Text strong>{timeString}</Text>
         </TooltipContent>
