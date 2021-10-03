@@ -2,8 +2,7 @@ import PropTypes from 'prop-types';
 import { Polyline, Tooltip } from 'react-leaflet';
 import styled from 'styled-components';
 import { Typography } from 'antd';
-import { CarOutlined } from '@ant-design/icons';
-import { createTimeString, concatPolylines, calculateTravelData } from 'utils';
+import { createTimeString } from 'utils';
 import TransportIcon from './TransportIcon';
 
 const { Text } = Typography;
@@ -16,28 +15,29 @@ const TooltipContent = styled.div`
 `;
 
 function RoutePolyline({ routeData, isTravelRoute }) {
-  const { totalTime, totalRoute } = calculateTravelData(routeData);
-  const timeString = createTimeString(totalTime);
-  const routeString = (totalRoute / 1000).toFixed(2);
-
+  // TODO show route data
   return (
-    <Polyline
-      pathOptions={{
-        color: isTravelRoute ? 'blue' : 'red',
-        weight: 6,
-        opacity: 0.6,
-      }}
-      positions={concatPolylines(routeData)}
-    >
-      <Tooltip sticky>
-        <TooltipContent>
-          {/* TODO separate route for a smaller ones to accurate show transport for every route */}
-          <TransportIcon name={routeData[0].summary.mode} />
-          <Text strong>{routeString} km</Text>
-          <Text strong>{timeString}</Text>
-        </TooltipContent>
-      </Tooltip>
-    </Polyline>
+    <>
+      {routeData.map((route, i) => (
+        <Polyline
+          key={i}
+          pathOptions={{
+            color: isTravelRoute ? 'blue' : 'red',
+            weight: 6,
+            opacity: 0.6,
+          }}
+          positions={route.polylineData.polyline}
+        >
+          <Tooltip sticky>
+            <TooltipContent>
+              <TransportIcon name={route.summary.mode} />
+              <Text strong>{(route.summary.length / 1000).toFixed(2)} km</Text>
+              <Text strong>{createTimeString(route.summary.baseDuration)}</Text>
+            </TooltipContent>
+          </Tooltip>
+        </Polyline>
+      ))}
+    </>
   );
 }
 

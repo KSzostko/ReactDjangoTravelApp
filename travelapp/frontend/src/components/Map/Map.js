@@ -147,8 +147,6 @@ function Map() {
         />
       )}
       {showRoute && <RoutePolyline routeData={routeData} />}
-      {/* TODO maybe separate each route to a different polyline */}
-      {/* TODO maybe separate routes for each day */}
       {currentTravelRoutes.length > 0 && (
         <RoutePolyline
           isTravelRoute
