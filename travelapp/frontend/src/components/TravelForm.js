@@ -121,7 +121,10 @@ function TravelForm({ editMode }) {
           label="Termin"
           rules={[{ required: true, message: 'Podaj termin wyjazdu' }]}
         >
-          <RangePicker placeholder={['Początek', 'Koniec']} />
+          <RangePicker
+            style={{ width: 350 }}
+            placeholder={['Początek', 'Koniec']}
+          />
         </Form.Item>
       )}
       <Form.Item>
