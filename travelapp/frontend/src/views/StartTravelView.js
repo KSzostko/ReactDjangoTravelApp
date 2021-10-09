@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Typography } from 'antd';
 import AuthLayout from 'components/AuthLayout';
@@ -17,17 +18,25 @@ const titleStyles = {
   fontSize: '30px',
 };
 
-function StartTravelView() {
+function StartTravelView({ editMode }) {
   return (
     <AuthLayout>
       <Wrapper>
         <Title style={titleStyles} level={1}>
-          Utwórz wyjazd
+          {editMode ? 'Edytuj wyjazd' : 'Utwórz wyjazd'}
         </Title>
-        <TravelForm />
+        <TravelForm editMode={editMode} />
       </Wrapper>
     </AuthLayout>
   );
 }
+
+StartTravelView.propTypes = {
+  editMode: PropTypes.bool,
+};
+
+StartTravelView.defaultProps = {
+  editMode: false,
+};
 
 export default StartTravelView;

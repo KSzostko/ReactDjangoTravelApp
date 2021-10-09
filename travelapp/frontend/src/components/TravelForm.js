@@ -1,30 +1,67 @@
-import { useHistory } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Form, Input, DatePicker, Button } from 'antd';
+import { Form, Input, DatePicker, Button, Spin } from 'antd';
 import { useErrorNotification } from 'utils';
 import { createTravel } from 'redux/travels/actions/createTravel/thunk';
+import { getTravelById } from 'redux/travels/actions/getTravelById/thunk';
+import { clearCurrentTravel } from 'redux/travels/travelsSlice';
 
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
 
-function TravelForm() {
+function TravelForm({ editMode }) {
+  const formRef = useRef(null);
+  const { travelId } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { error, isLoading } = useSelector((state) => state.travels.current);
+  const { error, isLoading, data: currentTravel } = useSelector(
+    (state) => state.travels.current
+  );
+  const initialFormValues = {
+    name: currentTravel?.name || '',
+    short_description: currentTravel?.short_description || '',
+    description: currentTravel?.description || '',
+  };
 
   useErrorNotification(error, 'Nie udało sie utworzyć wyjazdu');
 
+  useEffect(() => {
+    if (travelId) {
+      dispatch(getTravelById(travelId));
+      return;
+    }
+
+    dispatch(clearCurrentTravel());
+  }, [dispatch, travelId]);
+
+  useEffect(() => {
+    if (travelId) return;
+
+    if (formRef.current) {
+      formRef.current.resetFields();
+    }
+  }, [dispatch, travelId, currentTravel]);
+
   function handleFinish({ schedule, ...rest }) {
-    // eslint-disable-next-line camelcase
-    const [start_date, end_date] = schedule.map((dateItem) =>
-      dateItem.toDate().toISOString().substring(0, 10)
-    );
+    /* eslint-disable */
+    const [start_date, end_date] = !editMode ?
+      schedule.map((dateItem) =>
+        dateItem.toDate().toISOString().substring(0, 10)
+      ) : [currentTravel.start_date, currentTravel.end_date];
+    /* eslint-enable */
     const travelData = {
       start_date,
       end_date,
       ...rest,
     };
+
+    if (editMode) {
+      console.log('edit');
+      return;
+    }
 
     dispatch(createTravel(travelData))
       .unwrap()
@@ -33,12 +70,16 @@ function TravelForm() {
       });
   }
 
+  if (isLoading) return <Spin />;
+
   return (
     <Form
+      ref={formRef}
       name="travel-info"
       layout="vertical"
       size="large"
       style={{ minWidth: '350px' }}
+      initialValues={initialFormValues}
       onFinish={handleFinish}
     >
       <Form.Item
@@ -67,20 +108,26 @@ function TravelForm() {
           showCount
         />
       </Form.Item>
-      <Form.Item
-        name="schedule"
-        label="Termin"
-        rules={[{ required: true, message: 'Podaj termin wyjazdu' }]}
-      >
-        <RangePicker placeholder={['Początek', 'Koniec']} />
-      </Form.Item>
+      {!editMode && (
+        <Form.Item
+          name="schedule"
+          label="Termin"
+          rules={[{ required: true, message: 'Podaj termin wyjazdu' }]}
+        >
+          <RangePicker placeholder={['Początek', 'Koniec']} />
+        </Form.Item>
+      )}
       <Form.Item>
         <Button type="primary" htmlType="submit" block loading={isLoading}>
-          Wybierz
+          {editMode ? 'Edytuj' : 'Wybierz'}
         </Button>
       </Form.Item>
     </Form>
   );
 }
+
+TravelForm.propTypes = {
+  editMode: PropTypes.bool.isRequired,
+};
 
 export default TravelForm;

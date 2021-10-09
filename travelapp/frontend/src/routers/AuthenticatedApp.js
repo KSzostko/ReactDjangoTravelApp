@@ -1,6 +1,6 @@
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import PlanTravelView from 'views/PlanTravelView';
-import StartTravleView from 'views/StartTravelView';
+import StartTravelView from 'views/StartTravelView';
 import TravelsView from 'views/TravelsView';
 
 function AuthenticatedApp() {
@@ -8,7 +8,10 @@ function AuthenticatedApp() {
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={TravelsView} />
-        <Route path="/travel/start" component={StartTravleView} />
+        <Route path="/travel/start" component={StartTravelView} />
+        <Route path="/travel/:travelId/edit">
+          <StartTravelView editMode />
+        </Route>
         <Route path="/travel/:travelId/plan" component={PlanTravelView} />
       </Switch>
     </BrowserRouter>

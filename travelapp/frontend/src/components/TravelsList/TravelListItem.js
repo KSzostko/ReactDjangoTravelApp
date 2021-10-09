@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { notification, Card, Modal } from 'antd';
@@ -13,6 +13,7 @@ import { deleteTravel } from 'redux/travels/actions/deleteTravel/thunk';
 const { Meta } = Card;
 
 function TraveListItem({ travel }) {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const { id: userId } = useSelector((state) => state.user.data);
@@ -51,8 +52,8 @@ function TraveListItem({ travel }) {
       });
       return;
     }
-    console.log('edit');
-    // TODO redirect to the form
+
+    history.push(`/travel/${id}/edit`);
   }
 
   // TODO find proper images
