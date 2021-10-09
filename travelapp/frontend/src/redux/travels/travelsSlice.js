@@ -10,6 +10,8 @@ import { updateTravelStopReducer } from './actions/updateTravelStop';
 import { deleteTravelStopReducer } from './actions/deleteTravelStop';
 import { getTravelRoutesReducer } from './actions/getTravelRoutes';
 import { addTravelRouteReducer } from './actions/addTravelRoute';
+import { getAllPhotosReducer } from './actions/getAllPhotos';
+import { addPhotoReducer } from './actions/addPhoto';
 
 const initialState = {
   list: [],
@@ -28,6 +30,12 @@ const initialState = {
   },
   // travel routes for current travel
   getTravelRoutes: {
+    data: [],
+    isLoading: false,
+    error: null,
+  },
+  // for every travel, not just current
+  getAllPhotos: {
     data: [],
     isLoading: false,
     error: null,
@@ -56,6 +64,8 @@ const travelsSlice = createSlice({
     deleteTravelStopReducer(builder);
     getTravelRoutesReducer(builder);
     addTravelRouteReducer(builder);
+    getAllPhotosReducer(builder);
+    addPhotoReducer(builder);
   },
 });
 
