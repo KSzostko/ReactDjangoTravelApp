@@ -11,13 +11,22 @@ const getList = () =>
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.statusText));
 
-const create = (travelPhotoData) =>
-  axios
-    .post(BASE_URL, travelPhotoData, {
-      headers: getHeaders(),
+const create = (travelPhotoData) => {
+  const formData = new FormData();
+  Object.entries(travelPhotoData).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
+
+  return axios
+    .post(BASE_URL, formData, {
+      headers: {
+        ...getHeaders(),
+        'Content-Type': 'multipart/form-data',
+      },
     })
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.statusText));
+};
 
 const deletePhoto = (travelPhotoId) =>
   axios

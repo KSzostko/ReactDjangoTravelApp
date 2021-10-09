@@ -21,6 +21,9 @@ class TravelPhotoViewSet(viewsets.ModelViewSet):
     serializer_class = TravelPhotoSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def perform_create(self, serializer):
+        serializer.save(taken_by=self.request.user)
+
     def get_queryset(self):
         qs = super().get_queryset()
 

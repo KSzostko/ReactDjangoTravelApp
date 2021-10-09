@@ -34,7 +34,7 @@ class TravelPhoto(models.Model):
     title = models.CharField(max_length=50)
     image = models.ImageField(upload_to='travels/', default='no-photo-available.png')
     travel = models.ForeignKey(Travel, related_name='images', on_delete=models.CASCADE)
-    taken_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    taken_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     date = models.DateField()
 
     def __str__(self):
