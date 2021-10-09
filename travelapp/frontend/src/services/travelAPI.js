@@ -19,6 +19,14 @@ const create = (travelData) =>
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.statusText));
 
+const update = (travelData) =>
+  axios
+    .put(`${BASE_URL}${travelData.id}/`, travelData, {
+      headers: getHeaders(),
+    })
+    .then(({ data }) => data)
+    .catch(({ response }) => Promise.reject(response.statusText));
+
 const getById = (id) =>
   axios
     .get(`${BASE_URL}${id}`, {
@@ -35,4 +43,4 @@ const deleteTravel = (travelId) =>
     .then(() => travelId)
     .catch(({ response }) => Promise.reject(response.statusText));
 
-export default { getList, create, getById, deleteTravel };
+export default { getList, create, update, getById, deleteTravel };

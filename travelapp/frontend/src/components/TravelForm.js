@@ -6,6 +6,7 @@ import { Form, Input, DatePicker, Button, Spin } from 'antd';
 import { useErrorNotification } from 'utils';
 import { createTravel } from 'redux/travels/actions/createTravel/thunk';
 import { getTravelById } from 'redux/travels/actions/getTravelById/thunk';
+import { updateTravel } from 'redux/travels/actions/updateTravel/thunk';
 import { clearCurrentTravel } from 'redux/travels/travelsSlice';
 
 const { TextArea } = Input;
@@ -26,7 +27,12 @@ function TravelForm({ editMode }) {
     description: currentTravel?.description || '',
   };
 
-  useErrorNotification(error, 'Nie udało sie utworzyć wyjazdu');
+  useErrorNotification(
+    error,
+    editMode
+      ? 'Nie udało się zaktualizować wyjazdu'
+      : 'Nie udało sie utworzyć wyjazdu'
+  );
 
   useEffect(() => {
     if (travelId) {
@@ -45,7 +51,7 @@ function TravelForm({ editMode }) {
     }
   }, [dispatch, travelId, currentTravel]);
 
-  function handleFinish({ schedule, ...rest }) {
+  async function handleFinish({ schedule, ...rest }) {
     /* eslint-disable */
     const [start_date, end_date] = !editMode ?
       schedule.map((dateItem) =>
@@ -59,7 +65,8 @@ function TravelForm({ editMode }) {
     };
 
     if (editMode) {
-      console.log('edit');
+      await dispatch(updateTravel({ ...travelData, id: currentTravel.id }));
+      history.push('/');
       return;
     }
 

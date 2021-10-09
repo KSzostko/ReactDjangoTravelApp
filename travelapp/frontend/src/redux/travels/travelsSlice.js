@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { getTravelsReducer } from './actions/getTravels';
 import { createTravelReducer } from './actions/createTravel';
 import { deleteTravelReducer } from './actions/deleteTravel';
+import { updateTravelReducer } from './actions/updateTravel';
 import { getTravelByIdReducer } from './actions/getTravelById';
 import { getTravelStopsReducer } from './actions/getTravelStops';
 import { addTravelStopReducer } from './actions/addTravelStop';
@@ -47,6 +48,7 @@ const travelsSlice = createSlice({
     getTravelsReducer(builder);
     createTravelReducer(builder);
     deleteTravelReducer(builder);
+    updateTravelReducer(builder);
     getTravelByIdReducer(builder);
     getTravelStopsReducer(builder);
     addTravelStopReducer(builder);
