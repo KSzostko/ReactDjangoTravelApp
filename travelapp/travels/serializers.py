@@ -9,6 +9,8 @@ class TravelSerializer(serializers.ModelSerializer):
 
 
 class TravelPhotoSerializer(serializers.ModelSerializer):
+    taken_by_username = serializers.ReadOnlyField(source='taken_by.username')
+
     class Meta:
         model = TravelPhoto
         fields = '__all__'
