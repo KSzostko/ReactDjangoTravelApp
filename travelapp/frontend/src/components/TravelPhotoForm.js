@@ -35,6 +35,7 @@ function TravelPhotoForm() {
     if (travelsList.length === 0) {
       dispatch(getTravels());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   function uploadFile({ onSuccess }) {
