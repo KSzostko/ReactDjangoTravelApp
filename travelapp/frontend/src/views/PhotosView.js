@@ -1,5 +1,6 @@
 import { Divider, Typography } from 'antd';
 import AuthLayout from 'components/AuthLayout';
+import PhotosList from 'components/PhotosList/PhotosList';
 
 const { Title } = Typography;
 
@@ -17,7 +18,7 @@ function PhotosView() {
       </Title>
       <Divider />
 
-      <p>Photos list</p>
+      <PhotosList />
     </AuthLayout>
   );
 }

@@ -54,7 +54,7 @@ function TravelPhotoForm() {
         image: adjustedImage,
       })
     ).then(() => {
-      history.push('/');
+      history.push('/photos');
       notification.success({
         message: 'Operacja przebiegła pomyślnie',
         description: 'Udało się dodać zdjęcie z podróży',
