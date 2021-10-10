@@ -41,8 +41,11 @@ function Navigation() {
         <Menu.Item key="createPlan">
           <Link to="/travel/start">Zaplanuj podróż</Link>
         </Menu.Item>
-        <Menu.Item key="addPhoto" style={{ marginRight: 'auto' }}>
+        <Menu.Item key="addPhoto">
           <Link to="/photos/add">Dodaj zdjęcie</Link>
+        </Menu.Item>
+        <Menu.Item key="photosList" style={{ marginRight: 'auto' }}>
+          <Link to="/photos">Zdjęcia z podróży</Link>
         </Menu.Item>
         <SubMenu
           key="user"
