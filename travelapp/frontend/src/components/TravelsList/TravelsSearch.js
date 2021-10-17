@@ -1,5 +1,7 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Form, Input, DatePicker, Button } from 'antd';
+import { parseDate } from 'utils';
 
 const { RangePicker } = DatePicker;
 
@@ -15,11 +17,20 @@ const StyledRangePicker = styled(RangePicker)`
   margin-bottom: 8px;
 `;
 
-function filterTravels(values) {
-  console.log(values);
-}
+function TravelsSearch({ setFilterOptionsFn }) {
+  function filterTravels({ name, dateRange }) {
+    /* eslint-disable */
+    const start = dateRange ? parseDate(dateRange?.[0].toDate(), 'yyyy-MM-dd') : '';
+    const end = dateRange ? parseDate(dateRange?.[1].toDate(), 'yyyy-MM-dd') : '';
+    /* eslint-enable */
 
-function TravelsSearch() {
+    setFilterOptionsFn({
+      name: name || '',
+      start,
+      end,
+    });
+  }
+
   return (
     <SearchForm name="travels-search" layout="inline" onFinish={filterTravels}>
       <Form.Item name="name">
@@ -39,5 +50,9 @@ function TravelsSearch() {
     </SearchForm>
   );
 }
+
+TravelsSearch.propTypes = {
+  setFilterOptionsFn: PropTypes.func.isRequired,
+};
 
 export default TravelsSearch;

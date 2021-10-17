@@ -3,13 +3,25 @@ import { getHeaders } from 'utils';
 
 const BASE_URL = 'http://localhost:8000/api/travels/';
 
-const getList = (sortBy = '') =>
-  axios
-    .get(`${BASE_URL}?sortBy=${sortBy}`, {
-      headers: getHeaders(),
-    })
+const getList = (travelOptions = {}) => {
+  const defaultOptions = {
+    sortBy: '',
+    name: '',
+    start: '',
+    end: '',
+  };
+  const { sortBy, name, start, end } = { ...defaultOptions, ...travelOptions };
+
+  return axios
+    .get(
+      `${BASE_URL}?sortBy=${sortBy}&name=${name}&start=${start}&end=${end}`,
+      {
+        headers: getHeaders(),
+      }
+    )
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.statusText));
+};
 
 const create = (travelData) =>
   axios

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Select, Spin } from 'antd';
@@ -35,17 +35,24 @@ function TravelsList() {
   const { isLoading, list: travelsList, error } = useSelector(
     (state) => state.travels
   );
+  const [sortBy, setSortBy] = useState('');
+  const [filterOptions, setFilterOptions] = useState({
+    name: '',
+    start: '',
+    end: '',
+  });
 
   useErrorNotification(error, 'Nie udało się pobrać listy podróży');
 
   useEffect(() => {
     if (isAuthenticated) {
-      dispatch(getTravels());
+      dispatch(getTravels({ sortBy, ...filterOptions }));
     }
-  }, [dispatch, isAuthenticated]);
+  }, [dispatch, isAuthenticated, sortBy, filterOptions]);
 
   function handleSort(sortOption) {
-    dispatch(getTravels(sortOption));
+    setSortBy(sortOption);
+    dispatch(getTravels({ sortBy: sortOption, ...filterOptions }));
   }
 
   return (
@@ -55,7 +62,7 @@ function TravelsList() {
         <Option value="-start_date">Najnowsze</Option>
         <Option value="start_date">Najstarsze</Option>
       </SortSelect>
-      <TravelsSearch />
+      <TravelsSearch setFilterOptionsFn={setFilterOptions} />
 
       {isLoading ? (
         <StyledSpinner />

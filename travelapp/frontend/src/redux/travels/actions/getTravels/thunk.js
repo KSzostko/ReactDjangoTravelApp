@@ -3,9 +3,9 @@ import { TravelAPI } from 'services';
 
 export const getTravels = createAsyncThunk(
   'travels/getTravels',
-  async (sortBy = '', thunkApi) => {
+  async (travelOptions, thunkApi) => {
     try {
-      return await TravelAPI.getList(sortBy);
+      return await TravelAPI.getList(travelOptions);
     } catch (error) {
       return thunkApi.rejectWithValue(error);
     }
