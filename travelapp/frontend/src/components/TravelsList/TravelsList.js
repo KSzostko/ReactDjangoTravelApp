@@ -44,12 +44,16 @@ function TravelsList() {
     }
   }, [dispatch, isAuthenticated]);
 
+  function handleSort(sortOption) {
+    dispatch(getTravels(sortOption));
+  }
+
   return (
     <Wrapper>
-      <SortSelect>
+      <SortSelect changeCallback={handleSort}>
         <Option value="name">Nazwa</Option>
-        <Option value="start">Data rozpoczęcia</Option>
-        <Option value="end">Data zakończenia</Option>
+        <Option value="-start_date">Najnowsze</Option>
+        <Option value="start_date">Najstarsze</Option>
       </SortSelect>
       <TravelsSearch />
 

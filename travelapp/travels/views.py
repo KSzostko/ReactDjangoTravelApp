@@ -16,6 +16,23 @@ class TravelViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+
+        try:
+            sort_field = self.request.query_params.get('sortBy')
+            if sort_field is None or sort_field == '':
+                return qs
+
+            if sort_field == 'name':
+                return qs.order_by(Lower('name'))
+
+            return qs.order_by(sort_field)
+        except TypeError:
+            return qs
+        except ValueError:
+            return qs
+
 
 class TravelPhotoViewSet(viewsets.ModelViewSet):
     queryset = TravelPhoto.objects.all()

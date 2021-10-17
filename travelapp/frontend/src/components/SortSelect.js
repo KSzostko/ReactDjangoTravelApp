@@ -6,6 +6,7 @@ function SortSelect({ children, changeCallback }) {
     <Select
       style={{ width: 200, marginBottom: 16 }}
       placeholder="Sortuj"
+      allowClear
       onChange={changeCallback}
     >
       {children}
