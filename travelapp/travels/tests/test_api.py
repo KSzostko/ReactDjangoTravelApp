@@ -122,9 +122,9 @@ class GetTravelsTest(TestCase):
     def test_get_all_travels_filtered_and_sorted_simultaneously(self):
         token = login_user(self.client)
         order_by = '-start_date'
-        name = '#'
-        start_date = '2021-08-15'
-        end_date = '2021-09-02'
+        name = 'a'
+        start_date = '2021-8-15'
+        end_date = '2021-9-2'
         response = self.client.get(f'/api/travels/?sortBy={order_by}&name={name}&start={start_date}&end={end_date}',
                                    **{'HTTP_AUTHORIZATION': 'Token ' + token})
 
