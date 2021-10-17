@@ -3,9 +3,9 @@ import { getHeaders } from 'utils';
 
 const BASE_URL = 'http://localhost:8000/api/travel-photos/';
 
-const getList = () =>
+const getList = (sortBy = '') =>
   axios
-    .get(BASE_URL, {
+    .get(`${BASE_URL}?sortBy=${sortBy}`, {
       headers: getHeaders(),
     })
     .then(({ data }) => data)

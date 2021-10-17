@@ -1,16 +1,12 @@
 import PropTypes from 'prop-types';
 import { Select } from 'antd';
 
-function SortSelect({ children }) {
-  function handleSort(value) {
-    console.log(value);
-  }
-
+function SortSelect({ children, changeCallback }) {
   return (
     <Select
       style={{ width: 200, marginBottom: 16 }}
       placeholder="Sortuj"
-      onChange={handleSort}
+      onChange={changeCallback}
     >
       {children}
     </Select>
@@ -19,6 +15,7 @@ function SortSelect({ children }) {
 
 SortSelect.propTypes = {
   children: PropTypes.node.isRequired,
+  changeCallback: PropTypes.func.isRequired,
 };
 
 export default SortSelect;

@@ -1,3 +1,4 @@
+from django.db.models.functions import Lower
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
@@ -28,9 +29,14 @@ class TravelPhotoViewSet(viewsets.ModelViewSet):
         qs = super().get_queryset()
 
         try:
-            travel_id = int(self.request.query_params.get('travel-id'))
+            sort_field = self.request.query_params.get('sortBy')
+            if sort_field is None or sort_field == '':
+                return qs
 
-            return qs.filter(travel_id=travel_id)
+            if sort_field == 'title':
+                return qs.order_by(Lower('title'))
+
+            return qs.order_by(sort_field)
         except TypeError:
             return qs
         except ValueError:

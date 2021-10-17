@@ -16,7 +16,8 @@ const Wrapper = styled.div`
 const StyledSpinner = styled(Spin)`
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
+  top: 100px;
+  transform: translate(-50%, -50%);
 `;
 
 const Grid = styled.ul`
@@ -47,11 +48,16 @@ function PhotosList() {
     dispatch(getAllPhotos());
   }, [dispatch]);
 
+  function handleSort(sortOption) {
+    dispatch(getAllPhotos(sortOption));
+  }
+
   return (
     <Wrapper>
-      <SortSelect>
+      <SortSelect changeCallback={handleSort}>
         <Option value="title">Tytuł</Option>
-        <Option value="date">Data</Option>
+        <Option value="-date">Najnowsze</Option>
+        <Option value="date">Najstarsze</Option>
       </SortSelect>
 
       {isLoading ? (

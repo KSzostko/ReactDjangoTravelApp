@@ -3,9 +3,9 @@ import { TravelPhotoAPI } from 'services';
 
 export const getAllPhotos = createAsyncThunk(
   'travels/getAllPhotos',
-  async (thunkApi) => {
+  async (sortBy = '', thunkApi) => {
     try {
-      return await TravelPhotoAPI.getList();
+      return await TravelPhotoAPI.getList(sortBy);
     } catch (error) {
       return thunkApi.rejectWithValue(error);
     }
