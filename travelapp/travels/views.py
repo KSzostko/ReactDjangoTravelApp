@@ -17,17 +17,28 @@ class TravelViewSet(viewsets.ModelViewSet):
         serializer.save(creator=self.request.user)
 
     def get_queryset(self):
+        # TODO test calls with query params
         qs = super().get_queryset()
 
         try:
+            name = self.request.query_params.get('name')
+            start_date = self.request.query_params.get('start')
+            end_date = self.request.query_params.get('end')
             sort_field = self.request.query_params.get('sortBy')
-            if sort_field is None or sort_field == '':
-                return qs
 
             if sort_field == 'name':
-                return qs.order_by(Lower('name'))
+                qs = qs.order_by(Lower('name'))
 
-            return qs.order_by(sort_field)
+            if sort_field and sort_field != '' and sort_field != 'name':
+                qs = qs.order_by(sort_field)
+
+            if name and name != '':
+                qs = qs.filter(name__icontains=name)
+
+            if start_date and start_date != '' and end_date and end_date != '':
+                qs = qs.filter(start_date__range=[start_date, end_date], end_date__range=[start_date, end_date])
+
+            return qs
         except TypeError:
             return qs
         except ValueError:
