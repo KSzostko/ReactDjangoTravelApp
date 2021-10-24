@@ -1,9 +1,6 @@
-import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Tooltip, Button } from 'antd';
-import { useErrorNotification } from 'utils';
-import { getWaypointsSequence } from 'redux/travels/actions/getWaypointsSequence/thunk';
-import { prepareWaypointsData } from './helpers';
 
 const StyledButton = styled(Button)`
   &:hover {
@@ -11,25 +8,15 @@ const StyledButton = styled(Button)`
   }
 `;
 
-function PopoverContent() {
-  const dispatch = useDispatch();
-
-  const { error } = useSelector((state) => state.travels.getWaypointsSequence);
-  const { data: stopsList } = useSelector(
-    (state) => state.travels.getTravelStops
-  );
-
-  useErrorNotification(error, 'Nie udało się wyznaczyć optymalnej trasy');
-
+function PopoverContent({ setIsModalOpenFn }) {
   function handleClick() {
-    const waypoints = prepareWaypointsData(stopsList);
-    dispatch(getWaypointsSequence({ waypoints, transport: 'car' }));
+    setIsModalOpenFn(true);
   }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <StyledButton style={{ color: '#000' }} type="link">
-        Pokaż na mapie
+        Pokaż w kalendarzu
       </StyledButton>
       <StyledButton style={{ color: '#000' }} type="link" onClick={handleClick}>
         Optymalizuj rozkład
@@ -46,5 +33,9 @@ function PopoverContent() {
     </div>
   );
 }
+
+PopoverContent.propTypes = {
+  setIsModalOpenFn: PropTypes.func.isRequired,
+};
 
 export default PopoverContent;

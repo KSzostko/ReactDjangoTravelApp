@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Typography, Button, Popover } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
-import PopoverContent from './PopoverContent/PopoverContent';
+import PopoverContent from './PopoverContent';
+import TransportModal from './TransportModal/TransportModal';
 
 const { Title } = Typography;
 
@@ -25,20 +27,33 @@ const StyledButton = styled(Button)`
 `;
 
 function SiderHeader({ title }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    <StyledHeader>
-      <Title level={2} style={{ fontSize: '24px' }}>
-        {title}
-      </Title>
-      <Popover trigger="click" placement="bottom" content={<PopoverContent />}>
-        <StyledButton
-          style={{ color: '#000' }}
-          shape="circle"
-          type="link"
-          icon={<EllipsisOutlined style={{ fontSize: '20px' }} />}
-        />
-      </Popover>
-    </StyledHeader>
+    <>
+      <StyledHeader>
+        <Title level={2} style={{ fontSize: '24px' }}>
+          {title}
+        </Title>
+        <Popover
+          trigger="click"
+          placement="bottom"
+          content={<PopoverContent setIsModalOpenFn={setIsModalOpen} />}
+        >
+          <StyledButton
+            style={{ color: '#000' }}
+            shape="circle"
+            type="link"
+            icon={<EllipsisOutlined style={{ fontSize: '20px' }} />}
+          />
+        </Popover>
+      </StyledHeader>
+
+      <TransportModal
+        isModalOpen={isModalOpen}
+        setIsModalOpenFn={setIsModalOpen}
+      />
+    </>
   );
 }
 
