@@ -12,6 +12,7 @@ import { getTravelRoutesReducer } from './actions/getTravelRoutes';
 import { addTravelRouteReducer } from './actions/addTravelRoute';
 import { getAllPhotosReducer } from './actions/getAllPhotos';
 import { addPhotoReducer } from './actions/addPhoto';
+import { getWaypointsSequenceReducer } from './actions/getWaypointsSequence';
 
 const initialState = {
   list: [],
@@ -36,6 +37,12 @@ const initialState = {
   },
   // for every travel, not just current
   getAllPhotos: {
+    data: [],
+    isLoading: false,
+    error: null,
+  },
+  // for current travel
+  getWaypointsSequence: {
     data: [],
     isLoading: false,
     error: null,
@@ -66,6 +73,7 @@ const travelsSlice = createSlice({
     addTravelRouteReducer(builder);
     getAllPhotosReducer(builder);
     addPhotoReducer(builder);
+    getWaypointsSequenceReducer(builder);
   },
 });
 
