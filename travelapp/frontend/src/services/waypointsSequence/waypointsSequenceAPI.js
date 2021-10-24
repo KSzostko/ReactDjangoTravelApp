@@ -12,8 +12,13 @@ const getOptimalSequence = (waypoints, transport = 'car') =>
   )
     /* eslint-enable */
     .then(({ data }) => {
-      const { distance, time, waypoints: sequence } = data.results[0];
-      return { distance, time, sequence };
+      const {
+        distance,
+        time,
+        waypoints: sequence,
+        interconnections,
+      } = data.results[0];
+      return { distance, time, sequence, interconnections };
     })
     .catch(({ response }) => Promise.reject(response.error));
 
