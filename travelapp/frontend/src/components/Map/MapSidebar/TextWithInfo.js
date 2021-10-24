@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Tooltip } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
@@ -14,15 +15,24 @@ const StyledInfoIcon = styled(InfoCircleOutlined)`
   color: #b2b1b9;
 `;
 
-function NewRouteStepTitle() {
+function TextWithInfo({ title, infoText }) {
   return (
     <span>
-      Nowa trasa (opcjonalnie)
-      <Tooltip title={tooltipText}>
+      {title}
+      <Tooltip title={infoText}>
         <StyledInfoIcon />
       </Tooltip>
     </span>
   );
 }
 
-export default NewRouteStepTitle;
+TextWithInfo.propTypes = {
+  title: PropTypes.string.isRequired,
+  infoText: PropTypes.string,
+};
+
+TextWithInfo.defaultProps = {
+  infoText: tooltipText,
+};
+
+export default TextWithInfo;

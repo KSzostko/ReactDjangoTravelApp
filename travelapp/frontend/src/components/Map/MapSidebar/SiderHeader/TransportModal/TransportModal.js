@@ -2,22 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Modal, Form, Select, Button } from 'antd';
+import { Modal, Form, Select, Button, TimePicker } from 'antd';
+import { timeFormat } from 'setup/constans';
 import { useErrorNotification } from 'utils';
 import { getWaypointsSequence } from 'redux/travels/actions/getWaypointsSequence/thunk';
-import { prepareWaypointsData } from './helpers';
+import TextWithInfo from 'components/Map/MapSidebar/TextWithInfo';
+import { prepareWaypointsData, tooltipText } from './helpers';
 
 const { Option } = Select;
+const { RangePicker } = TimePicker;
 
 const StyledForm = styled(Form)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 16px;
 `;
 
 const StyledItem = styled(Form.Item)`
-  margin-right: 50px;
+  margin-top: 16px;
+  margin-right: 26px;
   align-self: flex-end;
 `;
 
@@ -33,7 +36,7 @@ function TransportModal({ isModalOpen, setIsModalOpenFn }) {
 
   useErrorNotification(error, 'Nie udało się wyznaczyć optymalnej trasy');
 
-  async function handleWaypointsTranport({ transport }) {
+  async function handleWaypointsTranport({ transport, timeRange }) {
     const waypoints = prepareWaypointsData(stopsList);
 
     // TODO add more fields to the form: earliset starting hour and latest hour in a trip
@@ -51,7 +54,7 @@ function TransportModal({ isModalOpen, setIsModalOpenFn }) {
       visible={isModalOpen}
       onCancel={() => setIsModalOpenFn(false)}
       width="350px"
-      bodyStyle={{ height: '200px' }}
+      bodyStyle={{ height: '350px' }}
       footer={null}
     >
       <StyledForm
@@ -62,12 +65,12 @@ function TransportModal({ isModalOpen, setIsModalOpenFn }) {
       >
         <Form.Item
           name="transport"
+          label="Środek transportu"
           rules={[{ required: true, message: 'Wybierz środek transportu' }]}
         >
           <Select
-            style={{ width: 200 }}
+            style={{ width: 250 }}
             placeholder="Wybierz transport"
-            aria-label="środek transportu"
             allowClear
           >
             <Option value="car">Samochód</Option>
@@ -76,6 +79,23 @@ function TransportModal({ isModalOpen, setIsModalOpenFn }) {
             <Option value="scooter">Skuter</Option>
             <Option value="truck">Ciężarówka</Option>
           </Select>
+        </Form.Item>
+
+        <Form.Item
+          name="timeRange"
+          label={
+            <TextWithInfo
+              title="Zakres godzin podrózy"
+              infoText={tooltipText}
+            />
+          }
+          rules={[{ required: true, message: 'Wybierz zakres godzin' }]}
+        >
+          <RangePicker
+            format={timeFormat}
+            placeholder={['Start', 'Koniec']}
+            style={{ width: 250 }}
+          />
         </Form.Item>
 
         <StyledItem>

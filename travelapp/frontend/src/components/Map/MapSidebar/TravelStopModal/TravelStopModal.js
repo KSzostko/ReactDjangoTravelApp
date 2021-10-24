@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Modal, Steps } from 'antd';
 import { closeModal } from 'redux/travelStopModal/travelStopModalSlice';
+import TextWithInfo from 'components/Map/MapSidebar/TextWithInfo';
 import ModalFooter from './ModalFooter';
 import TravelTimeFrom from './TravelTimeForm';
-import NewRouteStepTitle from './NewRouteStepTitle';
 import NewRouteStep from './NewRouteStep/NewRouteStep';
 
 const { Step } = Steps;
@@ -57,7 +57,10 @@ function TravelStopModal() {
     >
       <Steps current={currentStep} size="small" responsive direction="vertical">
         <Step key="handle-stop" title="Edycja przystanku" />
-        <Step key="add-new-route" title={<NewRouteStepTitle />} />
+        <Step
+          key="add-new-route"
+          title={<TextWithInfo title="Nowa trasa (opcjonalnie)" />}
+        />
       </Steps>
 
       <Wrapper>
