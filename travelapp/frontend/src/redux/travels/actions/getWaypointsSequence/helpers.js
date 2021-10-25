@@ -8,9 +8,11 @@ import {
 } from 'date-fns';
 import { parseDate } from 'utils';
 
+export const dateFormat = 'yyyy-MM-dd HH:mm';
+
 export function getStartDateTime(startDate, { hours, minutes }) {
   const dateString = `${startDate} ${hours}:${minutes}`;
-  return parseDate(dateString, 'yyyy-MM-dd HH:mm');
+  return parseDate(dateString, dateFormat);
 }
 
 export function extractStopsDuration(stopsList) {

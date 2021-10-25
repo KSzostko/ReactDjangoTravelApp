@@ -1,10 +1,12 @@
 import { add } from 'date-fns';
+import { parseDate } from 'utils';
 import { getWaypointsSequence } from './thunk';
 import {
   getStartDateTime,
   extractStopsDuration,
   toLate,
   getNextDayEarlisetTime,
+  dateFormat,
 } from './helpers';
 
 export const getWaypointsSequenceReducer = (builder) => {
@@ -13,8 +15,6 @@ export const getWaypointsSequenceReducer = (builder) => {
     state.getWaypointsSequence.error = null;
   });
 
-  // TODO refactor this action
-  // TODO change date object to serializable values
   builder.addCase(getWaypointsSequence.fulfilled, (state, action) => {
     state.getWaypointsSequence.isLoading = false;
 
@@ -36,28 +36,22 @@ export const getWaypointsSequenceReducer = (builder) => {
         (stop) => stop.name === fromWaypoint
       );
 
-      if (i === 0) {
-        const endDate = add(startDate, { seconds: startStopDuration });
-
-        schedule.push({
-          name: fromWaypoint,
-          start: startDate,
-          end: endDate,
-        });
-        return;
+      let nextStartDate =
+        i !== 0
+          ? parseDate(schedule[schedule.length - 1].end, dateFormat)
+          : startDate;
+      if (toLate(nextStartDate, endTime) && i !== 0) {
+        nextStartDate = getNextDayEarlisetTime(nextStartDate, startTime);
       }
 
-      const prevStopEndDate = schedule[schedule.length - 1].end;
-      let nextStartDate = add(prevStopEndDate, { seconds: time });
-      if (toLate(nextStartDate, endTime)) {
-        nextStartDate = getNextDayEarlisetTime(prevStopEndDate, startTime);
-      }
-      const nextEndDate = add(nextStartDate, { seconds: startStopDuration });
+      const nextEndDate = add(nextStartDate, {
+        seconds: startStopDuration + time,
+      });
 
       schedule.push({
         name: fromWaypoint,
-        start: nextStartDate,
-        end: nextEndDate,
+        start: parseDate(nextStartDate, dateFormat),
+        end: parseDate(nextEndDate, dateFormat),
       });
 
       if (i === interconnections.length - 1) {
@@ -68,13 +62,12 @@ export const getWaypointsSequenceReducer = (builder) => {
 
         schedule.push({
           name: toWaypoint,
-          start: nextEndDate,
-          end: lastEndDate,
+          start: parseDate(nextEndDate, dateFormat),
+          end: parseDate(lastEndDate, dateFormat),
         });
       }
     });
 
-    console.log(schedule);
     optimizedSequence.schedule = [...schedule];
     state.getWaypointsSequence.data = optimizedSequence;
   });

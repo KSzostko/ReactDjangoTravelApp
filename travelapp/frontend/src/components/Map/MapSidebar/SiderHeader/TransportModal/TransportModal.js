@@ -40,10 +40,6 @@ function TransportModal({ isModalOpen, setIsModalOpenFn }) {
     const waypoints = prepareWaypointsData(stopsList);
     const adjustedTimeRange = prepareTimeRange(timeRange);
 
-    // TODO add more fields to the form: earliset starting hour and latest hour in a trip
-    // after this there needs to be some data preparation before displaying everything
-    // check travel time(given from api) + stop rest time(from the db, every stop has it) and check if it's possible to fullify latest hour contraint with it
-    // if constraint is not fullified - add stop to the next day starting at earliset starting hour
     await dispatch(
       getWaypointsSequence({
         waypoints,
