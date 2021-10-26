@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Drawer, Button, Typography } from 'antd';
+import { Drawer, Button, Typography, Tooltip } from 'antd';
 import styled from 'styled-components';
+import { faRoute } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import OptimalPlanSchedule from './OptimalPlanSchedule/OptmialPlanSchedule';
 
 const { Title } = Typography;
@@ -17,9 +19,10 @@ const StyledDrawer = styled(Drawer)`
 
 const StyledButton = styled(Button)`
   position: absolute;
-  top: 16px;
-  left: 50px;
-  z-index: 1000000000000;
+  bottom: 16px;
+  left: 8px;
+  z-index: 1000;
+  border-radius: 50%;
 `;
 
 function OptimalSequence() {
@@ -37,7 +40,13 @@ function OptimalSequence() {
 
   return (
     <>
-      <StyledButton onClick={handleButtonClick}>Pokaż</StyledButton>
+      <Tooltip title="Pokaż optymalną trasę" placement="right">
+        <StyledButton
+          icon={<FontAwesomeIcon icon={faRoute} />}
+          onClick={handleButtonClick}
+        />
+      </Tooltip>
+
       <StyledDrawer
         title={
           <Title level={2} style={{ fontSize: '18px' }}>
