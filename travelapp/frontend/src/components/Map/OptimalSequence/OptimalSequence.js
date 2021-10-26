@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Drawer, Button, Typography, Tooltip } from 'antd';
 import styled from 'styled-components';
 import { faRoute } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { setIsSequenceModalOpen } from 'redux/travels/travelsSlice';
 import OptimalPlanSchedule from './OptimalPlanSchedule/OptmialPlanSchedule';
 
 const { Title } = Typography;
@@ -26,14 +27,15 @@ const StyledButton = styled(Button)`
 `;
 
 function OptimalSequence() {
+  const dispatch = useDispatch();
+
   const { data: waypointsData } = useSelector(
     (state) => state.travels.getWaypointsSequence
   );
-
-  const [isOpen, setIsOpen] = useState(true);
+  const { isSequenceModalOpen } = useSelector((state) => state.travels);
 
   function handleButtonClick() {
-    setIsOpen((prev) => !prev);
+    dispatch(setIsSequenceModalOpen(!isSequenceModalOpen));
   }
 
   if (!waypointsData) return null;
@@ -53,11 +55,11 @@ function OptimalSequence() {
             Optymalny plan podróży
           </Title>
         }
-        visible={isOpen}
+        visible={isSequenceModalOpen}
         mask={false}
         getContainer={false}
         width={300}
-        onClose={() => setIsOpen(false)}
+        onClose={() => dispatch(setIsSequenceModalOpen(false))}
       >
         <OptimalPlanSchedule />
       </StyledDrawer>

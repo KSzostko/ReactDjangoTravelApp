@@ -47,6 +47,7 @@ const initialState = {
     isLoading: false,
     error: null,
   },
+  isSequenceModalOpen: true,
 };
 
 const travelsSlice = createSlice({
@@ -57,6 +58,9 @@ const travelsSlice = createSlice({
       state.current.data = null;
       state.current.isLoading = false;
       state.current.error = null;
+    },
+    setIsSequenceModalOpen(state, action) {
+      state.isSequenceModalOpen = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -77,6 +81,9 @@ const travelsSlice = createSlice({
   },
 });
 
-export const { clearCurrentTravel } = travelsSlice.actions;
+export const {
+  clearCurrentTravel,
+  setIsSequenceModalOpen,
+} = travelsSlice.actions;
 
 export default travelsSlice.reducer;

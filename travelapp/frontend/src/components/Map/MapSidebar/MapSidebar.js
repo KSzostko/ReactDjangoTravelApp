@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Layout, Divider } from 'antd';
 import { CalendarOutlined } from '@ant-design/icons';
+import { setIsSequenceModalOpen } from 'redux/travels/travelsSlice';
 import SiderHeader from './SiderHeader/SiderHeader';
 import TravelSchedule from './TravelSchedule/TravelSchedule';
 import TravelStopModal from './TravelStopModal/TravelStopModal';
@@ -29,15 +31,29 @@ const zeroWidthTriggerStyles = {
 };
 
 function MapSidebar() {
+  const dispatch = useDispatch();
+
+  const { isSequenceModalOpen } = useSelector((state) => state.travels);
   const [isMobile, setIsMobile] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
+  useEffect(() => {
+    if (isSequenceModalOpen && !isCollapsed && isMobile) {
+      setIsCollapsed(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSequenceModalOpen]);
+
   function handleCollapse(collapsed) {
+    if (!collapsed && isMobile && isSequenceModalOpen) {
+      dispatch(setIsSequenceModalOpen(false));
+    }
+
     setIsCollapsed(collapsed);
   }
 
-  function handleBreakpoint(broken) {
-    setIsMobile(broken);
+  function handleBreakpoint(collapse) {
+    setIsMobile(collapse);
   }
 
   return (
