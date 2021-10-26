@@ -43,7 +43,7 @@ const initialState = {
   },
   // for current travel
   getWaypointsSequence: {
-    data: [],
+    data: null,
     isLoading: false,
     error: null,
   },

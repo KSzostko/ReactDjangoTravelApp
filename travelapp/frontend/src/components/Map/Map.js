@@ -16,6 +16,7 @@ import MapModal from './MapModal';
 import TravelPeriodModal from './TravelPeriodModal/TravelPeriodModal';
 import RoutePolyline from './RoutePolyline/RoutePolyline';
 import RouteOptions from './RouteOptions';
+import OptimalSequence from './OptimalSequence/OptimalSequence';
 import { adjustRouteData } from './helpers';
 
 const StyledSpinner = styled(Spin)`
@@ -25,18 +26,20 @@ const StyledSpinner = styled(Spin)`
   transform: translate(-50%, -50%);
 `;
 
+const {
+  zoom,
+  maxZoom,
+  minZoom,
+  maxClusterRadius,
+  maxBoundsViscosity,
+  spiderifyOnMaxZoom,
+  defaultCenter,
+} = mapConstants;
+
 function Map() {
-  const dispatch = useDispatch();
-  const {
-    zoom,
-    maxZoom,
-    minZoom,
-    maxClusterRadius,
-    maxBoundsViscosity,
-    spiderifyOnMaxZoom,
-    defaultCenter,
-  } = mapConstants;
   const { travelId } = useParams();
+  const dispatch = useDispatch();
+
   const { locations, isLoading, error } = useSelector((state) => state.map);
   const { data: routeData, error: routeError } = useSelector(
     (state) => state.map.getRoute
@@ -131,6 +134,7 @@ function Map() {
       />
       <ZoomControl position="bottomright" />
       <MapEvents />
+
       <MapModal
         addRouteWaypointFn={addRouteWaypoint}
         removeRouteWaypointFn={removeRouteWaypoint}
@@ -139,6 +143,7 @@ function Map() {
       <TravelPeriodModal />
 
       <SearchPlace />
+
       {routeWaypoints.length > 1 && (
         <RouteOptions
           routeWaypoints={routeWaypoints}
@@ -153,6 +158,8 @@ function Map() {
           routeData={adjustRouteData(currentTravelRoutes, true)}
         />
       )}
+
+      <OptimalSequence />
 
       {isLoading ? (
         <StyledSpinner />

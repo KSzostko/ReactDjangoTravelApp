@@ -38,7 +38,7 @@ export const getWaypointsSequenceReducer = (builder) => {
 
       let nextStartDate =
         i !== 0
-          ? parseDate(schedule[schedule.length - 1].end, dateFormat)
+          ? parseDate(schedule[schedule.length - 1].end_date, dateFormat)
           : startDate;
       if (toLate(nextStartDate, endTime) && i !== 0) {
         nextStartDate = getNextDayEarlisetTime(nextStartDate, startTime);
@@ -50,8 +50,8 @@ export const getWaypointsSequenceReducer = (builder) => {
 
       schedule.push({
         name: fromWaypoint,
-        start: parseDate(nextStartDate, dateFormat),
-        end: parseDate(nextEndDate, dateFormat),
+        start_date: parseDate(nextStartDate, dateFormat),
+        end_date: parseDate(nextEndDate, dateFormat),
       });
 
       if (i === interconnections.length - 1) {
@@ -62,8 +62,8 @@ export const getWaypointsSequenceReducer = (builder) => {
 
         schedule.push({
           name: toWaypoint,
-          start: parseDate(nextEndDate, dateFormat),
-          end: parseDate(lastEndDate, dateFormat),
+          start_date: parseDate(nextEndDate, dateFormat),
+          end_date: parseDate(lastEndDate, dateFormat),
         });
       }
     });
