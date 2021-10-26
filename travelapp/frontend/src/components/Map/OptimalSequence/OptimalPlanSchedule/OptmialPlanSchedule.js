@@ -6,17 +6,10 @@ import OptimalScheduleItem from './OptimalScheduleItem';
 
 const { SubMenu } = Menu;
 
-function OptmialPlanSchedule() {
+function OptimalPlanSchedule() {
   const { data: waypointsData } = useSelector(
     (state) => state.travels.getWaypointsSequence
   );
-
-  if (!waypointsData)
-    return (
-      <p style={{ padding: '24px' }}>
-        Musisz podać odpowiednie dane aby wyznaczyć plan.
-      </p>
-    );
 
   const { schedule } = waypointsData;
   // slice hours
@@ -40,4 +33,4 @@ function OptmialPlanSchedule() {
   );
 }
 
-export default OptmialPlanSchedule;
+export default OptimalPlanSchedule;
