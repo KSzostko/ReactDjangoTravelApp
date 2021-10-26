@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Drawer, Button, Typography, Tooltip } from 'antd';
 import styled from 'styled-components';
@@ -20,7 +20,7 @@ const StyledDrawer = styled(Drawer)`
 
 const StyledButton = styled(Button)`
   position: absolute;
-  bottom: 16px;
+  bottom: 8px;
   left: 8px;
   z-index: 1000;
   border-radius: 50%;
