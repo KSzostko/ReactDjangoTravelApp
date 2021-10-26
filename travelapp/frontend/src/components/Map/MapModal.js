@@ -39,7 +39,6 @@ function MapModal({
   }
 
   async function handleAddToTravel() {
-    // TODO try to separte this logic from the component and put it in redux
     let dbAttraction = await AttractionAPI.getByXid(data.xid);
     if (dbAttraction === '') {
       const { xid, name, kinds, description, point } = data;

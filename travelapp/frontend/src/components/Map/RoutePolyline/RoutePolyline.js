@@ -15,7 +15,6 @@ const TooltipContent = styled.div`
 `;
 
 function RoutePolyline({ routeData, isTravelRoute }) {
-  // TODO show route data
   return (
     <>
       {routeData.map((route, i) => (
