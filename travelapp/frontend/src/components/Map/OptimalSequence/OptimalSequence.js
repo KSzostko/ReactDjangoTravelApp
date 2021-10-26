@@ -1,21 +1,36 @@
 import React from 'react';
-import { Drawer, Button } from 'antd';
-import OptmialPlanSchedule from './OptmialPlanSchedule';
+import { Drawer, Button, Typography } from 'antd';
+import styled from 'styled-components';
+import OptmialPlanSchedule from './OptimalPlanSchedule/OptmialPlanSchedule';
+
+const { Title } = Typography;
+
+const StyledDrawer = styled(Drawer)`
+  position: absolute;
+
+  .ant-drawer-body {
+    font-family: 'Segoe UI';
+    padding: 0;
+  }
+`;
 
 function OptimalSequence() {
   return (
     <>
       <Button>Pokaż</Button>
-      <Drawer
-        title="Optymalny plan podróży"
+      <StyledDrawer
+        title={
+          <Title level={2} style={{ fontSize: '18px' }}>
+            Optymalny plan podróży
+          </Title>
+        }
         visible
         mask={false}
         getContainer={false}
-        style={{ position: 'absolute' }}
         width={300}
       >
         <OptmialPlanSchedule />
-      </Drawer>
+      </StyledDrawer>
     </>
   );
 }

@@ -90,7 +90,6 @@ function TravelSchedule() {
   if (travelData === null) return null;
 
   return (
-    // TODO give option to see fullscreen calendar wit everything marked on it
     <Menu mode="inline" style={{ width: '100%' }} onClick={showDetails}>
       {getTravelDays(travelData.start_date, travelData.end_date).map(
         (day, i) => (

@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Menu } from 'antd';
 import { getTravelDays, filterByDate } from 'utils';
+import OptimalScheduleItem from './OptimalScheduleItem';
 
 const { SubMenu } = Menu;
 
@@ -11,7 +12,11 @@ function OptmialPlanSchedule() {
   );
 
   if (!waypointsData)
-    return <p>Musisz podać odpowiednie dane aby wyznaczyć plan.</p>;
+    return (
+      <p style={{ padding: '24px' }}>
+        Musisz podać odpowiednie dane aby wyznaczyć plan.
+      </p>
+    );
 
   const { schedule } = waypointsData;
   // slice hours
@@ -26,7 +31,7 @@ function OptmialPlanSchedule() {
         <SubMenu key={`day-${i + 1}`} title={`Dzień ${i + 1} - ${day}`}>
           {filterByDate(schedule, day, 'dd.MM.yyyy').map((waypoint) => (
             <Menu.Item key={waypoint.name}>
-              <p>{waypoint.name}</p>
+              <OptimalScheduleItem waypoint={waypoint} />
             </Menu.Item>
           ))}
         </SubMenu>
