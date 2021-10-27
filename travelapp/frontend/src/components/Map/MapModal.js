@@ -76,7 +76,6 @@ function MapModal({
   }
 
   // TODO check if attraction was already added to the travel
-  // TODO extract footer to a separate function
   const footer = [
     <Button key="close" onClick={handleCloseModal}>
       Zamknij

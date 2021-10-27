@@ -11,6 +11,14 @@ const create = (hotelData) =>
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.statusText));
 
+const getById = (id) =>
+  axios
+    .get(`${BASE_URL}${id}`, {
+      headers: getHeaders(),
+    })
+    .then(({ data }) => data)
+    .catch(({ response }) => Promise.reject(response.statusText));
+
 const getByXid = (xid) =>
   axios
     .get(`${BASE_URL}${xid}/search-by-xid/`, {
@@ -19,4 +27,4 @@ const getByXid = (xid) =>
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.statusText));
 
-export default { create, getByXid };
+export default { create, getById, getByXid };

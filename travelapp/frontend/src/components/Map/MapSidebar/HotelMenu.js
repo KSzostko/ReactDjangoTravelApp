@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Menu, Spin } from 'antd';
 import { useErrorNotification } from 'utils';
+import { getHotelDetails } from 'redux/travels/actions/getHotelDetails/thunk';
 
 const { SubMenu } = Menu;
 
@@ -17,9 +18,10 @@ function HotelMenu() {
 
   useEffect(() => {
     if (currentTravel?.hotel && !hotel) {
-      // get hotel
+      dispatch(getHotelDetails(currentTravel.hotel));
     }
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, currentTravel]);
 
   return (
     <Menu mode="inline" style={{ width: '100%' }}>

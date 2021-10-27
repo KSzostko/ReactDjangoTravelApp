@@ -16,7 +16,6 @@ const StyledSpinner = styled(Spin)`
 
 function PlanTravelView() {
   // TODO only a creator can edit concrete plan
-  // TODO handle adding hotel
   const history = useHistory();
   const { travelId } = useParams();
 

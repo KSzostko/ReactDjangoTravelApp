@@ -13,6 +13,7 @@ import { addTravelRouteReducer } from './actions/addTravelRoute';
 import { getAllPhotosReducer } from './actions/getAllPhotos';
 import { addPhotoReducer } from './actions/addPhoto';
 import { getWaypointsSequenceReducer } from './actions/getWaypointsSequence';
+import { getHotelDetailsReducer } from './actions/getHotelDetails';
 import { addHotelReducer } from './actions/addHotel';
 
 const initialState = {
@@ -85,6 +86,7 @@ const travelsSlice = createSlice({
     getAllPhotosReducer(builder);
     addPhotoReducer(builder);
     getWaypointsSequenceReducer(builder);
+    getHotelDetailsReducer(builder);
     addHotelReducer(builder);
   },
 });
