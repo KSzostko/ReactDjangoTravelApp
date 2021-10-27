@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Spin, Button } from 'antd';
+import { HotelAPI } from 'services';
 import { getMobileWikiUrl } from 'utils';
 import { clearLocationData } from 'redux/selectedLocation/selectedLocationSlice';
 import { openModal } from 'redux/travelPeriodModal/travelPeriodModalSlice';
 import { updateTravel } from 'redux/travels/actions/updateTravel/thunk';
-import { isHotel, addAttraction, addHotel } from './helpers';
+import { addHotel } from 'redux/travels/actions/addHotel/thunk';
+import { isHotel, addAttraction } from './helpers';
 
 function MapModal({
   addRouteWaypointFn,
@@ -17,8 +19,7 @@ function MapModal({
     (state) => state.selectedLocation
   );
   const { data: currentTravel } = useSelector((state) => state.travels.current);
-  const { hotel } = useSelector((state) => state.travels.current.data);
-  const canAddHotel = isHotel(data) && !hotel;
+  const canAddHotel = isHotel(data);
 
   function handleCloseModal() {
     dispatch(clearLocationData());
@@ -42,27 +43,46 @@ function MapModal({
     dispatch(clearLocationData());
   }
 
+  async function changeTravelHotel() {
+    let dbHotel = await HotelAPI.getByXid(data.xid);
+    if (dbHotel === '') {
+      const { xid, name, address, stars, point } = data;
+      dbHotel = await dispatch(
+        addHotel({
+          xid,
+          name: name || 'None',
+          address: address
+            ? Object.values(address).join(', ')
+            : 'Not Specified',
+          lat: point.lat,
+          lng: point.lon,
+          stars: stars || -1,
+        })
+      );
+    }
+
+    dispatch(updateTravel({ ...currentTravel, hotel: dbHotel.id }));
+  }
+
   async function handleAddToTravel() {
     if (!canAddHotel) {
       const dbAttraction = await addAttraction(data);
-
-      dispatch(clearLocationData());
       dispatch(openModal(dbAttraction));
     } else {
-      const { id } = await addHotel(data);
-
-      dispatch(updateTravel({ ...currentTravel, hotel: id }));
-      dispatch(clearLocationData());
+      changeTravelHotel();
     }
+
+    dispatch(clearLocationData());
   }
 
   // TODO check if attraction was already added to the travel
+  // TODO extract footer to a separate function
   const footer = [
     <Button key="close" onClick={handleCloseModal}>
       Zamknij
     </Button>,
     <Button key="add" type="primary" onClick={handleAddToTravel}>
-      {isHotel(data) && !hotel ? 'Dodaj hotel' : 'Dodaj do podróży'}
+      {canAddHotel ? 'Dodaj hotel' : 'Dodaj do podróży'}
     </Button>,
   ];
   if (!hasWaypointFn(data?.point)) {
@@ -113,7 +133,7 @@ function MapModal({
           width="100%"
           height="100%"
           src={
-            isHotel(data) ? data?.url : getMobileWikiUrl(data?.wikipedia || '')
+            canAddHotel ? data?.url : getMobileWikiUrl(data?.wikipedia || '')
           }
         />
       )}

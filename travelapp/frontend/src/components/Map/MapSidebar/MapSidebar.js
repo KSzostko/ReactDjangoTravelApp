@@ -7,6 +7,7 @@ import { setIsSequenceModalOpen } from 'redux/travels/travelsSlice';
 import SiderHeader from './SiderHeader/SiderHeader';
 import TravelSchedule from './TravelSchedule/TravelSchedule';
 import TravelStopModal from './TravelStopModal/TravelStopModal';
+import HotelMenu from './HotelMenu';
 
 const { Sider } = Layout;
 
@@ -77,6 +78,8 @@ function MapSidebar() {
               <SiderHeader title="Plan wyjazdu" />
               <Divider style={{ margin: 0 }} />
               <TravelSchedule />
+              <Divider style={{ margin: 0 }} />
+              <HotelMenu />
             </>
           )}
         </Wrapper>

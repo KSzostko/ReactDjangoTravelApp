@@ -1,4 +1,4 @@
-import { AttractionAPI, HotelAPI } from 'services';
+import { AttractionAPI } from 'services';
 import { decodePolyline } from 'utils';
 
 export function adjustRouteData(routeData, isTravelRoute = false) {
@@ -36,21 +36,4 @@ export async function addAttraction(data) {
   }
 
   return dbAttraction;
-}
-
-export async function addHotel(data) {
-  let dbHotel = await HotelAPI.getByXid(data.xid);
-  if (dbHotel === '') {
-    const { xid, name, address, stars, point } = data;
-    dbHotel = await HotelAPI.create({
-      xid,
-      name: name || 'None',
-      address: address ? Object.values(address).join(', ') : 'Not Specified',
-      lat: point.lat,
-      lng: point.lon,
-      stars: stars || -1,
-    });
-  }
-
-  return dbHotel;
 }

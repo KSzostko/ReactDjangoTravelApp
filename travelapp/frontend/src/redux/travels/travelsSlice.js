@@ -13,12 +13,19 @@ import { addTravelRouteReducer } from './actions/addTravelRoute';
 import { getAllPhotosReducer } from './actions/getAllPhotos';
 import { addPhotoReducer } from './actions/addPhoto';
 import { getWaypointsSequenceReducer } from './actions/getWaypointsSequence';
+import { addHotelReducer } from './actions/addHotel';
 
 const initialState = {
   list: [],
   isLoading: false,
   error: null,
   current: {
+    data: null,
+    isLoading: false,
+    error: null,
+  },
+  // hotel details for current travel
+  getHotelDetails: {
     data: null,
     isLoading: false,
     error: null,
@@ -78,6 +85,7 @@ const travelsSlice = createSlice({
     getAllPhotosReducer(builder);
     addPhotoReducer(builder);
     getWaypointsSequenceReducer(builder);
+    addHotelReducer(builder);
   },
 });
 

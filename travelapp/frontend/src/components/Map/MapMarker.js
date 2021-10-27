@@ -22,6 +22,7 @@ const StyledDivider = styled(Divider)`
 function MapMarker({ xid, point, name, selected }) {
   const dispatch = useDispatch();
 
+  // TODO add different marker for hotels
   const markerIcon = L.icon({
     iconUrl: selected ? selectedMarker.url : defaultMarker.url,
     iconRetinaUrl: selected
