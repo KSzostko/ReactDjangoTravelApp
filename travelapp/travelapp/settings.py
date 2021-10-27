@@ -44,11 +44,22 @@ INSTALLED_APPS = [
     'rest_framework',
     'knox',
     'corsheaders',
+    'drf_yasg',
     'attractions',
     'hotels',
     'travels',
     'users',
 ]
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',)
