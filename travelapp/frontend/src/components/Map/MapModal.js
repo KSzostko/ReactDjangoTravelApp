@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Spin, Button } from 'antd';
-import { AttractionAPI } from 'services';
+import { getMobileWikiUrl } from 'utils';
 import { clearLocationData } from 'redux/selectedLocation/selectedLocationSlice';
 import { openModal } from 'redux/travelPeriodModal/travelPeriodModalSlice';
-import { getMobileWikiUrl } from 'utils';
+import { updateTravel } from 'redux/travels/actions/updateTravel/thunk';
+import { isHotel, addAttraction, addHotel } from './helpers';
 
 function MapModal({
   addRouteWaypointFn,
@@ -15,6 +16,9 @@ function MapModal({
   const { isLoading, isModalOpen, data } = useSelector(
     (state) => state.selectedLocation
   );
+  const { data: currentTravel } = useSelector((state) => state.travels.current);
+  const { hotel } = useSelector((state) => state.travels.current.data);
+  const canAddHotel = isHotel(data) && !hotel;
 
   function handleCloseModal() {
     dispatch(clearLocationData());
@@ -39,21 +43,17 @@ function MapModal({
   }
 
   async function handleAddToTravel() {
-    let dbAttraction = await AttractionAPI.getByXid(data.xid);
-    if (dbAttraction === '') {
-      const { xid, name, kinds, description, point } = data;
-      dbAttraction = await AttractionAPI.create({
-        xid,
-        name: name || 'None',
-        type: kinds,
-        description: description || 'no description',
-        lat: point.lat,
-        lng: point.lon,
-      });
-    }
+    if (!canAddHotel) {
+      const dbAttraction = await addAttraction(data);
 
-    dispatch(clearLocationData());
-    dispatch(openModal(dbAttraction));
+      dispatch(clearLocationData());
+      dispatch(openModal(dbAttraction));
+    } else {
+      const { id } = await addHotel(data);
+
+      dispatch(updateTravel({ ...currentTravel, hotel: id }));
+      dispatch(clearLocationData());
+    }
   }
 
   // TODO check if attraction was already added to the travel
@@ -62,7 +62,7 @@ function MapModal({
       Zamknij
     </Button>,
     <Button key="add" type="primary" onClick={handleAddToTravel}>
-      Dodaj do podróży
+      {isHotel(data) && !hotel ? 'Dodaj hotel' : 'Dodaj do podróży'}
     </Button>,
   ];
   if (!hasWaypointFn(data?.point)) {
@@ -90,7 +90,7 @@ function MapModal({
 
   const modalTitle =
     data?.name === undefined || data?.name === '' ? 'Brak nazwy' : data?.name;
-  const hasWikiData = data?.wikipedia !== undefined && data?.wikipedia !== '';
+  const hasUrlData = !!data?.wikipedia || !!data?.url;
 
   return (
     <Modal
@@ -104,7 +104,7 @@ function MapModal({
     >
       {isLoading ? (
         <Spin />
-      ) : !hasWikiData ? (
+      ) : !hasUrlData ? (
         <p>Brak szczegółowych danych o tej lokalizacji</p>
       ) : (
         <iframe
@@ -112,7 +112,9 @@ function MapModal({
           title={`${data?.name}${data?.xid}`}
           width="100%"
           height="100%"
-          src={getMobileWikiUrl(data?.wikipedia || '')}
+          src={
+            isHotel(data) ? data?.url : getMobileWikiUrl(data?.wikipedia || '')
+          }
         />
       )}
     </Modal>
