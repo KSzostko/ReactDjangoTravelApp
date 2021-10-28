@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -15,12 +15,15 @@ import { UploadOutlined } from '@ant-design/icons';
 import { useErrorNotification } from 'utils';
 import { getTravels } from 'redux/travels/actions/getTravels/thunk';
 import { addPhoto } from 'redux/travels/actions/addPhoto/thunk';
+import { validFile } from './helpers';
 
 const { Option } = Select;
 
 function TravelPhotoForm() {
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const [isFileValid, setIsFileValid] = useState(false);
 
   const { isLoading, list: travelsList } = useSelector(
     (state) => state.travels
@@ -38,10 +41,14 @@ function TravelPhotoForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
-  function uploadFile({ onSuccess }) {
-    setTimeout(() => {
+  function uploadFile({ onSuccess, file, onError }) {
+    if (!validFile(file)) {
+      onError('Niepoprawny rodzaj pliku');
+      setIsFileValid(false);
+    } else {
       onSuccess('Plik został pomyślnie załadowany');
-    }, 0);
+      setIsFileValid(true);
+    }
   }
 
   function handleFinish({ date, image, ...rest }) {
@@ -103,10 +110,22 @@ function TravelPhotoForm() {
         name="image"
         label="Zdjęcie"
         valuePropName="file"
-        extra="Maksymalna wielkość pliku to 10MB"
-        rules={[{ required: true, message: 'Dodaj zdjęcie' }]}
+        extra={
+          <div>
+            <p style={{ margin: '8px 0 0' }}>Maksymalna wielkość pliku: 10MB</p>
+            <p style={{ margin: 0 }}>Format pliku : jpeg lub png</p>
+          </div>
+        }
+        rules={[
+          { required: true, message: 'Dodaj zdjęcie' },
+          {
+            validator: () =>
+              isFileValid
+                ? Promise.resolve()
+                : Promise.reject(new Error('Niepoprawny rodzaj pliku')),
+          },
+        ]}
       >
-        {/* TODO validate file upload */}
         <Upload name="imagePhoto" maxCount={1} customRequest={uploadFile}>
           <Button style={{ width: 350 }} icon={<UploadOutlined />}>
             Kliknij by dodać plik
