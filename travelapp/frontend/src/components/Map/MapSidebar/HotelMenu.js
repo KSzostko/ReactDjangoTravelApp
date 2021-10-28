@@ -26,7 +26,7 @@ function HotelMenu() {
   return (
     <Menu mode="inline" style={{ width: '100%' }}>
       <SubMenu key="hotel-menu" title="Hotel">
-        <Menu.Item>
+        <Menu.Item key="hotel-name">
           {isLoading ? (
             <Spin />
           ) : (
