@@ -20,7 +20,7 @@ function MapEvents() {
   useEffect(() => {
     if (searchData?.lat && searchData?.lon) {
       const { lat, lon } = searchData;
-      map.flyTo({ lat, lng: lon });
+      map.flyTo({ lat, lng: lon }, undefined, { duration: 0.1 });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchData]);
