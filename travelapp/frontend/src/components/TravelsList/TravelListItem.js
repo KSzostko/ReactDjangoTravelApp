@@ -12,12 +12,22 @@ import { deleteTravel } from 'redux/travels/actions/deleteTravel/thunk';
 
 const { Meta } = Card;
 
+const defaultPhoto =
+  'https://poradniksukces.com/wp/wp-content/uploads/2016/05/Travel-suitcase.jpg';
+
 function TraveListItem({ travel }) {
   const history = useHistory();
   const dispatch = useDispatch();
 
   const { id: userId } = useSelector((state) => state.user.data);
   const { id, name, short_description: shortDescription, creator } = travel;
+
+  const { data: photosList } = useSelector(
+    (state) => state.travels.getAllPhotos
+  );
+  const travelPhoto = photosList.find(
+    ({ travel: photoTravel }) => photoTravel === id
+  );
 
   function handleDelete(e) {
     e.preventDefault();
@@ -56,7 +66,6 @@ function TraveListItem({ travel }) {
     history.push(`/travel/${id}/edit`);
   }
 
-  // TODO find proper images
   return (
     <li>
       <Link to={`/travel/${id}/plan`}>
@@ -66,7 +75,8 @@ function TraveListItem({ travel }) {
           cover={
             <img
               alt="example"
-              src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+              style={{ maxHeight: '120px' }}
+              src={travelPhoto?.image || defaultPhoto}
             />
           }
           actions={[

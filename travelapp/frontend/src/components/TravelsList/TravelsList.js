@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Select, Spin } from 'antd';
 import { useErrorNotification } from 'utils';
 import { getTravels } from 'redux/travels/actions/getTravels/thunk';
+import { getAllPhotos } from 'redux/travels/actions/getAllPhotos/thunk';
 import SortSelect from '../SortSelect';
 import TraveListItem from './TravelListItem';
 import TravelsSearch from './TravelsSearch';
@@ -47,6 +48,7 @@ function TravelsList() {
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(getTravels({ sortBy, ...filterOptions }));
+      dispatch(getAllPhotos());
     }
   }, [dispatch, isAuthenticated, sortBy, filterOptions]);
 
