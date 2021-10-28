@@ -20,11 +20,9 @@ function PlanTravelView() {
   const { travelId } = useParams();
 
   const dispatch = useDispatch();
-  const { data, isLoading } = useSelector((state) => state.travels.current);
+  const { isLoading } = useSelector((state) => state.travels.current);
 
   useEffect(() => {
-    if (data !== null) return;
-
     dispatch(getTravelById(travelId))
       .unwrap()
       .catch(() => {

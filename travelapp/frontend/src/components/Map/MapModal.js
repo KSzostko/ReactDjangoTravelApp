@@ -75,7 +75,6 @@ function MapModal({
     dispatch(clearLocationData());
   }
 
-  // TODO check if attraction was already added to the travel
   const footer = [
     <Button key="close" onClick={handleCloseModal}>
       Zamknij
