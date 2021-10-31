@@ -67,7 +67,7 @@ function TravelsList() {
       <TravelsSearch setFilterOptionsFn={setFilterOptions} />
 
       {isLoading ? (
-        <StyledSpinner />
+        <StyledSpinner data-testid="spinner" />
       ) : (
         <Grid>
           {travelsList.map((travel) => (

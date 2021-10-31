@@ -11,7 +11,7 @@ export const fakeTravelsList = [
   {
     id: 11,
     name: 'Niedawna podróż',
-    short_description: 'opis',
+    short_description: 'opis1',
     description: 'opis duży',
     start_date: '2021-10-17',
     end_date: '2021-11-02',
@@ -21,8 +21,8 @@ export const fakeTravelsList = [
   {
     id: 12,
     name: 'Testowa podróż',
-    short_description: 'opis',
-    description: 'opis',
+    short_description: 'opis3',
+    description: 'opis2',
     start_date: '2021-10-17',
     end_date: '2021-10-19',
     hotel: null,
