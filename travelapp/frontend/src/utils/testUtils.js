@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MemoryRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { render as rtlRender } from '@testing-library/react';
@@ -17,7 +17,7 @@ function render(
   function Wrapper({ children }) {
     return (
       <Provider store={store}>
-        <MemoryRouter>{children}</MemoryRouter>
+        <BrowserRouter>{children}</BrowserRouter>
       </Provider>
     );
   }
@@ -26,6 +26,7 @@ function render(
     children: PropTypes.node.isRequired,
   };
 
+  window.history.pushState({}, 'Test page', '/');
   return rtlRender(ui, { wrapper: Wrapper, ...renderOptions });
 }
 
