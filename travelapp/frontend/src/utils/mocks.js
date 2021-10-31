@@ -15,6 +15,9 @@ export const handlers = [
       ctx.json({ non_field_errors: ['Incorrect Credentials'] })
     );
   }),
+  rest.post(`${BASE_API_URL}auth/register`, (req, res, ctx) =>
+    res(ctx.status(200), ctx.json(fakeUserData))
+  ),
   rest.get(`${BASE_API_URL}travels`, (req, res, ctx) =>
     res(ctx.status(200), ctx.json(fakeTravelsList))
   ),
