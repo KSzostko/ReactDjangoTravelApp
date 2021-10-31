@@ -15,5 +15,10 @@ export { range } from './range';
 export { formatHour } from './formatHour';
 export { setTimeForDate } from './setTimeForDate';
 export { getHeaders } from './getHeaders';
-export { fakeUserData, fakeTravelPhotos, fakeTravelsList } from './fakeData';
+export {
+  fakeUserData,
+  fakeTravelPhotos,
+  fakeTravelsList,
+  fakeTravelStops,
+} from './fakeData';
 export { handlers } from './mocks';

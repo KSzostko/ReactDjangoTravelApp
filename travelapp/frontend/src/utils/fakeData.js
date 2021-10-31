@@ -50,3 +50,55 @@ export const fakeTravelPhotos = [
     taken_by: 2,
   },
 ];
+
+export const fakeTravelStops = [
+  {
+    id: 44,
+    start_date: '2021-08-21T09:00:00+02:00',
+    end_date: '2021-08-21T10:00:00+02:00',
+    travel: {
+      id: 7,
+      name: 'nowa',
+      short_description: 'nowy opis',
+      description: 'dsada',
+      start_date: '2021-08-21',
+      end_date: '2021-08-23',
+      hotel: 3,
+      creator: 2,
+    },
+    attraction: {
+      id: 26,
+      xid: 'W105289192',
+      name: 'Riserva Naturale della Marcigliana',
+      type:
+        'interesting_places,natural,nature_reserves,other_nature_conservation_areas',
+      lat: 42.006126,
+      lng: 12.567317,
+      description: 'no description',
+    },
+  },
+  {
+    id: 45,
+    start_date: '2021-08-21T10:30:00+02:00',
+    end_date: '2021-08-21T11:00:00+02:00',
+    travel: {
+      id: 7,
+      name: 'nowa',
+      short_description: 'nowy opis',
+      description: 'dsada',
+      start_date: '2021-08-21',
+      end_date: '2021-08-23',
+      hotel: 3,
+      creator: 2,
+    },
+    attraction: {
+      id: 27,
+      xid: 'W484981821',
+      name: 'Chiesa San Domenico Guzman',
+      type: 'religion,churches,interesting_places,catholic_churches',
+      lat: 41.981812,
+      lng: 12.559072,
+      description: 'no description',
+    },
+  },
+];

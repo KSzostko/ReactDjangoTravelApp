@@ -1,6 +1,11 @@
 import { rest } from 'msw';
 import { BASE_API_URL } from 'setup/constans';
-import { fakeUserData, fakeTravelsList, fakeTravelPhotos } from './fakeData';
+import {
+  fakeUserData,
+  fakeTravelsList,
+  fakeTravelPhotos,
+  fakeTravelStops,
+} from './fakeData';
 
 export const handlers = [
   rest.post(`${BASE_API_URL}auth/login`, (req, res, ctx) => {
@@ -35,5 +40,8 @@ export const handlers = [
   }),
   rest.get(`${BASE_API_URL}travel-photos`, (req, res, ctx) =>
     res(ctx.status(200), ctx.json(fakeTravelPhotos))
+  ),
+  rest.get(`${BASE_API_URL}travel-stops`, (req, res, ctx) =>
+    res(ctx.status(200), ctx.json(fakeTravelStops))
   ),
 ];

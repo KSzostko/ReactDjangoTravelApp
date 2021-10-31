@@ -86,7 +86,7 @@ function TravelSchedule() {
     dispatch(setLatestTime(latestTime));
   }
 
-  if (isLoading) return <StyledSpinner />;
+  if (isLoading) return <StyledSpinner data-testid="spinner" />;
   if (travelData === null) return null;
 
   return (
