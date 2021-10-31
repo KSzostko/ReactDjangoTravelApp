@@ -15,4 +15,5 @@ export { range } from './range';
 export { formatHour } from './formatHour';
 export { setTimeForDate } from './setTimeForDate';
 export { getHeaders } from './getHeaders';
-export { fakeUserData } from './mocks';
+export { fakeUserData } from './fakeData';
+export { handlers } from './mocks';
