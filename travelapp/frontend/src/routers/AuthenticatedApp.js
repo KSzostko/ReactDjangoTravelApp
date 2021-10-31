@@ -1,4 +1,4 @@
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import PhotosView from 'views/PhotosView';
 import AddPhotoView from 'views/AddPhotoView';
 import PlanTravelView from 'views/PlanTravelView';
@@ -17,6 +17,7 @@ function AuthenticatedApp() {
         <Route path="/travel/:travelId/plan" component={PlanTravelView} />
         <Route exact path="/photos" component={PhotosView} />
         <Route path="/photos/add" component={AddPhotoView} />
+        <Redirect to="/" />
       </Switch>
     </BrowserRouter>
   );
