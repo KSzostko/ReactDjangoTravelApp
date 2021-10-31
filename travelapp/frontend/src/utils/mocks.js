@@ -18,6 +18,9 @@ export const handlers = [
   rest.post(`${BASE_API_URL}auth/register`, (req, res, ctx) =>
     res(ctx.status(200), ctx.json(fakeUserData))
   ),
+  rest.get(`${BASE_API_URL}auth/user`, (req, res, ctx) =>
+    res(ctx.status(200), ctx.json(fakeUserData.user))
+  ),
   rest.get(`${BASE_API_URL}travels`, (req, res, ctx) =>
     res(ctx.status(200), ctx.json(fakeTravelsList))
   ),

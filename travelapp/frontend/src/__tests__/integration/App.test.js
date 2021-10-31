@@ -8,6 +8,7 @@ import App from 'App';
 const mockServer = setupServer(...handlers);
 
 beforeAll(() => mockServer.listen());
+beforeEach(() => localStorage.removeItem('token'));
 afterAll(() => mockServer.close());
 
 describe('<App />', () => {
@@ -40,6 +41,40 @@ describe('<App />', () => {
     });
 
     fireEvent.click(screen.getByText('Zaloguj się'));
+    await waitFor(() =>
+      expect(screen.getByText(fakeUserData.user.username)).toBeInTheDocument()
+    );
+    expect(screen.getByText('Zaplanuj podróż')).toBeInTheDocument();
+    expect(screen.getByText('Podróże')).toBeInTheDocument();
+  });
+
+  it('redirects user to the main page after entering correct register data', async () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByText('Zarejestruj się'));
+
+    fireEvent.change(screen.getByLabelText('Login'), {
+      target: {
+        value: 'testuser',
+      },
+    });
+    fireEvent.change(screen.getByLabelText('Email'), {
+      target: {
+        value: 'test@example.com',
+      },
+    });
+    fireEvent.change(screen.getByLabelText('Hasło'), {
+      target: {
+        value: 'password',
+      },
+    });
+    fireEvent.change(screen.getByLabelText('Powtórzone hasło'), {
+      target: {
+        value: 'password',
+      },
+    });
+
+    fireEvent.click(screen.getByText('Zarejestruj się'));
     await waitFor(() =>
       expect(screen.getByText(fakeUserData.user.username)).toBeInTheDocument()
     );
