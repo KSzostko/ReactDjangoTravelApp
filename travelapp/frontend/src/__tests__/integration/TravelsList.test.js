@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, fireEvent } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { render } from 'utils/testUtils';
 import { handlers, fakeTravelsList, fakeUserData } from 'utils';
@@ -48,6 +48,45 @@ describe('<TravelsList />', () => {
     fakeTravelsList.forEach(({ name, short_description: short }) => {
       expect(screen.getByText(name)).toBeInTheDocument();
       expect(screen.getByText(short)).toBeInTheDocument();
+    });
+  });
+
+  it('filters list items after form submitting', async () => {
+    render(<TravelsList />, {
+      preloadedState: {
+        user: {
+          data: fakeUserData.user,
+          isAuthenticated: true,
+          token: fakeUserData.token,
+        },
+      },
+    });
+
+    await waitFor(() =>
+      expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
+    );
+
+    const filterPhrase = 'Testowa';
+    fireEvent.change(screen.getByPlaceholderText('Nazwa'), {
+      target: {
+        value: filterPhrase,
+      },
+    });
+    fireEvent.click(screen.getByText('Szukaj'));
+
+    await waitFor(() =>
+      expect(screen.getByTestId('spinner')).toBeInTheDocument()
+    );
+    await waitFor(() =>
+      expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
+    );
+
+    fakeTravelsList.forEach(({ name }) => {
+      if (name.includes(filterPhrase)) {
+        expect(screen.getByText(name)).toBeInTheDocument();
+      } else {
+        expect(screen.queryByText(name)).not.toBeInTheDocument();
+      }
     });
   });
 });

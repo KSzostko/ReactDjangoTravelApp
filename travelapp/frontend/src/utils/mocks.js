@@ -21,9 +21,18 @@ export const handlers = [
   rest.get(`${BASE_API_URL}auth/user`, (req, res, ctx) =>
     res(ctx.status(200), ctx.json(fakeUserData.user))
   ),
-  rest.get(`${BASE_API_URL}travels`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(fakeTravelsList))
-  ),
+  rest.get(`${BASE_API_URL}travels`, (req, res, ctx) => {
+    const nameParam = req.url.searchParams.get('name');
+
+    if (!nameParam) {
+      return res(ctx.status(200), ctx.json(fakeTravelsList));
+    }
+
+    const filteredList = fakeTravelsList.filter(({ name }) =>
+      name.includes(nameParam)
+    );
+    return res(ctx.status(200), ctx.json(filteredList));
+  }),
   rest.get(`${BASE_API_URL}travel-photos`, (req, res, ctx) =>
     res(ctx.status(200), ctx.json(fakeTravelPhotos))
   ),
