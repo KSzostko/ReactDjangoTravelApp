@@ -1,14 +1,35 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from 'redux/store';
+import { configureStore } from '@reduxjs/toolkit';
+import { render as rtlRender } from '@testing-library/react';
+import { rootReducer } from 'redux/store';
 
-export const AllProviders = ({ children }) => (
-  <Provider store={store}>
-    <MemoryRouter>{children}</MemoryRouter>
-  </Provider>
-);
+function render(
+  ui,
+  {
+    preloadedState,
+    store = configureStore({ reducer: rootReducer, preloadedState }),
+    ...renderOptions
+  } = {}
+) {
+  function Wrapper({ children }) {
+    return (
+      <Provider store={store}>
+        <MemoryRouter>{children}</MemoryRouter>
+      </Provider>
+    );
+  }
 
-AllProviders.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+  Wrapper.propTypes = {
+    children: PropTypes.node.isRequired,
+  };
+
+  return rtlRender(ui, { wrapper: Wrapper, ...renderOptions });
+}
+
+// re-export everything
+export * from '@testing-library/react';
+// override render method
+export { render };

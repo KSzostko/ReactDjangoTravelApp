@@ -6,7 +6,7 @@ import travelStopModalReducer from './travelStopModal/travelStopModalSlice';
 import travelsReducer from './travels/travelsSlice';
 import travelPeriodModalReducer from './travelPeriodModal/travelPeriodModalSlice';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   user: userReducer,
   map: mapReducer,
   selectedLocation: selectedLocationReducer,
