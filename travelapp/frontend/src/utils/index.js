@@ -15,3 +15,4 @@ export { range } from './range';
 export { formatHour } from './formatHour';
 export { setTimeForDate } from './setTimeForDate';
 export { getHeaders } from './getHeaders';
+export { AllProviders } from './testUtils';
