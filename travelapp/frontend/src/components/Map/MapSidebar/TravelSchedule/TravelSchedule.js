@@ -43,7 +43,6 @@ function TravelSchedule() {
     }
   }, [dispatch, travelId, isTravelPeriodModalOpen, isTravelStopModalOpen]);
 
-  // TODO fly to the choosen stop
   async function showDetails(e) {
     const selectedStopIndex = stopsList.findIndex(
       (stop) => stop.id === parseInt(e.key)

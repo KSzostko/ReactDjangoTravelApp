@@ -11,11 +11,23 @@ function MapEvents() {
   const { data: searchData } = useSelector((state) => state.map.getSearchData);
   const [prevBounds, setPrevBounds] = useState(null);
 
+  const { isOpen: isTravelStopModalOpen, data: travelStop } = useSelector(
+    (state) => state.travelStopModal
+  );
+
   useEffect(() => {
     const { latRange, lonRange } = getRangesWithCenter(center);
     dispatch(fetchLocations({ latRange, lonRange }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
+
+  useEffect(() => {
+    if (isTravelStopModalOpen && travelStop?.attraction) {
+      const { lat, lng } = travelStop.attraction;
+      map.flyTo({ lat, lng }, undefined, { duration: 0.1 });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isTravelStopModalOpen]);
 
   useEffect(() => {
     if (searchData?.lat && searchData?.lon) {

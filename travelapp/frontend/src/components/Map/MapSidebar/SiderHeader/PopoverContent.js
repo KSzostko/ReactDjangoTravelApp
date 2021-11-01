@@ -15,9 +15,6 @@ function PopoverContent({ setIsModalOpenFn }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <StyledButton style={{ color: '#000' }} type="link">
-        Pokaż w kalendarzu
-      </StyledButton>
       <StyledButton style={{ color: '#000' }} type="link" onClick={handleClick}>
         Optymalizuj rozkład
       </StyledButton>
