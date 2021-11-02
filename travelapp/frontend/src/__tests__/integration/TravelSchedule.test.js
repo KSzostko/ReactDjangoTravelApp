@@ -5,7 +5,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { render as customRender } from 'utils/testUtils';
-import { handlers, fakeTravelStops, cutText, formatHour } from 'utils';
+import {
+  handlers,
+  fakeTravelStops,
+  fakeUserData,
+  cutText,
+  formatHour,
+} from 'utils';
 import { rootReducer } from 'redux/store';
 import TravelSchedule from 'components/Map/MapSidebar/TravelSchedule/TravelSchedule';
 
@@ -16,7 +22,9 @@ afterAll(() => mockServer.close());
 
 describe('<TravelSchedule />', () => {
   it('displays a loader before loading data', () => {
-    customRender(<TravelSchedule />);
+    customRender(<TravelSchedule />, {
+      preloadedState: { user: { data: fakeUserData.user } },
+    });
 
     expect(screen.getByTestId('spinner')).toBeInTheDocument();
   });
@@ -27,6 +35,7 @@ describe('<TravelSchedule />', () => {
         current: { data: fakeTravelStops[0].travel },
         getTravelStops: { data: [], error: null },
       },
+      user: { data: fakeUserData.user },
     };
 
     const store = configureStore({ reducer: rootReducer, preloadedState });
@@ -56,6 +65,7 @@ describe('<TravelSchedule />', () => {
         current: { data: fakeTravelStops[0].travel },
         getTravelStops: { data: [], error: null },
       },
+      user: { data: fakeUserData.user },
     };
 
     const store = configureStore({ reducer: rootReducer, preloadedState });
