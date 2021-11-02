@@ -18,6 +18,7 @@ function TravelForm({ editMode }) {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const { id: userId } = useSelector((state) => state.user.data);
   const { error, isLoading, data: currentTravel } = useSelector(
     (state) => state.travels.current
   );
@@ -50,6 +51,18 @@ function TravelForm({ editMode }) {
       formRef.current.resetFields();
     }
   }, [dispatch, travelId, currentTravel]);
+
+  useEffect(() => {
+    if (
+      currentTravel?.creator &&
+      currentTravel.creator !== userId &&
+      editMode
+    ) {
+      dispatch(clearCurrentTravel());
+      history.push('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTravel]);
 
   async function handleFinish({ schedule, ...rest }) {
     /* eslint-disable */

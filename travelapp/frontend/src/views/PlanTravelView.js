@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Spin } from 'antd';
 import { getTravelById } from 'redux/travels/actions/getTravelById/thunk';
+import { clearCurrentTravel } from 'redux/travels/travelsSlice';
 import AuthLayout from 'components/AuthLayout';
 import Map from 'components/Map/Map';
 
@@ -28,6 +29,10 @@ function PlanTravelView() {
       .catch(() => {
         history.push('/travel/start');
       });
+
+    return () => {
+      dispatch(clearCurrentTravel());
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
