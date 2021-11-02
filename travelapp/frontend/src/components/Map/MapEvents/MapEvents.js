@@ -7,13 +7,11 @@ import { getRanges, getRangesWithCenter } from './helpers';
 
 function MapEvents() {
   const dispatch = useDispatch();
+
   const { center, zoom } = useSelector((state) => state.map);
   const { data: searchData } = useSelector((state) => state.map.getSearchData);
   const [prevBounds, setPrevBounds] = useState(null);
-
-  const { isOpen: isTravelStopModalOpen, data: travelStop } = useSelector(
-    (state) => state.travelStopModal
-  );
+  const { data: choosedStop } = useSelector((state) => state.travelStopModal);
 
   useEffect(() => {
     const { latRange, lonRange } = getRangesWithCenter(center);
@@ -22,12 +20,12 @@ function MapEvents() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (isTravelStopModalOpen && travelStop?.attraction) {
-      const { lat, lng } = travelStop.attraction;
+    if (choosedStop?.attraction) {
+      const { lat, lng } = choosedStop.attraction;
       map.flyTo({ lat, lng }, undefined, { duration: 0.1 });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isTravelStopModalOpen]);
+  }, [choosedStop]);
 
   useEffect(() => {
     if (searchData?.lat && searchData?.lon) {

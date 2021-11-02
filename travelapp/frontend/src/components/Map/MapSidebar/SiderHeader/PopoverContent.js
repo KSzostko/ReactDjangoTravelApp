@@ -21,7 +21,7 @@ function PopoverContent({ setIsModalOpenFn }) {
       <Tooltip
         trigger="click"
         placement="right"
-        title="Kliknij w dowolny element menu aby zobaczyć jego szczegóły"
+        title="Kliknij w dowolny element menu aby zobaczyć jego szczegóły (jeśli jesteś autorem podróży)"
       >
         <StyledButton style={{ color: '#000' }} type="link">
           Pomoc

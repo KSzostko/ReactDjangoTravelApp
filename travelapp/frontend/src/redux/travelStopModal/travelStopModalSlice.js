@@ -35,8 +35,10 @@ const travelStopModalSlice = createSlice({
       state.getRouteFromStop = initialState.getRouteFromStop;
       state.getNewRoute = initialState.getNewRoute;
     },
-    chooseTravelStop(state, action) {
+    openModal(state) {
       state.isOpen = true;
+    },
+    chooseTravelStop(state, action) {
       state.data = action.payload;
     },
     setEarliestTime(state, action) {
@@ -55,6 +57,7 @@ const travelStopModalSlice = createSlice({
 
 export const {
   closeModal,
+  openModal,
   chooseTravelStop,
   setEarliestTime,
   setLatestTime,

@@ -15,6 +15,8 @@ function MapModal({
   hasWaypointFn,
 }) {
   const dispatch = useDispatch();
+
+  const { id: userId } = useSelector((state) => state.user.data);
   const { isLoading, isModalOpen, data } = useSelector(
     (state) => state.selectedLocation
   );
@@ -75,14 +77,26 @@ function MapModal({
     dispatch(clearLocationData());
   }
 
+  function isCreator() {
+    return currentTravel?.creator && currentTravel.creator === userId;
+  }
+
   const footer = [
     <Button key="close" onClick={handleCloseModal}>
       Zamknij
     </Button>,
-    <Button key="add" type="primary" onClick={handleAddToTravel}>
-      {canAddHotel ? 'Dodaj hotel' : 'Dodaj do podróży'}
-    </Button>,
   ];
+
+  if (isCreator()) {
+    footer.splice(
+      1,
+      0,
+      <Button key="add" type="primary" onClick={handleAddToTravel}>
+        {canAddHotel ? 'Dodaj hotel' : 'Dodaj do podróży'}
+      </Button>
+    );
+  }
+
   if (!hasWaypointFn(data?.point)) {
     footer.splice(
       1,

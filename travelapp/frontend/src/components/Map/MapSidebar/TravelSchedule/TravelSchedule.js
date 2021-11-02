@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Menu, Spin } from 'antd';
 import { getTravelDays, useErrorNotification, filterByDate } from 'utils';
 import {
+  openModal,
   chooseTravelStop,
   setEarliestTime,
   setLatestTime,
@@ -24,6 +25,8 @@ const StyledSpinner = styled(Spin)`
 function TravelSchedule() {
   const { travelId } = useParams();
   const dispatch = useDispatch();
+
+  const { id: userId } = useSelector((state) => state.user.data);
   const { isOpen: isTravelPeriodModalOpen } = useSelector(
     (state) => state.travelPeriodModal
   );
@@ -43,6 +46,10 @@ function TravelSchedule() {
     }
   }, [dispatch, travelId, isTravelPeriodModalOpen, isTravelStopModalOpen]);
 
+  function isCreator() {
+    return travelData?.creator && travelData.creator === userId;
+  }
+
   async function showDetails(e) {
     const selectedStopIndex = stopsList.findIndex(
       (stop) => stop.id === parseInt(e.key)
@@ -56,6 +63,10 @@ function TravelSchedule() {
     let earliestTime = { hours: 0, minutes: 0 };
     let latestTime = { hours: 23, minutes: 59 };
     dispatch(chooseTravelStop(selectedStop));
+
+    if (!isCreator()) return;
+
+    dispatch(openModal());
 
     if (selectedStopIndex > 0) {
       await dispatch(getRouteToStop(selectedStop.id))
