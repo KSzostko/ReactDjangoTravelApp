@@ -30,11 +30,11 @@ function NewRouteStep() {
   const { id: selectedStopId } = useSelector(
     (state) => state.travelStopModal.data
   );
-  const { start: startId } = useSelector(
-    (state) => state.travelStopModal.getRouteToStop.data
+  const { data: routeToStop } = useSelector(
+    (state) => state.travelStopModal.getRouteToStop
   );
-  const { destination: destId } = useSelector(
-    (state) => state.travelStopModal.getRouteFromStop.data
+  const { data: routeFromStop } = useSelector(
+    (state) => state.travelStopModal.getRouteFromStop
   );
   const { isLoading, error } = useSelector(
     (state) => state.travelStopModal.getNewRoute
@@ -43,6 +43,10 @@ function NewRouteStep() {
   useErrorNotification(error, 'Nie udało się obliczyć nowej trasy');
 
   async function addNewRoute({ transport }) {
+    if (!routeToStop?.start || !routeFromStop?.destination) return;
+    const { start: startId } = routeToStop;
+    const { destination: destId } = routeFromStop;
+
     const startWaypoint = extractWaypoint(startId, travelStops);
     const destWaypoint = extractWaypoint(destId, travelStops);
     if (!startWaypoint || !destWaypoint) return;
