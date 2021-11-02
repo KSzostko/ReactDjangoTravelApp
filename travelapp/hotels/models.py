@@ -5,7 +5,7 @@ class Hotel(models.Model):
     id = models.AutoField(primary_key=True)
     xid = models.CharField(max_length=50, unique=True)
     name = models.CharField(max_length=40)
-    address = models.CharField(max_length=100)
+    address = models.CharField(max_length=300)
     lat = models.FloatField()
     lng = models.FloatField()
     stars = models.IntegerField()

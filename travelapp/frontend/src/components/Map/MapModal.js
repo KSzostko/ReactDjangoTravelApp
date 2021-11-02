@@ -60,7 +60,7 @@ function MapModal({
           lng: point.lon,
           stars: stars || -1,
         })
-      );
+      ).unwrap();
     }
 
     dispatch(updateTravel({ ...currentTravel, hotel: dbHotel.id }));

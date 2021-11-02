@@ -17,7 +17,7 @@ function HotelMenu() {
   useErrorNotification(error, 'Nie udało się dodać hotelu');
 
   useEffect(() => {
-    if (currentTravel?.hotel && !hotel) {
+    if (currentTravel?.hotel) {
       dispatch(getHotelDetails(currentTravel.hotel));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
