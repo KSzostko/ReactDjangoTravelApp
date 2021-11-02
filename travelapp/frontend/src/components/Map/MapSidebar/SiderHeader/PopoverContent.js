@@ -21,7 +21,7 @@ function PopoverContent({ setIsModalOpenFn }) {
       <Tooltip
         trigger="click"
         placement="right"
-        title="Kliknij w dowolny element menu aby zobaczyć jego szczegóły (jeśli jesteś autorem podróży)"
+        title="Kliknij w dowolny element menu aby przejść do niego na mapie (jeśli jesteś twórcą podróży to otworzy się także formularz edycji)"
       >
         <StyledButton style={{ color: '#000' }} type="link">
           Pomoc
