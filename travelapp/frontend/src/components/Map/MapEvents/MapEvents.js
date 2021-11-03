@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useMapEvents } from 'react-leaflet';
 import { setCenter, setZoom } from 'redux/map/mapSlice';
 import { fetchLocations } from 'redux/map/actions/fetchLocations/thunk';
-import { getRanges, getRangesWithCenter } from './helpers';
+import { getRanges } from './helpers';
 
 function MapEvents() {
   const dispatch = useDispatch();
@@ -14,10 +14,9 @@ function MapEvents() {
   const { data: choosedStop } = useSelector((state) => state.travelStopModal);
 
   useEffect(() => {
-    const { latRange, lonRange } = getRangesWithCenter(center);
-    dispatch(fetchLocations({ latRange, lonRange }));
+    map.flyTo(center);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     if (choosedStop?.attraction) {

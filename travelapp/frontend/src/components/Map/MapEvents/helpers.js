@@ -13,16 +13,3 @@ export function getRanges(map) {
 
   return { latRange, lonRange };
 }
-
-export function getRangesWithCenter(center) {
-  const latRange = {
-    min: center.lat,
-    max: center.lat + 1,
-  };
-  const lonRange = {
-    min: center.lng,
-    max: center.lng + 1,
-  };
-
-  return { latRange, lonRange };
-}
