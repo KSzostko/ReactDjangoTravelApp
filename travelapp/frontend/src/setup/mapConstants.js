@@ -17,6 +17,12 @@ const mapSettings = {
       retinaUrl:
         'https://unpkg.com/leaflet@1.0.3/dist/images/marker-icon-2x.png',
     },
+    hotel: {
+      url:
+        'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png',
+      retinaUrl:
+        'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png',
+    },
     selected: {
       url:
         'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',

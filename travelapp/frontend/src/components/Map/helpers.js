@@ -1,3 +1,4 @@
+import mapSettings from 'setup/mapConstants';
 import { AttractionAPI } from 'services';
 import { decodePolyline } from 'utils';
 
@@ -36,4 +37,25 @@ export async function addAttraction(data) {
   }
 
   return dbAttraction;
+}
+
+export function chooseMarker(selected, hotel) {
+  const {
+    default: defaultMarker,
+    selected: selectedMarker,
+    hotel: hotelMarker,
+  } = mapSettings.marker;
+
+  if (selected) {
+    return {
+      iconUrl: selectedMarker.url,
+      iconRetinaUrl: selectedMarker.retinaUrl,
+    };
+  }
+
+  if (hotel) {
+    return { iconUrl: hotelMarker.url, iconRetinaUrl: hotelMarker.retinaUrl };
+  }
+
+  return { iconUrl: defaultMarker.url, iconRetinaUrl: defaultMarker.retinaUrl };
 }

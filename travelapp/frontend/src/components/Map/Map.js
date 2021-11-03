@@ -17,7 +17,7 @@ import TravelPeriodModal from './TravelPeriodModal/TravelPeriodModal';
 import RoutePolyline from './RoutePolyline/RoutePolyline';
 import RouteOptions from './RouteOptions';
 import OptimalSequence from './OptimalSequence/OptimalSequence';
-import { adjustRouteData } from './helpers';
+import { adjustRouteData, isHotel } from './helpers';
 
 const StyledSpinner = styled(Spin)`
   position: absolute;
@@ -173,13 +173,14 @@ function Map() {
           removeOutsideVisibleBounds
           chunkedLoading
         >
-          {locations.map(({ xid, point, name }) => (
+          {locations.map(({ xid, point, name, ...rest }) => (
             <MapMarker
               key={xid}
               xid={xid}
               point={point}
               name={name}
               selected={hasWaypoint(point)}
+              isHotel={isHotel({ xid, point, name, ...rest })}
             />
           ))}
         </MarkerClusterGroup>

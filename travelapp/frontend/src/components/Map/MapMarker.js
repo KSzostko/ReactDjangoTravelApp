@@ -4,10 +4,8 @@ import { useDispatch } from 'react-redux';
 import { Marker, Tooltip } from 'react-leaflet';
 import styled from 'styled-components';
 import { notification, Divider } from 'antd';
-import mapSettings from 'setup/mapConstants';
 import { getLocationsDetails } from 'redux/selectedLocation/getLocationDetails/thunk';
-
-const { default: defaultMarker, selected: selectedMarker } = mapSettings.marker;
+import { chooseMarker } from './helpers';
 
 const StyledTooltip = styled(Tooltip)`
   padding: 8px 16px;
@@ -19,15 +17,13 @@ const StyledDivider = styled(Divider)`
   padding: 0;
 `;
 
-function MapMarker({ xid, point, name, selected }) {
+function MapMarker({ xid, point, name, selected, isHotel }) {
   const dispatch = useDispatch();
 
-  // TODO add different marker for hotels
+  const { iconUrl, iconRetinaUrl } = chooseMarker(selected, isHotel);
   const markerIcon = L.icon({
-    iconUrl: selected ? selectedMarker.url : defaultMarker.url,
-    iconRetinaUrl: selected
-      ? selectedMarker.retinaUrl
-      : defaultMarker.retinaUrl,
+    iconUrl,
+    iconRetinaUrl,
     shadowUrl: 'https://unpkg.com/leaflet@1.0.3/dist/images/marker-shadow.png',
     iconSize: [25, 41],
     iconAnchor: [12, 41],
@@ -74,6 +70,7 @@ MapMarker.propTypes = {
   }).isRequired,
   name: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
+  isHotel: PropTypes.bool.isRequired,
 };
 
 export default MapMarker;
