@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db.models.functions import Lower
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
@@ -5,7 +6,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 from .models import Travel, TravelPhoto, TravelStop, TravelRoute
-from .serializers import TravelSerializer, TravelPhotoSerializer, TravelStopSerializer, TravelRouteSerializer
+from .serializers import TravelSerializer, TravelPhotoSerializer, TravelStopSerializer, TravelRouteSerializer, DateRangeSerializer
 
 
 class TravelViewSet(viewsets.ModelViewSet):
@@ -49,6 +50,28 @@ class TravelViewSet(viewsets.ModelViewSet):
             return qs
         except ValueError:
             return qs
+
+    """
+    Returns two dates: earliest and latest date with any stop for the given travel.
+    If there are no stops in travel yet, travel start and end date are returned.
+    """
+    @action(detail=True, methods=['GET'], url_path='period')
+    def period(self, request, pk=None):
+        travel = get_object_or_404(Travel.objects.all(), pk=pk)
+        travel_stops = TravelStop.objects.filter(travel=travel).order_by('start_date')
+
+        start = travel.start_date
+        end = travel.end_date
+
+        if travel_stops.count():
+            start_date_time = travel_stops[0].start_date
+            end_date_time = travel_stops[travel_stops.count() - 1].start_date
+
+            start = datetime.strftime(start_date_time, "%Y-%m-%d")
+            end = datetime.strftime(end_date_time, "%Y-%m-%d")
+
+        serializer = DateRangeSerializer({'start': start, 'end': end})
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class TravelPhotoViewSet(viewsets.ModelViewSet):

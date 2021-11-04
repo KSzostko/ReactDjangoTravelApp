@@ -2,6 +2,11 @@ from rest_framework import serializers
 from .models import Travel, TravelPhoto, TravelStop, TravelRoute
 
 
+class DateRangeSerializer(serializers.Serializer):
+    start = serializers.DateField()
+    end = serializers.DateField()
+
+
 class TravelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Travel
