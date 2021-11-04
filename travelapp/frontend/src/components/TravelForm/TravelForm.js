@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Input, DatePicker, Button, Spin } from 'antd';
+import moment from 'moment';
 import { useErrorNotification } from 'utils';
 import { createTravel } from 'redux/travels/actions/createTravel/thunk';
 import { getTravelById } from 'redux/travels/actions/getTravelById/thunk';
 import { updateTravel } from 'redux/travels/actions/updateTravel/thunk';
 import { clearCurrentTravel } from 'redux/travels/travelsSlice';
+import { getDateString, getInitialFormValues } from './helpers';
 
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
@@ -22,11 +24,11 @@ function TravelForm({ editMode }) {
   const { error, isLoading, data: currentTravel } = useSelector(
     (state) => state.travels.current
   );
-  const initialFormValues = {
-    name: currentTravel?.name || '',
-    short_description: currentTravel?.short_description || '',
-    description: currentTravel?.description || '',
-  };
+
+  // TODO disabled date should be based on latest/earliest travel stop
+  const startDate = moment(currentTravel?.start_date, 'YYYY-MM-DD');
+  const endDate = moment(currentTravel?.end_date, 'YYYY-MM-DD');
+  const initialFormValues = getInitialFormValues(currentTravel, editMode);
 
   useErrorNotification(
     error,
@@ -64,12 +66,12 @@ function TravelForm({ editMode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTravel]);
 
-  async function handleFinish({ schedule, ...rest }) {
+  async function handleFinish({ schedule, start, end, ...rest }) {
     /* eslint-disable */
     const [start_date, end_date] = !editMode ?
       schedule.map((dateItem) =>
-        dateItem.toDate().toISOString().substring(0, 10)
-      ) : [currentTravel.start_date, currentTravel.end_date];
+        getDateString(dateItem)
+      ) : [getDateString(start), getDateString(end)];
     /* eslint-enable */
     const travelData = {
       start_date,
@@ -139,6 +141,34 @@ function TravelForm({ editMode }) {
             placeholder={['Początek', 'Koniec']}
           />
         </Form.Item>
+      )}
+      {editMode && (
+        <>
+          <Form.Item
+            name="start"
+            label="Początek"
+            rules={[{ required: true, message: 'Podaj datę początkową' }]}
+          >
+            <DatePicker
+              showToday={false}
+              disabledDate={(curr) => curr > startDate}
+              style={{ width: 350 }}
+              placeholder="Początek"
+            />
+          </Form.Item>
+          <Form.Item
+            name="end"
+            label="Koniec"
+            rules={[{ required: true, message: 'Podaj datę końcową' }]}
+          >
+            <DatePicker
+              showToday={false}
+              disabledDate={(curr) => curr < endDate}
+              style={{ width: 350 }}
+              placeholder="Koniec"
+            />
+          </Form.Item>
+        </>
       )}
       <Form.Item>
         <Button type="primary" htmlType="submit" block loading={isLoading}>

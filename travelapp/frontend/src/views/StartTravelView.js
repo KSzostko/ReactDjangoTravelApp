@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Typography } from 'antd';
 import AuthLayout from 'components/AuthLayout';
-import TravelForm from 'components/TravelForm';
+import TravelForm from 'components/TravelForm/TravelForm';
 
 const { Title } = Typography;
 
