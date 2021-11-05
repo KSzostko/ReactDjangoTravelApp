@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 from .models import Travel, TravelPhoto, TravelStop, TravelRoute
 from .serializers import TravelSerializer, TravelPhotoSerializer, TravelStopSerializer, TravelRouteSerializer, DateRangeSerializer
+from .utils import convert_to_date
 
 
 class TravelViewSet(viewsets.ModelViewSet):
@@ -67,8 +68,8 @@ class TravelViewSet(viewsets.ModelViewSet):
             start_date_time = travel_stops[0].start_date
             end_date_time = travel_stops[travel_stops.count() - 1].start_date
 
-            start = datetime.strftime(start_date_time, "%Y-%m-%d")
-            end = datetime.strftime(end_date_time, "%Y-%m-%d")
+            start = convert_to_date(start_date_time)
+            end = convert_to_date(end_date_time)
 
         serializer = DateRangeSerializer({'start': start, 'end': end})
         return Response(serializer.data, status=status.HTTP_200_OK)

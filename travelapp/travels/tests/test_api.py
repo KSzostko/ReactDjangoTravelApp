@@ -1,11 +1,14 @@
 import datetime
 from django.contrib.auth.models import User
+from django.utils.timezone import make_aware
 from django.urls import reverse
 from django.test import TestCase
 from django.db.models.functions import Lower
 from rest_framework import status
-from travels.models import Travel
-from travels.serializers import TravelSerializer
+from travels.models import Travel, TravelStop
+from attractions.models import Attraction
+from travels.serializers import TravelSerializer, DateRangeSerializer
+from travels.utils import convert_to_date
 
 
 def login_user(client):
@@ -136,4 +139,80 @@ class GetTravelsTest(TestCase):
         serializer = TravelSerializer(travels, many=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 2)
+        self.assertEqual(response.data, serializer.data)
+
+
+class GetPeriodTest(TestCase):
+    """ Test module for GET travel period API """
+    def setUp(self):
+        User.objects.create_user(username='testuser', password='password')
+        Travel.objects.create(
+            name='Travel #1',
+            short_description='short description',
+            description='description',
+            start_date=datetime.date(2021, 8, 17),
+            end_date=datetime.date(2021, 9, 1)
+        )
+        Attraction.objects.create(
+            xid='xid',
+            name='attraction',
+            type='accommodation',
+            lat=33.25,
+            lng=21.45,
+            description='Decription'
+        )
+
+    def test_get_travel_start_and_end_date_when_it_has_no_stops(self):
+        token = login_user(self.client)
+        travel = Travel.objects.get(name='Travel #1')
+        response = self.client.get(f'/api/travels/{travel.id}/period/', **{'HTTP_AUTHORIZATION': 'Token ' + token})
+
+        expected = {'start': travel.start_date, 'end': travel.end_date}
+        serializer = DateRangeSerializer(expected, many=False)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, serializer.data)
+
+    def test_get_travel_stop_start_and_end_date_when_there_is_one(self):
+        token = login_user(self.client)
+        travel = Travel.objects.get(name='Travel #1')
+        attraction = Attraction.objects.get(name='attraction')
+        travel_stop = TravelStop.objects.create(
+            travel=travel,
+            attraction=attraction,
+            start_date=make_aware(datetime.datetime(2021, 8, 19, 8, 0, 0)),
+            end_date=make_aware(datetime.datetime(2021, 8, 19, 9, 15, 9)),
+        )
+
+        response = self.client.get(f'/api/travels/{travel.id}/period/', **{'HTTP_AUTHORIZATION': 'Token ' + token})
+
+        expected = {'start': convert_to_date(travel_stop.start_date), 'end': convert_to_date(travel_stop.end_date)}
+        serializer = DateRangeSerializer(expected, many=False)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, serializer.data)
+
+    def test_get_travel_stop_start_and_end_date_when_there_are_multiple(self):
+        token = login_user(self.client)
+        travel = Travel.objects.get(name='Travel #1')
+        attraction = Attraction.objects.get(name='attraction')
+        travel_stop1 = TravelStop.objects.create(
+            travel=travel,
+            attraction=attraction,
+            start_date=make_aware(datetime.datetime(2021, 8, 19, 8, 0, 0)),
+            end_date=make_aware(datetime.datetime(2021, 8, 19, 9, 15, 9)),
+        )
+        travel_stop2 = TravelStop.objects.create(
+            travel=travel,
+            attraction=attraction,
+            start_date=make_aware(datetime.datetime(2021, 8, 29, 8, 0, 0)),
+            end_date=make_aware(datetime.datetime(2021, 8, 29, 9, 15, 9)),
+        )
+
+        response = self.client.get(f'/api/travels/{travel.id}/period/', **{'HTTP_AUTHORIZATION': 'Token ' + token})
+
+        expected = {'start': convert_to_date(travel_stop1.start_date), 'end': convert_to_date(travel_stop2.start_date)}
+        serializer = DateRangeSerializer(expected, many=False)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
