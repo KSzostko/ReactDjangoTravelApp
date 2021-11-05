@@ -7,6 +7,7 @@ import moment from 'moment';
 import { useErrorNotification } from 'utils';
 import { createTravel } from 'redux/travels/actions/createTravel/thunk';
 import { getTravelById } from 'redux/travels/actions/getTravelById/thunk';
+import { getTravelPeriod } from 'redux/travels/actions/getTravelPeriod/thunk';
 import { updateTravel } from 'redux/travels/actions/updateTravel/thunk';
 import { clearCurrentTravel } from 'redux/travels/travelsSlice';
 import { getDateString, getInitialFormValues } from './helpers';
@@ -24,11 +25,11 @@ function TravelForm({ editMode }) {
   const { error, isLoading, data: currentTravel } = useSelector(
     (state) => state.travels.current
   );
-
-  // TODO disabled date should be based on latest/earliest travel stop
-  const startDate = moment(currentTravel?.start_date, 'YYYY-MM-DD');
-  const endDate = moment(currentTravel?.end_date, 'YYYY-MM-DD');
-  const initialFormValues = getInitialFormValues(currentTravel, editMode);
+  const {
+    error: travelPeriodError,
+    isLoading: travelPeriodPending,
+    data: travelPeriod,
+  } = useSelector((state) => state.travels.getTravelPeriod);
 
   useErrorNotification(
     error,
@@ -36,15 +37,20 @@ function TravelForm({ editMode }) {
       ? 'Nie udało się zaktualizować wyjazdu'
       : 'Nie udało sie utworzyć wyjazdu'
   );
+  useErrorNotification(
+    travelPeriodError,
+    'Nie udało się pobrać terminu podróży'
+  );
 
   useEffect(() => {
     if (travelId) {
       dispatch(getTravelById(travelId));
+      if (editMode) dispatch(getTravelPeriod(travelId));
       return;
     }
 
     dispatch(clearCurrentTravel());
-  }, [dispatch, travelId]);
+  }, [dispatch, travelId, editMode]);
 
   useEffect(() => {
     if (travelId) return;
@@ -92,7 +98,11 @@ function TravelForm({ editMode }) {
       });
   }
 
-  if (isLoading) return <Spin />;
+  if (isLoading || travelPeriodPending) return <Spin />;
+
+  const initialFormValues = getInitialFormValues(currentTravel, editMode);
+  const startDate = moment(travelPeriod?.start, 'YYYY-MM-DD');
+  const endDate = moment(travelPeriod?.end, 'YYYY-MM-DD');
 
   return (
     <Form

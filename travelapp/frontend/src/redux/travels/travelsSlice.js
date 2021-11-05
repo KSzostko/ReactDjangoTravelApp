@@ -15,12 +15,19 @@ import { addPhotoReducer } from './actions/addPhoto';
 import { getWaypointsSequenceReducer } from './actions/getWaypointsSequence';
 import { getHotelDetailsReducer } from './actions/getHotelDetails';
 import { addHotelReducer } from './actions/addHotel';
+import { getTravelPeriodReducer } from './actions/getTravelPeriod';
 
 const initialState = {
   list: [],
   isLoading: false,
   error: null,
   current: {
+    data: null,
+    isLoading: false,
+    error: null,
+  },
+  // period for current travel
+  getTravelPeriod: {
     data: null,
     isLoading: false,
     error: null,
@@ -88,6 +95,7 @@ const travelsSlice = createSlice({
     getWaypointsSequenceReducer(builder);
     getHotelDetailsReducer(builder);
     addHotelReducer(builder);
+    getTravelPeriodReducer(builder);
   },
 });
 

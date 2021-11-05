@@ -55,4 +55,19 @@ const deleteTravel = (travelId) =>
     .then(() => travelId)
     .catch(({ response }) => Promise.reject(response.statusText));
 
-export default { getList, create, update, getById, deleteTravel };
+const getTravelPeriod = (travelId) =>
+  axios
+    .get(`${BASE_URL}${travelId}/period`, {
+      headers: getHeaders(),
+    })
+    .then(({ data }) => data)
+    .catch(({ response }) => response.statusText);
+
+export default {
+  getList,
+  create,
+  update,
+  getById,
+  deleteTravel,
+  getTravelPeriod,
+};
