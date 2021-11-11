@@ -12,10 +12,7 @@ const findPlacesInRadius = ({
 }) =>
   axios
     .get(
-      `${BASE_URL}/radius?
-      &radius=${radius}&lat=${lat}&lon=${lon}
-      &kinds=${categoriesList.toString()}&format=json&rate=2
-      &apikey=${process.env.REACT_APP_OPEN_TRIP_MAP_API_KEY}`
+      `/.netlify/functions/findInRadius?radius=${radius}&lat=${lat}&lon=${lon}&categoriesList=${categoriesList.toString()}`
     )
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.data.error));
