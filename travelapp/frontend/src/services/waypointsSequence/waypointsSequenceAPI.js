@@ -1,14 +1,11 @@
 import axios from 'axios';
-import { formatWaypoint, listWaypoints } from './waypointsHelpers';
-
-const BASE_URL = 'https://wse.ls.hereapi.com/2/findsequence.json';
+import { getWaypointsString } from './waypointsHelpers';
 
 const getOptimalSequence = (waypoints, transport = 'car') =>
   /* eslint-disable */
   axios.get(
-    `${BASE_URL}?mode=fastest;${transport}&apiKey=${process.env.REACT_APP_HERE_API_KEY}
-    &start=${formatWaypoint(waypoints[0])}${listWaypoints(waypoints)}
-    `
+    `/.netlify/functions/sequence?transport=${transport}&waypoints=${getWaypointsString(waypoints)}`
+
   )
     /* eslint-enable */
     .then(({ data }) => {
