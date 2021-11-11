@@ -34,9 +34,7 @@ const findPlacesInBox = ({
 // Service based on GeoNames database. Places like region, city village, etc.
 const findPlaceByName = (place) =>
   axios
-    .get(
-      `${BASE_URL}/geoname?name=${place}&apikey=${process.env.REACT_APP_OPEN_TRIP_MAP_API_KEY}`
-    )
+    .get(`/.netlify/functions/findPlace?place=${place}`)
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.data.error));
 
