@@ -1,13 +1,9 @@
 import axios from 'axios';
-import { getWaypointsString } from './helpers';
+import { getUrl } from './waypointsHelpers';
 
 const getOptimalSequence = (waypoints, transport = 'car') =>
-  /* eslint-disable */
-  axios.get(
-    `/.netlify/functions/sequence?transport=${transport}&waypoints=${getWaypointsString(waypoints)}`
-
-  )
-    /* eslint-enable */
+  axios
+    .get(getUrl(waypoints, transport))
     .then(({ data }) => {
       const { distance, time, interconnections } = data.results[0];
       return { distance, time, interconnections };

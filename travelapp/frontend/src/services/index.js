@@ -6,5 +6,5 @@ export { default as TravelPhotoAPI } from './travelPhotoAPI';
 export { default as AttractionAPI } from './attractionAPI';
 export { default as HotelAPI } from './hotelAPI';
 export { default as PlacesAPI } from './places/placesAPI';
-export { default as RoutingAPI } from './routingAPI';
-export { default as WaypointsSequenceAPI } from './waypointsSequenceAPI';
+export { default as RoutingAPI } from './routing/routingAPI';
+export { default as WaypointsSequenceAPI } from './waypointsSequence/waypointsSequenceAPI';
