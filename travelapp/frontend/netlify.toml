@@ -1,4 +1,2 @@
-[build]
-  Command = "yarn build"
-  Functions = "src/netlify/functions"
-  Publish = "build"
+[functions]
+  directory = "src/netlify/functions"
