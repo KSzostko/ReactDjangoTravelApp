@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8000/api/auth';
+const BASE_URL = `${process.env.REACT_APP_BASE_API_URL}/auth/`;
 
 const register = (userData) =>
   axios
-    .post(`${BASE_URL}/register`, userData, {
+    .post(`${BASE_URL}register`, userData, {
       headers: { 'Content-Type': 'application/json' },
     })
     .then(({ data }) => {
@@ -18,7 +18,7 @@ const register = (userData) =>
 
 const login = (userData) =>
   axios
-    .post(`${BASE_URL}/login`, userData, {
+    .post(`${BASE_URL}login`, userData, {
       headers: { 'Content-Type': 'application/json' },
     })
     .then(({ data }) => {
@@ -33,7 +33,7 @@ const login = (userData) =>
 const logout = (token) =>
   axios
     .post(
-      `${BASE_URL}/logout`,
+      `${BASE_URL}logout`,
       {},
       {
         headers: {
@@ -50,7 +50,7 @@ const logout = (token) =>
 
 const getUserByToken = (token) =>
   axios
-    .get(`${BASE_URL}/user`, {
+    .get(`${BASE_URL}user`, {
       headers: {
         Authorization: `Token ${token}`,
       },

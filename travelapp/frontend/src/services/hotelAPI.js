@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getHeaders } from 'utils';
 
-const BASE_URL = 'http://localhost:8000/api/hotels/';
+const BASE_URL = `${process.env.REACT_APP_BASE_API_URL}/hotels/`;
 
 const create = (hotelData) =>
   axios

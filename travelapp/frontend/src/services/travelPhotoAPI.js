@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getHeaders } from 'utils';
 
-const BASE_URL = 'http://localhost:8000/api/travel-photos/';
+const BASE_URL = `${process.env.REACT_APP_BASE_API_URL}/travel-photos/`;
 
 const getList = (sortBy = '') =>
   axios
