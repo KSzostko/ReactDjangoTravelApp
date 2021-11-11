@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { getAllCategories } from './placesHelpers';
 
-const BASE_URL = 'https://api.opentripmap.com/0.1/en/places';
-
 // radius number is passed in meters
 const findPlacesInRadius = ({
   radius,
@@ -40,9 +38,7 @@ const findPlaceByName = (place) =>
 
 const getPlaceDetails = (xid) =>
   axios
-    .get(
-      `${BASE_URL}/xid/${xid}?apikey=${process.env.REACT_APP_OPEN_TRIP_MAP_API_KEY}`
-    )
+    .get(`/.netlify/functions/placeDetails?xid=${xid}`)
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.data.error));
 
