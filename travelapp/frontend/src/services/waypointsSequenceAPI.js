@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getWaypointsString } from './waypointsHelpers';
+import { getWaypointsString } from './helpers';
 
 const getOptimalSequence = (waypoints, transport = 'car') =>
   /* eslint-disable */

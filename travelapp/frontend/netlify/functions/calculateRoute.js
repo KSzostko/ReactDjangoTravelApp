@@ -1,0 +1,46 @@
+const axios = require('axios');
+
+function getWaypointString(waypoint) {
+  return `${waypoint.lat},${waypoint.lon}`;
+}
+
+const BASE_URL = 'https://router.hereapi.com/v8/routes';
+
+module.exports.handler = async (e) => {
+  try {
+    const {
+      waypoints: waypointsString,
+      transport,
+      returnType,
+    } = e.queryStringParameters;
+    const waypoints = waypointsString.split(';').map(JSON.parse);
+
+    /* eslint-disable */
+    const intermediateWaypoints =
+      waypoints.length > 2
+        ? `${waypoints
+          .slice(1, waypoints.length - 1)
+          .map((point) => `&via=${getWaypointString(point)}`)
+          .join('')}`
+        : '';
+    /* eslint-enable */
+
+    /* eslint-disable */
+    const resp = await axios
+      .get(
+        `${BASE_URL}?transportMode=${transport}&return=${returnType}&origin=${getWaypointString(waypoints[0])}&destination=${getWaypointString(waypoints[waypoints.length - 1])}${intermediateWaypoints}&apiKey=${process.env.REACT_APP_HERE_API_KEY}`
+      )
+      .then(({ data }) => data);
+    /* eslint-enable */
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(resp),
+    };
+  } catch (err) {
+    return {
+      statusCode: 404,
+      body: err.toString(),
+    };
+  }
+};
