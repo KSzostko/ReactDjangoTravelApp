@@ -24,11 +24,9 @@ const findPlacesInBox = ({
 }) =>
   axios
     .get(
-      `${BASE_URL}/bbox?
-        &lat_min=${latRange.min}&lat_max=${latRange.max}
-        &lon_min=${lonRange.min}&lon_max=${lonRange.max}
-        &kinds=${categoriesList.toString()}&format=json&rate=2
-        &apikey=${process.env.REACT_APP_OPEN_TRIP_MAP_API_KEY}`
+      /* eslint-disable */
+      `/.netlify/functions/findInBox?latData=${JSON.stringify(latRange)}&lonData=${JSON.stringify(lonRange)}&categoriesList=${categoriesList.toString()}`
+      /* eslint-enable */
     )
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response.data.error));
