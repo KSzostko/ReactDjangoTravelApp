@@ -8,12 +8,14 @@ function ModalFooter({ currentStep, setCurrentStepFn }) {
   const dispatch = useDispatch();
 
   const { id } = useSelector((state) => state.travelStopModal.data);
-  const { data: routeToStopData } = useSelector(
-    (state) => state.travelStopModal.getRouteToStop
-  );
-  const { data: routeFromStopData } = useSelector(
-    (state) => state.travelStopModal.getRouteFromStop
-  );
+  const {
+    isLoading: isRouteToStopLoading,
+    data: routeToStopData,
+  } = useSelector((state) => state.travelStopModal.getRouteToStop);
+  const {
+    isLoading: isRouteFromStopLoading,
+    data: routeFromStopData,
+  } = useSelector((state) => state.travelStopModal.getRouteFromStop);
 
   function handleBack() {
     setCurrentStepFn((prev) => prev - 1);
@@ -45,7 +47,12 @@ function ModalFooter({ currentStep, setCurrentStepFn }) {
   if (currentStep === 1) return <Button onClick={handleBack}>Wróc</Button>;
 
   return (
-    <Button type="primary" danger onClick={handleDelete}>
+    <Button
+      type="primary"
+      danger
+      onClick={handleDelete}
+      disabled={isRouteToStopLoading || isRouteFromStopLoading}
+    >
       Usuń
     </Button>
   );

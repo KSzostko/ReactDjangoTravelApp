@@ -22,12 +22,9 @@ const BASE_URL = 'https://wse.ls.hereapi.com/2/findsequence.json';
 module.exports.handler = async (e) => {
   try {
     const { waypoints, transport } = e.queryStringParameters;
-    console.log(waypoints);
     const adjustedWaypoints = JSON.parse(decodeURIComponent(waypoints)).map(
       JSON.parse
     );
-    console.log(adjustedWaypoints);
-    console.log(e);
 
     /* eslint-disable */
     const resp = await axios.get(
@@ -41,7 +38,6 @@ module.exports.handler = async (e) => {
       body: JSON.stringify(resp),
     };
   } catch (err) {
-    console.log(err);
     return {
       statusCode: 404,
       body: JSON.stringify(err?.response?.data) || err.toString(),

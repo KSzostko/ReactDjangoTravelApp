@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
+import styled from 'styled-components';
 import { Modal, Spin, Button } from 'antd';
 import { HotelAPI } from 'services';
 import { getMobileWikiUrl } from 'utils';
@@ -8,6 +9,13 @@ import { openModal } from 'redux/travelPeriodModal/travelPeriodModalSlice';
 import { updateTravel } from 'redux/travels/actions/updateTravel/thunk';
 import { addHotel } from 'redux/travels/actions/addHotel/thunk';
 import { isHotel, addAttraction } from './helpers';
+
+const StyledSpinner = styled(Spin)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
 
 function MapModal({
   addRouteWaypointFn,
@@ -91,7 +99,12 @@ function MapModal({
     footer.splice(
       1,
       0,
-      <Button key="add" type="primary" onClick={handleAddToTravel}>
+      <Button
+        key="add"
+        type="primary"
+        onClick={handleAddToTravel}
+        disabled={isLoading}
+      >
         {canAddHotel ? 'Dodaj hotel' : 'Dodaj do podróży'}
       </Button>
     );
@@ -101,7 +114,12 @@ function MapModal({
     footer.splice(
       1,
       0,
-      <Button key="route" type="primary" onClick={handleAddWaypointClick}>
+      <Button
+        key="route"
+        type="primary"
+        onClick={handleAddWaypointClick}
+        disabled={isLoading}
+      >
         Dodaj do trasy
       </Button>
     );
@@ -132,10 +150,10 @@ function MapModal({
       onCancel={handleCloseModal}
       footer={footer}
       width="80vw"
-      bodyStyle={{ height: '75vh' }}
+      bodyStyle={{ height: '75vh', position: 'relative' }}
     >
       {isLoading ? (
-        <Spin />
+        <StyledSpinner />
       ) : !hasUrlData ? (
         <p>Brak szczegółowych danych o tej lokalizacji</p>
       ) : (

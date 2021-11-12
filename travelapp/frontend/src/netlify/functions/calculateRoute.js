@@ -13,12 +13,9 @@ module.exports.handler = async (e) => {
       transport,
       returnType,
     } = e.queryStringParameters;
-    console.log(waypointsString);
     const waypoints = JSON.parse(decodeURIComponent(waypointsString)).map(
       JSON.parse
     );
-    console.log(waypoints);
-    console.log(e);
 
     /* eslint-disable */
     const intermediateWaypoints =
@@ -43,7 +40,6 @@ module.exports.handler = async (e) => {
       body: JSON.stringify(resp),
     };
   } catch (err) {
-    console.log(err);
     return {
       statusCode: 404,
       body: JSON.stringify(err?.response?.data) || err.toString(),
