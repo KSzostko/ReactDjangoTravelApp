@@ -22,11 +22,13 @@ const BASE_URL = 'https://wse.ls.hereapi.com/2/findsequence.json';
 module.exports.handler = async (e) => {
   try {
     const { waypoints, transport } = e.queryStringParameters;
+    console.log(waypoints);
     const adjustedWaypoints = waypoints.split(';').map(JSON.parse);
+    console.log(adjustedWaypoints);
 
     /* eslint-disable */
     const resp = await axios.get(
-    `${BASE_URL}?mode=fastest;${transport}&apiKey=${process.env.REACT_APP_HERE_API_KEY}&start=${formatWaypoint(adjustedWaypoints[0])}${listWaypoints(adjustedWaypoints)}`
+      `${BASE_URL}?mode=fastest;${transport}&apiKey=${process.env.REACT_APP_HERE_API_KEY}&start=${formatWaypoint(adjustedWaypoints[0])}${listWaypoints(adjustedWaypoints)}`
     )
       .then(({ data }) => data);
     /* eslint-enable */
@@ -36,9 +38,10 @@ module.exports.handler = async (e) => {
       body: JSON.stringify(resp),
     };
   } catch (err) {
+    console.log(err);
     return {
       statusCode: 404,
-      body: err.toString(),
+      body: JSON.stringify(err?.response?.data) || err.toString(),
     };
   }
 };
