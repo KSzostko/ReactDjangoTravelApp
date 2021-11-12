@@ -1,17 +1,9 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import styled from 'styled-components';
-import { Spin } from 'antd';
-import { getUser } from './redux/user/actions/getUser/thunk';
-import UnauthenticatedApp from './routers/UnauthenticatedApp';
-import AuthenticatedApp from './routers/AuthenticatedApp';
-
-const StyledSpinner = styled(Spin)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
+import { getUser } from 'redux/user/actions/getUser/thunk';
+import UnauthenticatedApp from 'routers/UnauthenticatedApp';
+import AuthenticatedApp from 'routers/AuthenticatedApp';
+import { StyledSpinner } from 'styles/Spinner';
 
 function App() {
   const dispatch = useDispatch();

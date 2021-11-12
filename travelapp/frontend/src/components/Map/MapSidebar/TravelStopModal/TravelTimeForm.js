@@ -1,24 +1,18 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { getHours, getMinutes } from 'date-fns';
 import styled from 'styled-components';
-import { Form, TimePicker, Button, Spin } from 'antd';
+import { Form, TimePicker, Button } from 'antd';
 import moment from 'moment';
 import { timeFormat } from 'setup/constans';
 import { formatHour, useErrorNotification, range, setTimeForDate } from 'utils';
 import { closeModal } from 'redux/travelStopModal/travelStopModalSlice';
 import { updateTravelStop } from 'redux/travels/actions/updateTravelStop/thunk';
+import { StyledSpinner } from 'styles/Spinner';
 
 const { RangePicker } = TimePicker;
 
 const StyledButton = styled(Button)`
   margin-top: 16px;
-`;
-
-const StyledSpinner = styled(Spin)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 `;
 
 function TravelTimeFrom() {

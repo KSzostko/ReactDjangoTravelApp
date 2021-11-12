@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
-import styled from 'styled-components';
-import { notification, Spin } from 'antd';
+import { notification } from 'antd';
 import { useErrorNotification } from 'utils';
 import mapConstants from 'setup/mapConstants';
 import { getRoute } from 'redux/map/actions/getRoute/thunk';
 import { getTravelRoutes } from 'redux/travels/actions/getTravelRoutes/thunk';
+import { StyledSpinner } from 'styles/Spinner';
 import MapEvents from './MapEvents/MapEvents';
 import SearchPlace from './SearchPlace';
 import MapMarker from './MapMarker';
@@ -18,13 +18,6 @@ import RoutePolyline from './RoutePolyline/RoutePolyline';
 import RouteOptions from './RouteOptions';
 import OptimalSequence from './OptimalSequence/OptimalSequence';
 import { adjustRouteData, isHotel } from './helpers';
-
-const StyledSpinner = styled(Spin)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
 
 const {
   zoom,

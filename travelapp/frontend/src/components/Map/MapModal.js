@@ -1,21 +1,14 @@
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import styled from 'styled-components';
-import { Modal, Spin, Button } from 'antd';
+import { Modal, Button } from 'antd';
 import { HotelAPI } from 'services';
 import { getMobileWikiUrl } from 'utils';
 import { clearLocationData } from 'redux/selectedLocation/selectedLocationSlice';
 import { openModal } from 'redux/travelPeriodModal/travelPeriodModalSlice';
 import { updateTravel } from 'redux/travels/actions/updateTravel/thunk';
 import { addHotel } from 'redux/travels/actions/addHotel/thunk';
+import { StyledSpinner } from 'styles/Spinner';
 import { isHotel, addAttraction } from './helpers';
-
-const StyledSpinner = styled(Spin)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
 
 function MapModal({
   addRouteWaypointFn,
