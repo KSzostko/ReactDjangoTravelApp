@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { notification, Form, Input, Button } from 'antd';
@@ -100,6 +100,7 @@ function RegisterForm() {
         <StyledButton type="primary" htmlType="submit" block>
           Zarejestruj się
         </StyledButton>
+        Masz już konto? <Link to="/">Zaloguj się</Link>
       </Form.Item>
     </Form>
   );
