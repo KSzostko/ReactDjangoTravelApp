@@ -1,3 +1,6 @@
 export function getWaypointsString(waypoints) {
-  return waypoints.map(JSON.stringify).join(';');
+  console.table(waypoints);
+  const result = waypoints.map(JSON.stringify).join(';');
+  console.log(result);
+  return result;
 }
