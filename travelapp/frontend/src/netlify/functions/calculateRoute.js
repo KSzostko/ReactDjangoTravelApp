@@ -14,8 +14,11 @@ module.exports.handler = async (e) => {
       returnType,
     } = e.queryStringParameters;
     console.log(waypointsString);
-    const waypoints = waypointsString.split(';').map(JSON.parse);
+    const waypoints = JSON.parse(decodeURIComponent(waypointsString)).map(
+      JSON.parse
+    );
     console.log(waypoints);
+    console.log(e);
 
     /* eslint-disable */
     const intermediateWaypoints =

@@ -23,8 +23,11 @@ module.exports.handler = async (e) => {
   try {
     const { waypoints, transport } = e.queryStringParameters;
     console.log(waypoints);
-    const adjustedWaypoints = waypoints.split(';').map(JSON.parse);
+    const adjustedWaypoints = JSON.parse(decodeURIComponent(waypoints)).map(
+      JSON.parse
+    );
     console.log(adjustedWaypoints);
+    console.log(e);
 
     /* eslint-disable */
     const resp = await axios.get(

@@ -112,8 +112,6 @@ function Map() {
   }
 
   async function handleShowRoute() {
-    console.log('waypoints in Map');
-    console.table(routeWaypoints);
     await dispatch(getRoute({ waypoints: routeWaypoints }));
     setShowRoute(true);
   }
