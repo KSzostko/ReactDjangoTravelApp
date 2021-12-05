@@ -61,8 +61,8 @@ class TravelViewSet(viewsets.ModelViewSet):
         travel = get_object_or_404(Travel.objects.all(), pk=pk)
         travel_stops = TravelStop.objects.filter(travel=travel).order_by('start_date')
 
-        start = travel.start_date
-        end = travel.end_date
+        start = None
+        end = None
 
         if travel_stops.count():
             start_date_time = travel_stops[0].start_date
@@ -70,6 +70,9 @@ class TravelViewSet(viewsets.ModelViewSet):
 
             start = convert_to_date(start_date_time)
             end = convert_to_date(end_date_time)
+
+        if start is None or end is None:
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
         serializer = DateRangeSerializer({'start': start, 'end': end})
         return Response(serializer.data, status=status.HTTP_200_OK)

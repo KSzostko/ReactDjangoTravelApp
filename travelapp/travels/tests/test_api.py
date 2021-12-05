@@ -162,16 +162,12 @@ class GetPeriodTest(TestCase):
             description='Decription'
         )
 
-    def test_get_travel_start_and_end_date_when_it_has_no_stops(self):
+    def test_get_empty_response_when_travel_has_no_stops(self):
         token = login_user(self.client)
         travel = Travel.objects.get(name='Travel #1')
         response = self.client.get(f'/api/travels/{travel.id}/period/', **{'HTTP_AUTHORIZATION': 'Token ' + token})
 
-        expected = {'start': travel.start_date, 'end': travel.end_date}
-        serializer = DateRangeSerializer(expected, many=False)
-
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_get_travel_stop_start_and_end_date_when_there_is_one(self):
         token = login_user(self.client)
