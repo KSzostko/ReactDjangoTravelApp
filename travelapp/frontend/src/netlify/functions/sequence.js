@@ -3,7 +3,7 @@ const axios = require('axios');
 function formatWaypoint(waypoint) {
   const { name, lat, lng } = waypoint;
 
-  return `${name};${lat},${lng}`;
+  return `${encodeURIComponent(name)};${lat},${lng}`;
 }
 
 function listWaypoints(waypoints) {
