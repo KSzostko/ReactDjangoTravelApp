@@ -56,7 +56,7 @@ function RouteOptions({
         disabled={isRouteLoading}
         onClick={handleShowRouteFn}
       >
-        {isRouteLoading ? 'Wyznaczam...' : 'Wyznacz trasę'}
+        {isRouteLoading ? 'Wyznaczam...' : 'Sprawdź trasę'}
       </StyledButton>
       <StyledButton
         danger
@@ -67,7 +67,7 @@ function RouteOptions({
         Wyczyść trasę
       </StyledButton>
       <RouteCollapse accordion expandIconPosition="right">
-        <Panel header="Wybrana trasa">
+        <Panel key="routeCheck" header="Wybrana trasa">
           <StyledList>
             {routeWaypoints.map(({ xid, name }) => (
               <li key={xid}>{cutText(name, 15)}</li>

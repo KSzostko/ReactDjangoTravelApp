@@ -113,7 +113,7 @@ function MapModal({
         onClick={handleAddWaypointClick}
         disabled={isLoading}
       >
-        Dodaj do trasy
+        Sprawdź trasę
       </Button>
     );
   } else {
