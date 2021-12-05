@@ -4,7 +4,7 @@ const BASE_URL = 'https://api.opentripmap.com/0.1/en/places';
 
 module.exports.handler = async (e) => {
   try {
-    const { place } = e.queryStringParameters;
+    const place = encodeURIComponent(e.queryStringParameters.place);
 
     const resp = await axios
       .get(
