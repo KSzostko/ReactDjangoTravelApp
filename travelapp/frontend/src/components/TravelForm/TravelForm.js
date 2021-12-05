@@ -149,6 +149,9 @@ function TravelForm({ editMode }) {
           <RangePicker
             style={{ width: 350 }}
             placeholder={['Początek', 'Koniec']}
+            disabledDate={(curr) =>
+              curr && curr < moment().endOf('day').subtract(1, 'days')
+            }
           />
         </Form.Item>
       )}
