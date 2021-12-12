@@ -12,12 +12,20 @@ describe('Travels view', () => {
       '.ant-select-item-option-active > .ant-select-item-option-content'
     ).click();
     cy.get('#travels-search_name').click();
-    cy.get('#travels-search_name').type('n');
+    cy.get('#travels-search_name').type('F');
     cy.get('.ant-btn > span').click();
     cy.get('#travels-search').submit();
 
-    cy.findByText('nowa').should('exist');
-    cy.findByText('Niedawna podróż').should('exist');
-    cy.findByText('Testowa podróż').should('not.exist');
+    cy.findByText('Fuerteventura').should('exist');
+    cy.findByText('Hawaje').should('not.exist');
+    cy.findByText('Rzym latem').should('not.exist');
+  });
+
+  it('renders list correctly after sorting clearance', () => {
+    cy.get('.ant-select').click();
+    cy.findByText('Najstarsze').click();
+    cy.findByLabelText('close-circle').click();
+
+    cy.findByText('Sortuj').should('exist');
   });
 });

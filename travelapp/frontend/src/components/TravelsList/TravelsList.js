@@ -6,7 +6,7 @@ import { useErrorNotification } from 'utils';
 import { getTravels } from 'redux/travels/actions/getTravels/thunk';
 import { getAllPhotos } from 'redux/travels/actions/getAllPhotos/thunk';
 import SortSelect from '../SortSelect';
-import TraveListItem from './TravelListItem';
+import TravelListItem from './TravelListItem';
 import TravelsSearch from './TravelsSearch';
 
 const { Option } = Select;
@@ -53,8 +53,11 @@ function TravelsList() {
   }, [dispatch, isAuthenticated, sortBy, filterOptions]);
 
   function handleSort(sortOption) {
-    setSortBy(sortOption);
-    dispatch(getTravels({ sortBy: sortOption, ...filterOptions }));
+    const sortValue =
+      sortOption === null || sortOption === undefined ? '' : sortOption;
+
+    setSortBy(sortValue);
+    dispatch(getTravels({ sortBy: sortValue, ...filterOptions }));
   }
 
   return (
@@ -71,7 +74,7 @@ function TravelsList() {
       ) : (
         <Grid>
           {travelsList.map((travel) => (
-            <TraveListItem key={travel.id} travel={travel} />
+            <TravelListItem key={travel.id} travel={travel} />
           ))}
         </Grid>
       )}
