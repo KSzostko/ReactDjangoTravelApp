@@ -36,7 +36,7 @@ export function toLate(date, endTime) {
   );
 }
 
-export function getNextDayEarlisetTime(date, startTime) {
+export function getNextDayEarliestTime(date, startTime) {
   const { hours, minutes } = startTime;
   return setMinutes(setHours(addDays(date, 1), hours), minutes);
 }

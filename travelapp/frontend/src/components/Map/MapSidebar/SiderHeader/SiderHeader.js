@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Typography, Button, Popover } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
 import PopoverContent from './PopoverContent';
-import TransportModal from './TransportModal/TransportModal';
+import OptimalSequenceModal from './OptimalSequenceModal/OptimalSequenceModal';
 
 const { Title } = Typography;
 
@@ -49,7 +49,7 @@ function SiderHeader({ title }) {
         </Popover>
       </StyledHeader>
 
-      <TransportModal
+      <OptimalSequenceModal
         isModalOpen={isModalOpen}
         setIsModalOpenFn={setIsModalOpen}
       />

@@ -5,7 +5,7 @@ import {
   getStartDateTime,
   extractStopsDuration,
   toLate,
-  getNextDayEarlisetTime,
+  getNextDayEarliestTime,
   dateFormat,
 } from './helpers';
 
@@ -41,10 +41,10 @@ export const getWaypointsSequenceReducer = (builder) => {
           ? parseDate(schedule[schedule.length - 1].end_date, dateFormat)
           : startDate;
       if (toLate(nextStartDate, endTime) && i !== 0) {
-        nextStartDate = getNextDayEarlisetTime(nextStartDate, startTime);
+        nextStartDate = getNextDayEarliestTime(nextStartDate, startTime);
       }
 
-      const nextEndDate = add(nextStartDate, {
+      let nextEndDate = add(nextStartDate, {
         seconds: startStopDuration + time,
       });
 
@@ -58,6 +58,9 @@ export const getWaypointsSequenceReducer = (builder) => {
         const { duration: endStopDuration } = stopsDuration.find(
           (stop) => stop.name === toWaypoint
         );
+        if (toLate(nextEndDate, endTime)) {
+          nextEndDate = getNextDayEarliestTime(nextEndDate, startTime);
+        }
         const lastEndDate = add(nextEndDate, { seconds: endStopDuration });
 
         schedule.push({

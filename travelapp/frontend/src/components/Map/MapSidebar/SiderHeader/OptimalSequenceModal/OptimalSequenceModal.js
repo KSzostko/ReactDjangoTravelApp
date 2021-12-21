@@ -24,7 +24,7 @@ const StyledItem = styled(Form.Item)`
   align-self: flex-end;
 `;
 
-function TransportModal({ isModalOpen, setIsModalOpenFn }) {
+function OptimalSequenceModal({ isModalOpen, setIsModalOpenFn }) {
   const dispatch = useDispatch();
 
   const { isLoading, error } = useSelector(
@@ -34,9 +34,12 @@ function TransportModal({ isModalOpen, setIsModalOpenFn }) {
     (state) => state.travels.getTravelStops
   );
 
-  useErrorNotification(error, 'Nie udało się wyznaczyć optymalnej trasy');
+  useErrorNotification(
+    error,
+    'Nie udało się wyznaczyć optymalnej trasy. Prawdopodobnie podróż wybranym środkiem transportu trwałaby zbyt długo.'
+  );
 
-  async function handleWaypointsTranport({ transport, timeRange }) {
+  async function handleWaypointsTransport({ transport, timeRange }) {
     const waypoints = prepareWaypointsData(stopsList);
     const adjustedTimeRange = prepareTimeRange(timeRange);
 
@@ -64,7 +67,7 @@ function TransportModal({ isModalOpen, setIsModalOpenFn }) {
         name="sequence-transport"
         layout="vertical"
         size="large"
-        onFinish={handleWaypointsTranport}
+        onFinish={handleWaypointsTransport}
       >
         <Form.Item
           name="transport"
@@ -111,9 +114,9 @@ function TransportModal({ isModalOpen, setIsModalOpenFn }) {
   );
 }
 
-TransportModal.propTypes = {
+OptimalSequenceModal.propTypes = {
   isModalOpen: PropTypes.bool.isRequired,
   setIsModalOpenFn: PropTypes.func.isRequired,
 };
 
-export default TransportModal;
+export default OptimalSequenceModal;
