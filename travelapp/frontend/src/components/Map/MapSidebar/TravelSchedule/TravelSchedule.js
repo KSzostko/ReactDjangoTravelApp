@@ -22,6 +22,16 @@ const StyledSpinner = styled(Spin)`
   margin-top: 64px;
 `;
 
+const StyledMenu = styled(Menu)`
+  width: 100%;
+  max-height: calc(100vh - 310px);
+  overflow-x: hidden;
+
+  @media (min-width: 768px) {
+    max-height: calc(100vh - 358px);
+  }
+`;
+
 function TravelSchedule() {
   const { travelId } = useParams();
   const dispatch = useDispatch();
@@ -100,7 +110,7 @@ function TravelSchedule() {
   if (travelData === null) return null;
 
   return (
-    <Menu mode="inline" style={{ width: '100%' }} onClick={showDetails}>
+    <StyledMenu mode="inline" onClick={showDetails}>
       {getTravelDays(travelData.start_date, travelData.end_date).map(
         (day, i) => (
           <SubMenu key={`day-${i + 1}`} title={`Dzień ${i + 1} - ${day}`}>
@@ -112,7 +122,7 @@ function TravelSchedule() {
           </SubMenu>
         )
       )}
-    </Menu>
+    </StyledMenu>
   );
 }
 
